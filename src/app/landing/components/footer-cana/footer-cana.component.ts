@@ -9,5 +9,5 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './footer-cana.component.css'
 })
 export class FooterCanaComponent {
-
+  currentYear: number = new Date().getFullYear();
 }

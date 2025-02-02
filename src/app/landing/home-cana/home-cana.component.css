@@ -1,0 +1,30 @@
+.home-container {
+    background-color: #C4EECB;
+    min-height: calc(100vh - 60px);
+    padding: 20px 0;
+  }
+  
+  h2 {
+    color: #2B7A4B;
+    margin-bottom: 20px;
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }

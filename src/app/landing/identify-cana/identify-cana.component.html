@@ -1,2 +1,59 @@
 <app-nav-bar-cana></app-nav-bar-cana>
 
+<div class="container mt-4">
+    <!-- Título y descripciones -->
+    <h2 class="mb-3">Identificar</h2>
+    
+    <div class="alert alert-light border mb-4">
+      <ul class="mb-0">
+        <li>La observación solo acepta entre 1 y 4 fotografías de la misma planta</li>
+        <li>Se requiere al menos una foto de hoja, flor, fruto o corteza para que funcione la identificación.</li>
+        <li>Se recomienda utilizar imágenes con estas dimensiones x: 1280px</li>
+      </ul>
+    </div>
+  
+    <!-- Botón de carga -->
+    <div class="text-center mb-4">
+      <button class="btn btn-outline-secondary px-4" (click)="fileInput.click()">
+        añadir / soltar imagen
+      </button>
+      <input #fileInput 
+             type="file" 
+             (change)="onFileSelected($event)" 
+             accept="image/*" 
+             multiple 
+             class="d-none">
+    </div>
+  
+    <!-- Contenedor de imágenes -->
+    <div class="image-grid mb-4">
+      <div class="row">
+        @for (i of imageIndexes; track i) {
+          <div class="col-3">
+            <div class="image-box" 
+                 [class.has-image]="images[i]"
+                 (click)="!images[i] && fileInput.click()">
+              @if (images[i]) {
+                <img [src]="images[i]!" 
+                     class="preview-image" 
+                     alt="Preview">
+                <button class="remove-btn" 
+                        (click)="removeImage(i)">×</button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  
+    <!-- Botón de identificar -->
+    <div class="text-center">
+      <button class="btn btn-success px-4" 
+              [disabled]="!hasImages"
+              (click)="identify()">
+        Identificar
+      </button>
+    </div>
+  </div>
+
+<app-footer-cana></app-footer-cana>
