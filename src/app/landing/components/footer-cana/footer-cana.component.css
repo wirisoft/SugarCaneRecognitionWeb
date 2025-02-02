@@ -1,0 +1,14 @@
+footer {
+    background-color: #f8f9fa;
+    margin-top: auto;
+  }
+  
+  :host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .container {
+    flex: 1;
+  }
