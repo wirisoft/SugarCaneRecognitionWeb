@@ -1,4 +1,83 @@
 <app-nav-bar-cana></app-nav-bar-cana>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-6 register-section">
+      <div class="register-form-container">
+        <h1 class="register-title">Registrarse</h1>
+        
+        <form (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label class="form-label">Dirección de correo electrónico</label>
+            <input 
+              type="email" 
+              class="form-control"
+              placeholder="usuario@gmail.com"
+              [(ngModel)]="registerData.email"
+              name="email">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input 
+              type="password" 
+              class="form-control"
+              [(ngModel)]="registerData.password"
+              name="password">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input 
+              type="text" 
+              class="form-control"
+              [(ngModel)]="registerData.nombre"
+              name="nombre">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Apellido paterno</label>
+            <input 
+              type="text" 
+              class="form-control"
+              [(ngModel)]="registerData.apellidoPaterno"
+              name="apellidoPaterno">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Apellido materno</label>
+            <input 
+              type="text" 
+              class="form-control"
+              [(ngModel)]="registerData.apellidoMaterno"
+              name="apellidoMaterno">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input 
+              type="tel" 
+              class="form-control"
+              [(ngModel)]="registerData.telefono"
+              name="telefono">
+          </div>
+
+          <button type="submit" class="btn btn-success w-100">
+            Crear una cuenta
+          </button>
+
+          <div class="text-center mt-3">
+            <span>¿Ya tiene una cuenta registrada? </span>
+            <a href="#">Iniciar sesión</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 bamboo-section">
+      <div class="bamboo-image"></div>
+    </div>
+  </div>
+</div>
 
 <app-footer-cana></app-footer-cana>

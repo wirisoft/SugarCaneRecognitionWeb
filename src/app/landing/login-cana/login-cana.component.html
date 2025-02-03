@@ -1,5 +1,47 @@
 <app-nav-bar-cana></app-nav-bar-cana>
 
-<h1>hola mundo</h1>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-6 login-section">
+      <div class="login-form-container">
+        <h1 class="login-title">Iniciar Sesión</h1>
+        
+        <form (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label class="form-label">Dirección de correo electrónico</label>
+            <input 
+              type="email" 
+              class="form-control"
+              placeholder="usuario@gmail.com"
+              [(ngModel)]="loginData.email"
+              name="email">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input 
+              type="password" 
+              class="form-control"
+              [(ngModel)]="loginData.password"
+              name="password">
+          </div>
+
+          <button type="submit" class="btn btn-success w-100">
+            Iniciar sesión
+          </button>
+
+          <div class="text-center">
+            <span>¿No tiene cuenta registrada? </span>
+            <a href="/landing/register-cana">Crear una cuenta</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 bamboo-section">
+      <div class="bamboo-image"></div>
+    </div>
+  </div>
+</div>
 
 <app-footer-cana></app-footer-cana>
