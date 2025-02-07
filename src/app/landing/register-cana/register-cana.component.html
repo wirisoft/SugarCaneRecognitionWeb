@@ -1,10 +1,11 @@
 <app-nav-bar-cana></app-nav-bar-cana>
 
-<div class="container-fluid">
+<div class="container-fluid mr-5 ml-5">
   <div class="row">
-    <div class="col-12 col-md-6 register-section">
-      <div class="register-form-container">
-        <h1 class="register-title">Registrarse</h1>
+    <!-- Sección del formulario -->
+    <div class="col-12 col-md-6 d-flex align-items-center justify-content-center register-section p-4">
+      <div class="register-form-container w-100" style="max-width: 400px;">
+        <h1 class="register-title text-center">Registrarse</h1>
         
         <form (ngSubmit)="onSubmit()">
           <div class="mb-3">
@@ -14,7 +15,8 @@
               class="form-control"
               placeholder="usuario@gmail.com"
               [(ngModel)]="registerData.email"
-              name="email">
+              name="email"
+              required>
           </div>
 
           <div class="mb-3">
@@ -23,7 +25,8 @@
               type="password" 
               class="form-control"
               [(ngModel)]="registerData.password"
-              name="password">
+              name="password"
+              required>
           </div>
 
           <div class="mb-3">
@@ -32,7 +35,8 @@
               type="text" 
               class="form-control"
               [(ngModel)]="registerData.nombre"
-              name="nombre">
+              name="nombre"
+              required>
           </div>
 
           <div class="mb-3">
@@ -41,7 +45,8 @@
               type="text" 
               class="form-control"
               [(ngModel)]="registerData.apellidoPaterno"
-              name="apellidoPaterno">
+              name="apellidoPaterno"
+              required>
           </div>
 
           <div class="mb-3">
@@ -50,7 +55,8 @@
               type="text" 
               class="form-control"
               [(ngModel)]="registerData.apellidoMaterno"
-              name="apellidoMaterno">
+              name="apellidoMaterno"
+              required>
           </div>
 
           <div class="mb-3">
@@ -59,7 +65,8 @@
               type="tel" 
               class="form-control"
               [(ngModel)]="registerData.telefono"
-              name="telefono">
+              name="telefono"
+              required>
           </div>
 
           <button type="submit" class="btn btn-success w-100">
@@ -74,10 +81,12 @@
       </div>
     </div>
 
-    <div class="col-12 col-md-6 bamboo-section">
-      <div class="bamboo-image"></div>
+    <!-- Sección de la imagen -->
+    <div class="col-12 col-md-6 bamboo-section d-flex align-items-center justify-content-center">
+      <div class="bamboo-image w-100 min-vh-100"></div>
     </div>
   </div>
 </div>
+
 
 <app-footer-cana></app-footer-cana>

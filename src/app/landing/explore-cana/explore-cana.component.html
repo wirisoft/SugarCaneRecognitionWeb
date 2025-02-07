@@ -1,5 +1,46 @@
 <app-nav-bar-cana></app-nav-bar-cana>
 
-<h1>hola mundo</h1>
+<div class="container mt-4">
+    <h2 class="text-success text-center">Explorar Especies y Plagas</h2>
+
+    <!-- Barra de búsqueda -->
+    <div class="input-group my-3">
+        <input type="text" class="form-control" placeholder="Buscar especies, variedades o plagas..." [(ngModel)]="busqueda">
+        <button class="btn btn-success">Buscar</button>
+    </div>
+
+    <!-- Filtros -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <button class="btn btn-outline-success"><i class="bi bi-funnel"></i> Filtros</button>
+        <button class="btn btn-outline-secondary"><i class="bi bi-geo-alt"></i> Filtrar por geolocalización</button>
+    </div>
+
+    <p class="text-muted">Total de especies: {{ especies.length }}</p>
+
+    <!-- Lista de especies -->
+    <div class="row">
+        <div class="col-md-6 col-lg-4 mb-4" *ngFor="let especie of especies">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ especie.nombre }}</h5>
+                    <p class="text-muted"><strong>Género:</strong> {{ especie.genero }}</p>
+                    <p class="text-muted"><strong>Familia:</strong> {{ especie.familia }}</p>
+                    
+                    <h6 class="text-success">Variedades:</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" *ngFor="let variedad of especie.variedades">{{ variedad }}</li>
+                    </ul>
+
+                    <h6 class="text-danger mt-3">Plagas Asociadas:</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" *ngFor="let plaga of especie.plagas">{{ plaga }}</li>
+                    </ul>
+
+                    <button class="btn btn-primary btn-sm mt-3">Ver más detalles</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <app-footer-cana></app-footer-cana>
