@@ -67,6 +67,57 @@
     border-width: 2px;
   }
 
-  .container {
-    background-color: #F2FBF3; /* Asegura que el contenedor principal también respete este color */
-  }
+  
+
+  /* Estilos existentes... */
+
+.hero-section {
+  background-color: #95e0a1;
+  padding: 3rem 0;
+  margin-bottom: 2rem;
+}
+
+.text-primary {
+  color: #0b2811 !important;
+}
+
+.svg-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Aseguramos que el contenedor principal mantenga su estilo */
+.container:not(.hero-section .container) {
+  background-color: #F2FBF3;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Mejoramos el aspecto de los elementos existentes */
+.alert.alert-light {
+  background-color: white;
+  border-color: #e2e2e2;
+}
+
+.btn-outline-secondary {
+  border-color: #95e0a1;
+  color: #0b2811;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #95e0a1;
+  border-color: #95e0a1;
+  color: white;
+}
+
+.btn-success {
+  background-color: #95e0a1;
+  border-color: #95e0a1;
+  color: #0b2811;
+}
+
+.btn-success:hover {
+  background-color: #7bc485;
+  border-color: #7bc485;
+}

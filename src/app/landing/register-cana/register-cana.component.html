@@ -1,92 +1,103 @@
+<!-- register-cana.component.html -->
 <app-nav-bar-cana></app-nav-bar-cana>
 
-<div class="container-fluid mr-5 ml-5">
-  <div class="row">
-    <!-- Sección del formulario -->
-    <div class="col-12 col-md-6 d-flex align-items-center justify-content-center register-section p-4">
-      <div class="register-form-container w-100" style="max-width: 400px;">
-        <h1 class="register-title text-center">Registrarse</h1>
-        
-        <form (ngSubmit)="onSubmit()">
-          <div class="mb-3">
-            <label class="form-label">Dirección de correo electrónico</label>
-            <input 
-              type="email" 
-              class="form-control"
-              placeholder="usuario@gmail.com"
-              [(ngModel)]="registerData.email"
-              name="email"
-              required>
-          </div>
+<div class="page-container">
+  <div class="content-wrapper">
+    <div class="row g-0">
+      <!-- Formulario -->
+      <div class="col-lg-6 order-2 order-lg-1">
+        <div class="form-section">
+          <div class="form-container">
+            <h1 class="text-center mb-4">Crear Cuenta</h1>
+            
+            <form (ngSubmit)="onSubmit()" class="needs-validation">
+              <div class="mb-3">
+                <label class="form-label">Correo electrónico</label>
+                <input 
+                  type="email" 
+                  class="form-control"
+                  placeholder="usuario@gmail.com"
+                  [(ngModel)]="registerData.email"
+                  name="email"
+                  required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Contraseña</label>
-            <input 
-              type="password" 
-              class="form-control"
-              [(ngModel)]="registerData.password"
-              name="password"
-              required>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input 
+                  type="password" 
+                  class="form-control"
+                  [(ngModel)]="registerData.password"
+                  name="password"
+                  required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input 
-              type="text" 
-              class="form-control"
-              [(ngModel)]="registerData.nombre"
-              name="nombre"
-              required>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input 
+                  type="text" 
+                  class="form-control"
+                  [(ngModel)]="registerData.nombre"
+                  name="nombre"
+                  required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Apellido paterno</label>
-            <input 
-              type="text" 
-              class="form-control"
-              [(ngModel)]="registerData.apellidoPaterno"
-              name="apellidoPaterno"
-              required>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Apellido paterno</label>
+                <input 
+                  type="text" 
+                  class="form-control"
+                  [(ngModel)]="registerData.apellidoPaterno"
+                  name="apellidoPaterno"
+                  required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Apellido materno</label>
-            <input 
-              type="text" 
-              class="form-control"
-              [(ngModel)]="registerData.apellidoMaterno"
-              name="apellidoMaterno"
-              required>
-          </div>
+              <div class="mb-3">
+                <label class="form-label">Apellido materno</label>
+                <input 
+                  type="text" 
+                  class="form-control"
+                  [(ngModel)]="registerData.apellidoMaterno"
+                  name="apellidoMaterno"
+                  required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Teléfono</label>
-            <input 
-              type="tel" 
-              class="form-control"
-              [(ngModel)]="registerData.telefono"
-              name="telefono"
-              required>
-          </div>
+              <div class="mb-4">
+                <label class="form-label">Teléfono</label>
+                <input 
+                  type="tel" 
+                  class="form-control"
+                  [(ngModel)]="registerData.telefono"
+                  name="telefono"
+                  required>
+              </div>
 
-          <button type="submit" class="btn btn-success w-100">
-            Crear una cuenta
-          </button>
+              <button type="submit" class="btn btn-primary w-100 mb-3">
+                Crear cuenta
+              </button>
 
-          <div class="text-center mt-3">
-            <span>¿Ya tiene una cuenta registrada? </span>
-            <a href="#">Iniciar sesión</a>
+              <div class="text-center mt-4">
+                <span>¿Ya tiene una cuenta? </span>
+                <a href="/landing/login-cana" class="text-decoration-none">Iniciar sesión</a>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
 
-    <!-- Sección de la imagen -->
-    <div class="col-12 col-md-6 bamboo-section d-flex align-items-center justify-content-center">
-      <div class="bamboo-image w-100 min-vh-100"></div>
+      <!-- SVG Ilustración -->
+      <div class="col-lg-6 order-1 order-lg-2">
+        <div class="svg-section">
+          <div class="svg-container">
+            <img src="assets/images/undraw_sign-up_qamz.svg" 
+                 alt="Register Illustration" 
+                 class="img-fluid"
+                 style="background: white !important; mix-blend-mode: multiply;">
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
 
 <app-footer-cana></app-footer-cana>

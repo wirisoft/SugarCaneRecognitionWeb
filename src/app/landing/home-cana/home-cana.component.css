@@ -1,30 +1,77 @@
-.home-container {
-    background-color: #C4EECB;
-    min-height: calc(100vh - 60px);
-    padding: 20px 0;
+/* landing.component.css */
+
+*{
+  font-family: 'Roboto', sans-serif;
+}
+.hero-section {
+ 
+  background-size: cover; /* La imagen ocupa todo el viewport */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-position: center center; /* Centra la imagen */
+  background-attachment: fixed; 
+
+}
+
+.bg-light {
+  background-color: #f2fbf3 !important;
+}
+
+.bg-primary {
+  background-color: #95e0a1 !important;
+}
+
+.text-primary {
+  color: #ffffff !important;
+}
+
+.btn-primary {
+  background-color: #95e0a1;
+  border-color: #95e0a1;
+  color: #00310a;
+}
+
+.btn-primary:hover {
+  background-color: #7bc485;
+  border-color: #7bc485;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 2rem 0;
   }
   
-  h2 {
-    color: #2B7A4B;
-    margin-bottom: 20px;
+  .display-4 {
+    font-size: 2.5rem;
   }
+
+  .svg-container img {
+    background-color: white !important;
+    background: white !important;
+    isolation: isolate;
+    mix-blend-mode: multiply;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0 1rem white; /* Crea un borde blanco alrededor */
+  }
+
   
-  .video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-    max-width: 100%;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  .video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
+}
+
+/* Añade estos estilos a tu home-cana.component.css */
+.card {
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.badge {
+  font-weight: 500;
+}
+
+.bg-success {
+  background-color: #95e0a1 !important;
+  color: #0b2811;
+}

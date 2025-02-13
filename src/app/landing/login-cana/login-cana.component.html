@@ -1,45 +1,61 @@
+<!-- login-cana.component.html -->
 <app-nav-bar-cana></app-nav-bar-cana>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-md-6 login-section">
-      <div class="login-form-container">
-        <h1 class="login-title">Iniciar Sesión</h1>
-        
-        <form (ngSubmit)="onSubmit()">
-          <div class="mb-3">
-            <label class="form-label">Dirección de correo electrónico</label>
-            <input 
-              type="email" 
-              class="form-control"
-              placeholder="usuario@gmail.com"
-              [(ngModel)]="loginData.email"
-              name="email">
-          </div>
+<div class="page-container">
+  <div class="content-wrapper">
+    <div class="row g-0">
+      <!-- Formulario -->
+      <div class="col-lg-6">
+        <div class="form-section">
+          <div class="form-container">
+            <h1 class="text-center mb-4">Iniciar Sesión</h1>
+            
+            <form (ngSubmit)="onSubmit()" class="needs-validation">
+              <div class="mb-4">
+                <label class="form-label">Correo electrónico</label>
+                <input 
+                  type="email" 
+                  class="form-control"
+                  placeholder="usuario@gmail.com"
+                  [(ngModel)]="loginData.email"
+                  name="email"
+                  required>
+              </div>
 
-          <div class="mb-3">
-            <label class="form-label">Contraseña</label>
-            <input 
-              type="password" 
-              class="form-control"
-              [(ngModel)]="loginData.password"
-              name="password">
-          </div>
+              <div class="mb-4">
+                <label class="form-label">Contraseña</label>
+                <input 
+                  type="password" 
+                  class="form-control"
+                  [(ngModel)]="loginData.password"
+                  name="password"
+                  required>
+              </div>
 
-          <button type="submit" class="btn btn-success w-100">
-            Iniciar sesión
-          </button>
+              <button type="submit" class="btn btn-primary w-100 mb-3">
+                Iniciar sesión
+              </button>
 
-          <div class="text-center">
-            <span>¿No tiene cuenta registrada? </span>
-            <a href="/landing/register-cana">Crear una cuenta</a>
+              <div class="text-center mt-4">
+                <span>¿No tiene cuenta? </span>
+                <a href="/landing/register-cana" class="text-decoration-none">Crear una cuenta</a>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
 
-    <div class="col-12 col-md-6 bamboo-section">
-      <div class="bamboo-image"></div>
+      <!-- SVG Ilustración -->
+      <div class="col-lg-6">
+        <div class="svg-section">
+          <div class="svg-container">
+            <img src="assets/images/undraw_login_wqkt.svg" 
+                 alt="Login Illustration" 
+                 class="img-fluid"
+                 style="background: white !important; mix-blend-mode: multiply;">
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

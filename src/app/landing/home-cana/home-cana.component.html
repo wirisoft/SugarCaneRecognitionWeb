@@ -1,29 +1,204 @@
 <app-nav-bar-cana></app-nav-bar-cana>
 
-<div class="home-container">
-  <div class="container mt-5">
-      <div class="row align-items-center">
-          <!-- Texto a la izquierda -->
-          <div class="col-md-6">
-              <h2>Analizar e identificar plagas en caña de azúcar</h2>
-              <p>
-                  RPCA es una herramienta diseñada para ayudar en la identificación de plagas en la
-                  caña de azúcar mediante fotografías. Esta plataforma está organizada para identificar
-                  diferentes tipos de plagas según la localización en México. Selecciona la zona en la
-                  que deseas realizar la identificación para obtener mayor precisión. La aplicación cubre
-                  diversas regiones de México. Asegúrate de que las imágenes que subas sean claras y
-                  de buena calidad para una correcta identificación.
-              </p>
-          </div>
-          <!-- Video a la derecha -->
-          <div class="col-md-6 text-center">
-              <h3>Vídeo acerca de la aplicación</h3>
-              <div class="ratio ratio-16x9">
-                  <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
-              </div>
-          </div>
+<!-- Hero Section -->
+<section class="hero-section w-100" style="background-image: url(../../../assets/images/Landing\ Page.svg); width: 100%; height: 900px;">
+  <div class="container">
+    <div class="row align-items-center py-5">
+      <div class="col-md-6">
+        <h1 class="display-4 fw-bold text-white mb-4 animate__animated animate__pulse">Revolucionando la Detección de Plagas en Caña de Azúcar</h1>
+        <p class="lead mb-4 text-white">Sistema inteligente de reconocimiento mediante drones para cultivos más saludables</p>
+        <button class="btn btn-primary btn-lg">
+          Comienza a proteger tus cultivos
+          <i class="bi bi-arrow-right ms-2"></i>
+        </button>
       </div>
-  </div>
+
+      <div class="col-md-6">
+        <div style="background: white !important; padding: 1rem; border-radius: 0.5rem;">
+          <img src="assets/images/undraw_flying-drone_0oms_verde.svg" 
+              alt="Drone sobre campo de caña" 
+              class="img-fluid rounded-3 shadow"
+              style="background: white !important; mix-blend-mode: multiply;">
+        </div>
 </div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem & Solution -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h3 class="card-title text-dark mb-3">El Desafío</h3>
+            <p class="card-text">Las zonas de difícil acceso en los cultivos de caña de azúcar complican la detección temprana de plagas, resultando en pérdidas significativas de producción.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100 border-0 shadow-sm bg-primary text-white">
+          <div class="card-body p-4">
+            <h3 class="card-title mb-3">Nuestra Solución</h3>
+            <p class="card-text">Sistema de reconocimiento mediante drones equipados con tecnología de imágenes y análisis de datos para la detección temprana de plagas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Beneficios Clave</h2>
+    <div class="row g-4">
+      <div class="col-md-4" *ngFor="let benefit of benefits">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <i [class]="benefit.icon + ' display-4 text-primary mb-3'"></i>
+            <h3 class="h5">{{benefit.title}}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Statistics -->
+<section class="py-5 bg-primary text-white">
+  <div class="container">
+    <div class="row text-center g-4">
+      <div class="col-md-4">
+        <h3 class="display-4 fw-bold">40%</h3>
+        <p>de la producción nacional en Veracruz</p>
+      </div>
+      <div class="col-md-4">
+        <h3 class="display-4 fw-bold">2.5%</h3>
+        <p>de reducción en producción (2023)</p>
+      </div>
+      <div class="col-md-4">
+        <h3 class="display-4 fw-bold">70% - 85%</h3>
+        <p>de efectividad en detección</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">Equipo de Investigación</h2>
+    <div class="row g-4">
+      <div class="col-md-4" *ngFor="let researcher of researchers">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <img [src]="researcher.image" [alt]="researcher.name" class="rounded-circle mb-3" width="120">
+            <h3 class="h5">{{researcher.name}}</h3>
+            <p class="text-muted">{{researcher.role}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Contact Form -->
+
+
+<!-- Sección anterior... -->
+
+<!-- Nueva sección de Plagas -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold text-primary mb-3">Plagas que Afectan los Cultivos en Veracruz</h2>
+      <p class="lead text-muted">Detecta y previene daños con nuestro sistema inteligente</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Mosca Pinta -->
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <img src="assets/images/mosca_pinta.webp" class="card-img-top" alt="Mosca Pinta">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="h5 card-title mb-0">Mosca Pinta</h3>
+              <span class="badge bg-success">98% efectividad</span>
+            </div>
+            <p class="card-text text-muted mb-3">
+              Principal plaga que afecta los cultivos de caña. Puede reducir significativamente la producción si no se detecta a tiempo.
+            </p>
+            <div class="d-flex align-items-center text-success">
+              <i class="bi bi-check2-circle me-2"></i>
+              <small>Detección temprana garantizada</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barrenador -->
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <img src="assets/images/gusano_barrenador.webp" class="card-img-top" alt="Barrenador de la Caña">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="h5 card-title mb-0">Barrenador de la Caña</h3>
+              <span class="badge bg-success">95% efectividad</span>
+            </div>
+            <p class="card-text text-muted mb-3">
+              Insecto que perfora los tallos causando pérdidas significativas. Nuestro sistema lo detecta mediante análisis térmico.
+            </p>
+            <div class="d-flex align-items-center text-success">
+              <i class="bi bi-check2-circle me-2"></i>
+              <small>Monitoreo continuo</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gusano Cogollero -->
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <img src="assets/images/gusano_cogollero.webp" class="card-img-top" alt="Gusano Cogollero">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="h5 card-title mb-0">Gusano Cogollero</h3>
+              <span class="badge bg-success">92% efectividad</span>
+            </div>
+            <p class="card-text text-muted mb-3">
+              Afecta el desarrollo temprano de la planta. Identificamos patrones de daño en las hojas para intervención oportuna.
+            </p>
+            <div class="d-flex align-items-center text-success">
+              <i class="bi bi-check2-circle me-2"></i>
+              <small>Prevención automatizada</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="mt-5">
+      <div class="card border-0 bg-primary p-4">
+        <div class="card-body text-center">
+          <h3 class="text-white mb-3">Protege tu Inversión con Tecnología de Vanguardia</h3>
+          <p class="text-white mb-4">
+            Nuestro sistema de IA puede reducir las pérdidas por plagas hasta en un 85% y aumentar tu productividad
+          </p>
+          <button class="btn btn-light btn-lg">
+            Solicitar demostración
+            <i class="bi bi-arrow-right ms-2"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Resto de las secciones... -->
 
 <app-footer-cana></app-footer-cana>
