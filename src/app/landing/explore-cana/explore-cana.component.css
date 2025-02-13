@@ -1,13 +1,58 @@
 .card {
-    border-radius: 10px;
-    transition: transform 0.3s ease-in-out;
+    border-radius: 15px;
+    transition: transform 0.2s ease-in-out;
+    margin-bottom: 1.5rem;
+    background-color: #ffffff;
 }
 
 .card:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
 }
 
 .list-group-item {
-    background-color: #f8f9fa;
-    border-left: 3px solid #28a745;
+    background-color: transparent;
+    padding: 0.5rem 0;
+}
+
+.list-group-item:not(:last-child) {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.nav-tabs .nav-link {
+    cursor: pointer;
+}
+
+.nav-tabs .nav-link.active {
+    font-weight: bold;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .card-body .row > div {
+        margin-bottom: 1.5rem;
+    }
+    
+    .card-body .row > div:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* Personalización de la barra de búsqueda */
+.form-control {
+    border-radius: 20px;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.form-control:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.text-buscar{
+    font-size: 30px;
+    font-weight: 500;
+    
 }

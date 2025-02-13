@@ -1,0 +1,74 @@
+/* Estilos para el componente Under Development */
+:root {
+  --primary-color: #0b2811;
+  --secondary-color: #95e0a1;
+  --light-bg: #F2FBF3;
+}
+
+.hero-section {
+  background-color: var(--light-bg);
+  padding: 3rem 0;
+  margin-bottom: 2rem;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.svg-container {
+  max-width: 500px;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+}
+
+.svg-container:hover {
+  transform: translateY(-5px);
+}
+
+.development-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary {
+  border-color: #95e0a1;
+  color: #95e0a1;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #95e0a1;
+  border-color: #95e0a1;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.lead {
+  color: #4a5568;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.container {
+  background-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 2rem 0;
+    min-height: auto;
+  }
+
+  .svg-container {
+    margin-top: 2rem;
+  }
+}

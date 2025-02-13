@@ -36,6 +36,7 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  margin-top: 120px;
 }
 
 .svg-container {
@@ -136,4 +137,9 @@ a:hover {
   .order-1 {
     order: 1 !important;
   }
+}
+
+
+.imagen-svg-register{
+  background-color: #95e0a1;
 }

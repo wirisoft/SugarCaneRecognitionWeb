@@ -1,15 +1,25 @@
 /* landing.component.css */
 
-*{
-  font-family: 'Roboto', sans-serif;
-}
+
 .hero-section {
  
   background-size: cover; /* La imagen ocupa todo el viewport */
   background-repeat: no-repeat; /* Evita que la imagen se repita */
   background-position: center center; /* Centra la imagen */
   background-attachment: fixed; 
+  
 
+}
+
+.blur-image {
+  filter: blur(4px);
+}
+
+
+.h1-inicio {
+  font-style: normal;
+  font-size: 60px;
+  font-weight: 700;
 }
 
 .bg-light {
@@ -17,22 +27,42 @@
 }
 
 .bg-primary {
-  background-color: #95e0a1 !important;
+  background-color: #257032 !important;
 }
+
+.p-porcentaje{
+  font-size: 25px;
+  font-weight: 300;
+}
+
+
 
 .text-primary {
-  color: #ffffff !important;
+  color: #000000 !important;
 }
 
-.btn-primary {
-  background-color: #95e0a1;
-  border-color: #95e0a1;
-  color: #00310a;
+.btn-inicio {
+  font-style: normal;
+  font-size: 25px;
+  font-weight: 700;
+  width: 250px;
+  height: 60px;
+  background-color: #3aad4e;
+  color: #ffffff;
+  border-radius: 15px;
+  border-color: #3aad4e;
 }
 
-.btn-primary:hover {
-  background-color: #7bc485;
-  border-color: #7bc485;
+.btn-inicio:hover {
+  background-color: #c4eecb;
+  border-color: #c4eecb;
+  color: #000000;
+  
+}
+
+
+.h2-parrafo{
+  font-size: 30px;
 }
 
 /* Responsive adjustments */
@@ -58,13 +88,103 @@
   
 }
 
+.section-beneficios{
+  margin-top: 80px;
+}
+
+.testimonial-section {
+  background: #ffffff;
+  padding: 80px 0;
+  text-align: center;
+  margin-top: 80px;
+}
+
+.inner-width{
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+.testimonial-section h1 {
+  font-weight: 400;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+  font-size: 65px;
+}
+
+.testimonial-pics {
+  padding: 40px 0;
+  
+}
+
+.testimonial-pics img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: 0 20px;
+  filter: grayscale(100%);
+  transition: .3s;
+  cursor: pointer;
+}
+
+.testimonial-pics img:hover, .testimonial-pics img.active {
+  filter: none;
+}
+
+
+.testimonial-contents {
+  max-width: 600px;
+  margin: auto;
+}
+
+.testimonial {
+  font-family: poppins;
+  display: none;
+}
+
+.testimonial.active {
+  display: block;
+}
+
+.testimonial p {
+  color: #5c5c5c;
+  margin-bottom: 20px;
+  font-size: 30px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.testimonial .description {
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 15px;
+  font-family: poppins;
+}
+
+.foto-trabajo{
+  margin-bottom: 10px;
+}
+
+
 /* Añade estos estilos a tu home-cana.component.css */
 .card {
   transition: transform 0.3s ease;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .card:hover {
   transform: translateY(-5px);
+}
+
+.h2-beneficio{
+  font-size: 50px;
+  font-weight: 500;
+} 
+
+.h3-parrafo-beneficio{
+  font-size: 40px;
+  font-weight: 300;
 }
 
 .badge {
@@ -74,4 +194,15 @@
 .bg-success {
   background-color: #95e0a1 !important;
   color: #0b2811;
+}
+
+.titulo-plagas{
+  font-size: 50px;
+  font-weight: 500;
+  margin-top: 80px;
+}
+
+.p-plagas-texto{
+  font-size: 20px;
+  font-weight: 300;
 }

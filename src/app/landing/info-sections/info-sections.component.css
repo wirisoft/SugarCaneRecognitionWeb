@@ -1,0 +1,64 @@
+/* info-sections.component.css */
+.nav-sidebar {
+  background-color: #F2FBF3;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.nav-pills .nav-link {
+  color: #0b2811;
+  font-weight: 500;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: left;
+  padding: 0.8rem 1.2rem;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #95e0a1;
+  color: #0b2811;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: #7bc485;
+  color: white;
+}
+
+section {
+  padding: 2rem;
+  background-color: #F2FBF3;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #0b2811;
+  font-weight: bold;
+}
+
+.lead {
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item {
+  border-left: none;
+  border-right: none;
+}
+
+@media (max-width: 767.98px) {
+  .sticky-top {
+    position: relative;
+    top: 0 !important;
+    margin-bottom: 2rem;
+  }
+}

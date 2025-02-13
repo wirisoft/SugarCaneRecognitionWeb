@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { NavBarCanaComponent } from "../components/nav-bar-cana/nav-bar-cana.component";
 import { FooterCanaComponent } from "../components/footer-cana/footer-cana.component";
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home-cana',
   standalone: true,
-  imports: [NavBarCanaComponent, FooterCanaComponent, CommonModule],
+  imports: [NavBarCanaComponent, FooterCanaComponent, CommonModule, RouterModule],
   templateUrl: './home-cana.component.html',
   styleUrl: './home-cana.component.css'
 })
-export class HomeCanaComponent {
+export class HomeCanaComponent implements AfterViewInit {
+  
+  
+
   researchers = [
     { name: "Daniela Ibañez Marcial", role: "Investigador Principal", image: "assets/images/daniela.webp" },
     { name: "Rosalía De los Ángeles De la Rosa Reyes", role: "Análisis de Datos", image: "assets/images/rosa.webp" },
@@ -28,4 +32,31 @@ export class HomeCanaComponent {
     { icon: 'bi bi-database', title: 'Análisis automatizado' },
     { icon: 'bi bi-file-earmark-text', title: 'Reportes detallados' }
   ];
+
+  @ViewChild('testimonialPics', { static: false }) testimonialPics!: ElementRef;
+  @ViewChild('testimonialContents', { static: false }) testimonialContents!: ElementRef;
+
+  ngAfterViewInit(): void {
+    if (this.testimonialPics && this.testimonialContents) {
+      const picElements = Array.from(this.testimonialPics.nativeElement.children) as HTMLElement[];
+      const textElements = Array.from(this.testimonialContents.nativeElement.children) as HTMLElement[];
+
+      picElements.forEach((pic) => {
+        pic.addEventListener("click", () => {
+          // Remover la clase 'active' de todas las imágenes
+          picElements.forEach(elem => elem.classList.remove("active"));
+          pic.classList.add("active");
+
+          // Obtener el índice desde el atributo `id`
+          const index = Number(pic.getAttribute("id"));
+
+          // Remover 'active' de todos los textos y activarlo en el actual
+          textElements.forEach(text => text.classList.remove("active"));
+          if (textElements[index]) {
+            textElements[index].classList.add("active");
+          }
+        });
+      });
+    }
+  }
 }

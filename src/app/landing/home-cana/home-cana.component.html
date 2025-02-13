@@ -1,31 +1,33 @@
 <app-nav-bar-cana></app-nav-bar-cana>
 
 <!-- Hero Section -->
-<section class="hero-section w-100" style="background-image: url(../../../assets/images/Landing\ Page.svg); width: 100%; height: 900px;">
+<section class="hero-section w-100 d-flex align-items-center justify-content-center text-center" 
+  style="background-image: url(../../../assets/images/imagenfondo.webp); width: 100%; min-height: 900px;">
+  
   <div class="container">
-    <div class="row align-items-center py-5">
-      <div class="col-md-6">
-        <h1 class="display-4 fw-bold text-white mb-4 animate__animated animate__pulse">Revolucionando la Detección de Plagas en Caña de Azúcar</h1>
-        <p class="lead mb-4 text-white">Sistema inteligente de reconocimiento mediante drones para cultivos más saludables</p>
-        <button class="btn btn-primary btn-lg">
-          Comienza a proteger tus cultivos
+    <div class="row justify-content-center">
+      
+      <!-- Contenido centrado -->
+      <div class="col-lg-8 col-md-10 d-flex flex-column align-items-center">
+        <h1 class="h1-inicio display-4 fw-bold text-white mb-4 animate__animated animate__pulse">
+          Revolucionando la detección de plagas en caña de azúcar
+        </h1>
+        <h2 class="h2-parrafo lead mb-4 text-white">
+          Sistema inteligente de reconocimiento mediante drones para cultivos más saludables
+        </h2>
+        <button class="btn-inicio btn-lg" [routerLink]="['/landing/under-development']">
+          COMIENZA YA
           <i class="bi bi-arrow-right ms-2"></i>
         </button>
       </div>
 
-      <div class="col-md-6">
-        <div style="background: white !important; padding: 1rem; border-radius: 0.5rem;">
-          <img src="assets/images/undraw_flying-drone_0oms_verde.svg" 
-              alt="Drone sobre campo de caña" 
-              class="img-fluid rounded-3 shadow"
-              style="background: white !important; mix-blend-mode: multiply;">
-        </div>
-</div>
     </div>
   </div>
+
 </section>
 
-<!-- Problem & Solution -->
+ 
+
 <section class="py-5 bg-light">
   <div class="container">
     <div class="row g-4">
@@ -48,17 +50,18 @@
     </div>
   </div>
 </section>
+-->
 
 <!-- Benefits -->
-<section class="py-5">
+<section class="py-5 section-beneficios">
   <div class="container">
-    <h2 class="text-center mb-5">Beneficios Clave</h2>
+    <h2 class="h2-beneficio text-center mb-5">BENEFICIOS CLAVE</h2>
     <div class="row g-4">
       <div class="col-md-4" *ngFor="let benefit of benefits">
         <div class="card h-100 border-0 shadow-sm">
           <div class="card-body text-center p-4">
             <i [class]="benefit.icon + ' display-4 text-primary mb-3'"></i>
-            <h3 class="h5">{{benefit.title}}</h3>
+            <h3 class="h5 h3-parrafo-beneficio">{{benefit.title}}</h3>
           </div>
         </div>
       </div>
@@ -72,51 +75,79 @@
     <div class="row text-center g-4">
       <div class="col-md-4">
         <h3 class="display-4 fw-bold">40%</h3>
-        <p>de la producción nacional en Veracruz</p>
+        <p class="p-porcentaje">Producción nacional en Veracruz</p>
       </div>
       <div class="col-md-4">
         <h3 class="display-4 fw-bold">2.5%</h3>
-        <p>de reducción en producción (2023)</p>
+        <p class="p-porcentaje" >Reducción en producción (2023)</p>
       </div>
       <div class="col-md-4">
         <h3 class="display-4 fw-bold">70% - 85%</h3>
-        <p>de efectividad en detección</p>
+        <p class="p-porcentaje">Efectividad en detección</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Team -->
-<section class="py-5 bg-light">
-  <div class="container">
-    <h2 class="text-center mb-5">Equipo de Investigación</h2>
-    <div class="row g-4">
-      <div class="col-md-4" *ngFor="let researcher of researchers">
-        <div class="card h-100 border-0 shadow-sm">
-          <div class="card-body text-center p-4">
-            <img [src]="researcher.image" [alt]="researcher.name" class="rounded-circle mb-3" width="120">
-            <h3 class="h5">{{researcher.name}}</h3>
-            <p class="text-muted">{{researcher.role}}</p>
-          </div>
+<!-- Blog Posts Section -->
+<section id="blog-posts" class="blog-posts section">
+  <div class="testimonial-section">
+    <div class="inner-width">
+      <h1>EQUIPO DE TRABAJO</h1>
+      
+      <div id="nav-tab" class="testimonial-pics" #testimonialPics>
+        <img src="../../../assets/images/daniela.webp" id="0" alt="img-1" class="active">
+        <img src="../../../assets/images/haber3.svg" id="1" alt="img-2">
+        <img src="../../../assets/images/rosa.webp" id="2" alt="img-3"> <br> <br>
+        <img src="../../../assets/images/haber5.svg" id="3" alt="img-4">
+        <img src="../../../assets/images/haber5.svg" id="4" alt="img-5">
+        <img src="../../../assets/images/haber2.svg" id="5" alt="img-6">
+      </div>
+
+      <div class="testimonial-contents" #testimonialContents>
+        <div class="testimonial active">
+          <p>Daniela es la líder del equipo, conocida como "La Visionaria". Con una mente estratégica y una pasión por la innovación, guía al equipo hacia soluciones tecnológicas que revolucionan la agricultura. Su enfoque en la detección temprana de plagas ha sido clave para el éxito del proyecto.</p>
+          <span class="description">Daniela / La Visionaria</span>
         </div>
+
+        <div class="testimonial">
+          <p>Martin, apodado "El Arquitecto Digital", es el desarrollador principal del sistema. Con su expertise en inteligencia artificial y procesamiento de imágenes, ha construido la columna vertebral tecnológica del proyecto, asegurando que los drones y algoritmos funcionen a la perfección.</p>
+          <span class="description">Martin / El Arquitecto Digital</span>
+        </div>
+
+        <div class="testimonial">
+          <p>Rosa, conocida como "La Coordinadora", es la mano derecha de Daniela. Con una habilidad innata para la organización y la logística, asegura que cada pieza del proyecto esté en su lugar. Su atención al detalle es fundamental para mantener el equipo enfocado y productivo.</p>
+          <span class="description">Rosa / La Coordinadora</span>
+        </div>
+
+        <div class="testimonial">
+          <p>Josue, apodado "El Explorador", es el recolector de datos y asistente de investigación. Con una curiosidad insaciable, se encarga de recopilar y analizar información crucial sobre las plagas y su impacto en los cultivos de caña de azúcar.</p>
+          <span class="description">Josue / El Explorador</span>
+        </div>
+
+        <div class="testimonial">
+          <p>Alejandro, conocido como "El Analista", es el experto en análisis de datos. Con su habilidad para interpretar grandes volúmenes de información, proporciona insights valiosos que ayudan a optimizar el sistema y mejorar la precisión en la detección de plagas.</p>
+          <span class="description">Alejandro / El Analista</span>
+        </div>
+
+        <div class="testimonial">
+          <p>Sergio Bonilla, "El Mentor", es el asesor técnico del equipo. Con años de experiencia en tecnología y agricultura, su guía ha sido invaluable para asegurar que el proyecto cumpla con los más altos estándares de calidad y eficiencia.</p>
+          <span class="description">Sergio Bonilla / El Mentor</span>
+        </div>
+
       </div>
     </div>
   </div>
 </section>
 
 
-
-<!-- Contact Form -->
-
-
-<!-- Sección anterior... -->
 
 <!-- Nueva sección de Plagas -->
 <section class="py-5 bg-light">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="display-5 fw-bold text-primary mb-3">Plagas que Afectan los Cultivos en Veracruz</h2>
-      <p class="lead text-muted">Detecta y previene daños con nuestro sistema inteligente</p>
+      <h2 class=" titulo-plagas display-5 fw-bold text-primary mb-3">Plagas que Afectan los Cultivos en Veracruz</h2>
+      <p class="p-plagas-texto lead text-muted">Detecta y previene daños con nuestro sistema inteligente</p>
     </div>
 
     <div class="row g-4">
@@ -129,7 +160,7 @@
               <h3 class="h5 card-title mb-0">Mosca Pinta</h3>
               <span class="badge bg-success">98% efectividad</span>
             </div>
-            <p class="card-text text-muted mb-3">
+            <p class=" p-plagas-texto card-text text-muted mb-3">
               Principal plaga que afecta los cultivos de caña. Puede reducir significativamente la producción si no se detecta a tiempo.
             </p>
             <div class="d-flex align-items-center text-success">
@@ -149,7 +180,7 @@
               <h3 class="h5 card-title mb-0">Barrenador de la Caña</h3>
               <span class="badge bg-success">95% efectividad</span>
             </div>
-            <p class="card-text text-muted mb-3">
+            <p class="p-plagas-texto card-text text-muted mb-3">
               Insecto que perfora los tallos causando pérdidas significativas. Nuestro sistema lo detecta mediante análisis térmico.
             </p>
             <div class="d-flex align-items-center text-success">
@@ -169,7 +200,7 @@
               <h3 class="h5 card-title mb-0">Gusano Cogollero</h3>
               <span class="badge bg-success">92% efectividad</span>
             </div>
-            <p class="card-text text-muted mb-3">
+            <p class="p-plagas-texto card-text text-muted mb-3">
               Afecta el desarrollo temprano de la planta. Identificamos patrones de daño en las hojas para intervención oportuna.
             </p>
             <div class="d-flex align-items-center text-success">
@@ -186,10 +217,10 @@
       <div class="card border-0 bg-primary p-4">
         <div class="card-body text-center">
           <h3 class="text-white mb-3">Protege tu Inversión con Tecnología de Vanguardia</h3>
-          <p class="text-white mb-4">
+          <p class="p-plagas-texto text-white mb-4">
             Nuestro sistema de IA puede reducir las pérdidas por plagas hasta en un 85% y aumentar tu productividad
           </p>
-          <button class="btn btn-light btn-lg">
+          <button class="btn btn-light btn-lg" [routerLink]="['/landing/under-development']">
             Solicitar demostración
             <i class="bi bi-arrow-right ms-2"></i>
           </button>
@@ -198,7 +229,5 @@
     </div>
   </div>
 </section>
-
-<!-- Resto de las secciones... -->
 
 <app-footer-cana></app-footer-cana>

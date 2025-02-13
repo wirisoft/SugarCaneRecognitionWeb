@@ -67,4 +67,72 @@
     </div>
   </div>
 
+  <!-- Agrega esto después del botón de identificar en tu template -->
+@if (isAnalyzing) {
+  <div class="text-center mt-4">
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Analizando...</span>
+    </div>
+    <p class="mt-2">Analizando imágenes...</p>
+  </div>
+}
+
+@if (analysisResults.length > 0) {
+  <div class="results-container mt-4">
+    <h2 class="text-center mb-4">Resultados del Análisis</h2>
+    
+    @for (result of analysisResults; track result.id) {
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <img [src]="result.imagen" class="img-fluid rounded" alt="Imagen analizada">
+            </div>
+            <div class="col-md-8">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="card-title">{{result.plaga.nombre_comun}}</h3>
+                <span class="badge bg-success">
+                  Confianza: {{(result.confianza * 100).toFixed(1)}}%
+                </span>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <h4 class="h6">Información de la Plaga</h4>
+                  <ul class="list-unstyled">
+                    <li><strong>Nombre científico:</strong> {{result.plaga.nombre_cientifico}}</li>
+                    <li><strong>Nivel de daño:</strong> {{result.plaga.nivel_danio}}</li>
+                    <li><strong>Temporada común:</strong> {{result.plaga.temporada_comun}}</li>
+                  </ul>
+
+                  <h4 class="h6 mt-3">Variedad Afectada</h4>
+                  <p>{{result.variedad.nombre}} ({{result.variedad.codigo}})</p>
+                  <p class="text-muted">{{result.variedad.caracteristicas}}</p>
+                </div>
+
+                <div class="col-md-6">
+                  <h4 class="h6">Síntomas Detectados</h4>
+                  <ul class="list-unstyled">
+                    @for (sintoma of result.sintomas; track sintoma.id_sintoma) {
+                      <li class="mb-2">
+                        <i class="bi bi-exclamation-triangle text-warning me-2"></i>
+                        {{sintoma.nombre}}
+                        <small class="text-muted d-block">{{sintoma.descripcion}}</small>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+
+              <div class="mt-3 text-muted small">
+                Fecha de análisis: {{result.fecha | date:'medium'}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}
+
 <app-footer-cana></app-footer-cana>

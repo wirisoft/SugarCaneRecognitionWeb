@@ -1,0 +1,211 @@
+<app-nav-bar-cana></app-nav-bar-cana>
+
+<!-- Hero Section 
+ 
+
+<div class="container mt-4">
+  <div class="row">
+    
+    <div class="col-md-9">
+      <section id="about" class="mb-5">
+        <h2 class=" mb-4">About Us</h2>
+        <p class="lead">
+          Información sobre nuestra misión, visión y valores.
+        </p>
+      </section>
+
+      <section id="contact" class="mb-5">
+        <h2 class="mb-4">Contact Us</h2>
+        <p class="lead">
+          Detalles de contacto para soporte y consultas.
+        </p>
+      </section>
+
+      <section id="contribute" class="mb-5">
+        <h2 class="mb-4">Contribute</h2>
+        <p class="lead">
+          Cómo puedes contribuir a nuestro proyecto.
+        </p>
+      </section>
+
+      <section id="privacy" class="mb-5">
+        <h2 class=" mb-4">Privacy Policy</h2>
+        <p class="lead">
+          Nuestra política de privacidad y manejo de datos.
+        </p>
+      </section>
+    </div>
+
+   
+    <div class="col-md-3">
+      <div class="sticky-top" style="top: 20px;">
+        <nav class="nav-sidebar">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" 
+                 [class.active]="activeSection === 'about'" 
+                 (click)="scrollTo('about')">
+                About Us
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" 
+                 [class.active]="activeSection === 'contact'" 
+                 (click)="scrollTo('contact')">
+                Contact Us
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" 
+                 [class.active]="activeSection === 'contribute'" 
+                 (click)="scrollTo('contribute')">
+                Contribute
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" 
+                 [class.active]="activeSection === 'privacy'" 
+                 (click)="scrollTo('privacy')">
+                Privacy Policy
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+
+
+<!-- info-page.component.html -->
+<!-- info-sections.component.html -->
+<div class="container mt-4">
+  <div class="row">
+    <!-- Contenido principal -->
+    <div class="col-md-9">
+      <section id="about" class="mb-5">
+        <h2 class="mb-4">Sobre el Proyecto</h2>
+        <p class="lead">
+          Este proyecto se enfoca en el desarrollo de un sistema de reconocimiento de plagas en campos de caña de azúcar utilizando drones equipados con tecnología de imágenes y análisis de datos. Nuestro objetivo es proporcionar a los agricultores una herramienta efectiva para la detección temprana y el monitoreo preciso de plagas.
+        </p>
+        <p>
+          La caña de azúcar representa el 40% de la producción en Veracruz, siendo el principal productor en México. Nuestro sistema busca contribuir a la mejora de la productividad y la sostenibilidad en la industria azucarera mediante la implementación de tecnología avanzada.
+        </p>
+      </section>
+
+      <section id="contact" class="mb-5">
+        <h2 class="mb-4">Contacto</h2>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Equipo de Desarrollo:</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">Daniela Ibañez Marcial</li>
+              <li class="mb-2">Rosalía De los Ángeles De la Rosa Reyes</li>
+              <li class="mb-2">Josef Efraín Aguilar Campos</li>
+              <li class="mb-2">Alejandro Alvízar Hernández</li>
+              <li class="mb-2">Martin Ramírez Martín</li>
+            </ul>
+            <hr>
+            <p class="card-text">
+              <strong>Asesor Técnico:</strong> L.I. Sergio Velázquez Bonilla
+            </p>
+            <p class="card-text">
+              <strong>Institución:</strong> Universidad Tecnológica del Centro de Veracruz
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contribute" class="mb-5">
+        <h2 class="mb-4">Contribuir</h2>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Tecnologías Utilizadas:</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <i class="bi bi-camera"></i> Algoritmos de procesamiento de imágenes
+              </li>
+              <li class="list-group-item">
+                <i class="bi bi-graph-up"></i> Análisis de datos con Deep Learning
+              </li>
+              <li class="list-group-item">
+                <i class="bi bi-eye"></i> Modelo YOLOv4-tiny para detección en tiempo real
+              </li>
+              <li class="list-group-item">
+                <i class="bi bi-robot"></i> Tecnología de drones y sensores especializados
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="privacy" class="mb-5">
+        <h2 class="mb-4">Política de Privacidad</h2>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Compromiso de Protección de Datos</h5>
+            <div class="alert alert-info">
+              <p>Nuestro compromiso es proteger la información recopilada durante el monitoreo de cultivos</p>
+            </div>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <i class="bi bi-shield-check"></i> Los datos recolectados se utilizan exclusivamente para el análisis y detección de plagas
+              </li>
+              <li class="list-group-item">
+                <i class="bi bi-lock"></i> La información de los agricultores se mantiene confidencial
+              </li>
+              <li class="list-group-item">
+                <i class="bi bi-share"></i> Los resultados del análisis se comparten únicamente con los propietarios de los cultivos
+              </li>
+              <li class="list-group-item">
+                <i class="bi bi-shield-lock"></i> Implementamos medidas de seguridad para proteger los datos recopilados
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Navegación lateral -->
+    <div class="col-md-3">
+      <div class="sticky-top" style="top: 20px;">
+        <nav class="nav-sidebar">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" 
+                 [class.active]="activeSection === 'about'"
+                 (click)="scrollTo('about')">
+                <i class="bi bi-info-circle"></i> Sobre el Proyecto
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" 
+                 [class.active]="activeSection === 'contact'"
+                 (click)="scrollTo('contact')">
+                <i class="bi bi-people"></i> Contacto
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" 
+                 [class.active]="activeSection === 'contribute'"
+                 (click)="scrollTo('contribute')">
+                <i class="bi bi-gear"></i> Contribuir
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" 
+                 [class.active]="activeSection === 'privacy'"
+                 (click)="scrollTo('privacy')">
+                <i class="bi bi-shield"></i> Política de Privacidad
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-footer-cana></app-footer-cana>
