@@ -4,3 +4,8 @@
     font-family: "Poppins", serif;
 }
 
+/* En src/styles.css */
+link[rel="icon"] {
+    border-radius: 50%;
+    overflow: hidden;
+}
