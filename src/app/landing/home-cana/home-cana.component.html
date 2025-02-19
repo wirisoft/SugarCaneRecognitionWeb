@@ -1,149 +1,147 @@
 <app-nav-bar-cana></app-nav-bar-cana>
 
-<!-- Hero Section -->
-<section class="hero-section w-100 d-flex align-items-center justify-content-center text-center" 
-  style="background-image: url(../../../assets/images/imagenfondo.webp); width: 100%; min-height: 900px;">
-  
-  <div class="container">
-    <div class="row justify-content-center">
-      
-      <!-- Contenido centrado -->
-      <div class="col-lg-8 col-md-10 d-flex flex-column align-items-center">
-        <h1 class="h1-inicio display-4 fw-bold text-white mb-4 animate__animated animate__pulse">
-          Revolucionando la detección de plagas en caña de azúcar
-        </h1>
-        <h2 class="h2-parrafo lead mb-4 text-white">
-          Sistema inteligente de reconocimiento mediante drones para cultivos más saludables
-        </h2>
-        <button class="btn-inicio btn-lg" [routerLink]="['/landing/under-development']">
-          COMIENZA YA
-          <i class="bi bi-arrow-right ms-2"></i>
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-</section>
-
- 
-
-<section class="py-5 bg-light">
-  <div class="container">
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="card h-100 border-0 shadow-sm">
-          <div class="card-body p-4">
-            <h3 class="card-title text-dark mb-3">El Desafío</h3>
-            <p class="card-text">Las zonas de difícil acceso en los cultivos de caña de azúcar complican la detección temprana de plagas, resultando en pérdidas significativas de producción.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card h-100 border-0 shadow-sm bg-primary text-white">
-          <div class="card-body p-4">
-            <h3 class="card-title mb-3">Nuestra Solución</h3>
-            <p class="card-text">Sistema de reconocimiento mediante drones equipados con tecnología de imágenes y análisis de datos para la detección temprana de plagas.</p>
+<!-- Carousel Start -->
+<div class="container-fluid p-0 pb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="owl-carousel header-carousel position-relative">
+    <div class="owl-carousel-item position-relative"
+      data-dot="<img src='../../../assets/images/home/banner-1-cana.svg'>">
+      <img class="img-fluid" src="../../../assets/images/home/banner-1-cana.svg" alt="">
+      <div class="owl-carousel-inner">
+        <div class="container">
+          <div class="row justify-content-start">
+            <div class="col-10 col-lg-8">
+              <h1 class="display-2 text-white animated slideInDown">Proyecto Cana</h1>
+              <p class="fs-5 fw-medium text-white mb-4 pb-3">Revoluciona tu cultivo con 'Cana'. Utilizamos IA avanzada para detectar y combatir plagas, asegurando la salud y productividad de tus campos. ¡Contáctanos hoy mismo!</p>
+              <a href="" class="btn bg-primary text-white rounded-pill py-3 px-5 animated slideInLeft">Saber Más</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
--->
-
-<!-- Benefits -->
-<section class="py-5 section-beneficios">
-  <div class="container">
-    <h2 class="h2-beneficio text-center mb-5">BENEFICIOS CLAVE</h2>
-    <div class="row g-4">
-      <div class="col-md-4" *ngFor="let benefit of benefits">
-        <div class="card h-100 border-0 shadow-sm">
-          <div class="card-body text-center p-4">
-            <i [class]="benefit.icon + ' display-4 text-primary mb-3'"></i>
-            <h3 class="h5 h3-parrafo-beneficio">{{benefit.title}}</h3>
+    <div class="owl-carousel-item position-relative"
+      data-dot="<img src='../../../assets/images/home/banner-3-cana.svg'>">
+      <img class="img-fluid" src="../../../assets/images/home/banner-3-cana.svg" alt="">
+      <div class="owl-carousel-inner">
+        <div class="container">
+          <div class="row justify-content-start">
+            <div class="col-10 col-lg-8">
+              <h1 class="display-2 text-white animated slideInDown">Desafíos de las Plagas en la Caña</h1>
+              <p class="fs-5 fw-medium text-white mb-4 pb-3">Las plagas pueden devastar los cultivos de caña, causando pérdidas significativas. La detección temprana es crucial para proteger la producción.</p>
+              <a href="" class="btn bg-primary text-white rounded-pill py-3 px-5 animated slideInLeft">Saber Más</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="owl-carousel-item position-relative"
+      data-dot="<img src='../../../assets/images/home/banner-2-cana.svg'>">
+      <img class="img-fluid" src="../../../assets/images/home/banner-2-cana.svg" alt="">
+      <div class="owl-carousel-inner">
+        <div class="container">
+          <div class="row justify-content-start">
+            <div class="col-10 col-lg-8">
+              <h1 class="display-2 text-white animated slideInDown">Cultivos de Caña Saludables</h1>
+              <p class="fs-5 fw-medium text-white mb-4 pb-3">La caña de azúcar es esencial para miles de familias. Cultivos sanos significan una cosecha abundante y sostenible.</p>
+              <a href="" class="btn bg-primary text-white rounded-pill py-3 px-5 animated slideInLeft">Saber Más</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>
+<!-- Carousel End -->
 
-<!-- Statistics -->
-<section class="py-5 bg-primary text-white">
+
+<!-- Feature Start -->
+<div class="container-xxl py-5">
   <div class="container">
-    <div class="row text-center g-4">
-      <div class="col-md-4">
-        <h3 class="display-4 fw-bold">40%</h3>
-        <p class="p-porcentaje">Producción nacional en Veracruz</p>
+    <div class="row g-5">
+      <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+        <div class="d-flex align-items-center mb-4">
+          <div class="btn-lg-square bg-primary rounded-circle me-3">
+            <i class="fa fa-users text-white"></i>
+          </div>
+          <h1 class="mb-0" data-toggle="counter-up">50,000</h1>
+        </div>
+        <h5 class="mb-3">Familias Dependientes</h5>
+        <span>Más de 50,000 familias dependen directamente de la industria de la caña de azúcar para su sustento
+          anual.</span>
       </div>
-      <div class="col-md-4">
-        <h3 class="display-4 fw-bold">2.5%</h3>
-        <p class="p-porcentaje" >Reducción en producción (2023)</p>
+      <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+        <div class="d-flex align-items-center mb-4">
+          <div class="btn-lg-square bg-primary rounded-circle me-3">
+            <i class="fa fa-check text-white"></i>
+          </div>
+          <h1 class="mb-0" data-toggle="counter-up">1.2M</h1>
+        </div>
+        <h5 class="mb-3">Toneladas de Pérdidas por Plagas</h5>
+        <span>Cada año, las plagas causan pérdidas de más de 1.2 millones de toneladas de caña, afectando gravemente la
+          producción.</span>
       </div>
-      <div class="col-md-4">
-        <h3 class="display-4 fw-bold">70% - 85%</h3>
-        <p class="p-porcentaje">Efectividad en detección</p>
+      <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+        <div class="d-flex align-items-center mb-4">
+          <div class="btn-lg-square bg-primary rounded-circle me-3">
+            <i class="fa fa-award text-white"></i>
+          </div>
+          <h1 class="mb-0" data-toggle="counter-up">8</h1>
+        </div>
+        <h5 class="mb-3">Premios Internacionales</h5>
+        <span>La industria de la caña de azúcar ha recibido más de 8 premios internacionales por sus prácticas
+          sostenibles y de innovación en la producción.</span>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- Blog Posts Section -->
-<section id="blog-posts" class="blog-posts section">
-  <div class="testimonial-section">
-    <div class="inner-width">
-      <h1>EQUIPO DE TRABAJO</h1>
-      
-      <div id="nav-tab" class="testimonial-pics" #testimonialPics>
-        <img src="../../../assets/images/daniela.webp" id="0" alt="img-1" class="active">
-        <img src="../../../assets/images/haber3.svg" id="1" alt="img-2">
-        <img src="../../../assets/images/rosa.webp" id="2" alt="img-3"> <br> <br>
-        <img src="../../../assets/images/haber5.svg" id="3" alt="img-4">
-        <img src="../../../assets/images/haber5.svg" id="4" alt="img-5">
-        <img src="../../../assets/images/haber2.svg" id="5" alt="img-6">
-      </div>
-
-      <div class="testimonial-contents" #testimonialContents>
-        <div class="testimonial active">
-          <p>Daniela es la líder del equipo, conocida como "La Visionaria". Con una mente estratégica y una pasión por la innovación, guía al equipo hacia soluciones tecnológicas que revolucionan la agricultura. Su enfoque en la detección temprana de plagas ha sido clave para el éxito del proyecto.</p>
-          <span class="description">Daniela / La Visionaria</span>
+      <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+        <div class="d-flex align-items-center mb-4">
+          <div class="btn-lg-square bg-primary rounded-circle me-3">
+            <i class="fa fa-users-cog text-white"></i>
+          </div>
+          <h1 class="mb-0" data-toggle="counter-up">350,000</h1>
         </div>
-
-        <div class="testimonial">
-          <p>Martin, apodado "El Arquitecto Digital", es el desarrollador principal del sistema. Con su expertise en inteligencia artificial y procesamiento de imágenes, ha construido la columna vertebral tecnológica del proyecto, asegurando que los drones y algoritmos funcionen a la perfección.</p>
-          <span class="description">Martin / El Arquitecto Digital</span>
-        </div>
-
-        <div class="testimonial">
-          <p>Rosa, conocida como "La Coordinadora", es la mano derecha de Daniela. Con una habilidad innata para la organización y la logística, asegura que cada pieza del proyecto esté en su lugar. Su atención al detalle es fundamental para mantener el equipo enfocado y productivo.</p>
-          <span class="description">Rosa / La Coordinadora</span>
-        </div>
-
-        <div class="testimonial">
-          <p>Josue, apodado "El Explorador", es el recolector de datos y asistente de investigación. Con una curiosidad insaciable, se encarga de recopilar y analizar información crucial sobre las plagas y su impacto en los cultivos de caña de azúcar.</p>
-          <span class="description">Josue / El Explorador</span>
-        </div>
-
-        <div class="testimonial">
-          <p>Alejandro, conocido como "El Analista", es el experto en análisis de datos. Con su habilidad para interpretar grandes volúmenes de información, proporciona insights valiosos que ayudan a optimizar el sistema y mejorar la precisión en la detección de plagas.</p>
-          <span class="description">Alejandro / El Analista</span>
-        </div>
-
-        <div class="testimonial">
-          <p>Sergio Bonilla, "El Mentor", es el asesor técnico del equipo. Con años de experiencia en tecnología y agricultura, su guía ha sido invaluable para asegurar que el proyecto cumpla con los más altos estándares de calidad y eficiencia.</p>
-          <span class="description">Sergio Bonilla / El Mentor</span>
-        </div>
-
+        <h5 class="mb-3">Trabajadores Expertos</h5>
+        <span>La industria emplea a más de 350,000 trabajadores en diversas áreas, desde la cosecha hasta la producción
+          de biocombustibles.</span>
       </div>
     </div>
   </div>
-</section>
+</div>
 
+<!-- Feature Start -->
+
+<!-- About Start -->
+<div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+  <div class="container about px-lg-0">
+    <div class="row g-0 mx-lg-0">
+      <div class="col-lg-6 pe-lg-0 wow fadeIn" data-wow-delay="0.5s" style="min-height: 400px;">
+        <div class="position-relative h-100">
+          <video class="position-absolute w-100 h-100" style="object-fit: cover;" autoplay muted loop>
+            <source src="../../../assets/images/home/vid-cana-1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="col-lg-6 about-text py-5 wow fadeIn" data-wow-delay="0.5s">
+        <div class="p-lg-5 pe-lg-0">
+          <h6 class="text-primary">Impacto</h6>
+          <h1 class="mb-4">Industria de la Caña de Azúcar</h1>
+          <p>La industria de la caña de azúcar ha sido un motor clave para el desarrollo económico, impulsando la
+            producción de biocombustibles, energía renovable y productos de alto valor. Con décadas de experiencia,
+            hemos logrado transformar los recursos naturales en soluciones sostenibles y rentables.</p>
+          <p><i class="fa fa-check-circle text-primary me-3"></i>Generación de energía limpia a partir de residuos de
+            caña</p>
+          <p><i class="fa fa-check-circle text-primary me-3"></i>Promoción de la agricultura sostenible y uso eficiente
+            de los recursos</p>
+          <p><i class="fa fa-check-circle text-primary me-3"></i>Contribución significativa a la economía local y global
+          </p>
+          <a href="" class="btn bg-primary text-white rounded-pill py-3 px-5 mt-3">Descubre Más</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- About End -->
 
 
 <!-- Nueva sección de Plagas -->
-<section class="py-5 bg-light">
+<section class="py-5">
   <div class="container">
     <div class="text-center mb-5">
       <h2 class=" titulo-plagas display-5 fw-bold text-primary mb-3">Plagas que Afectan los Cultivos en Veracruz</h2>
@@ -161,7 +159,8 @@
               <span class="badge bg-success">98% efectividad</span>
             </div>
             <p class=" p-plagas-texto card-text text-muted mb-3">
-              Principal plaga que afecta los cultivos de caña. Puede reducir significativamente la producción si no se detecta a tiempo.
+              Principal plaga que afecta los cultivos de caña. Puede reducir significativamente la producción si no se
+              detecta a tiempo.
             </p>
             <div class="d-flex align-items-center text-success">
               <i class="bi bi-check2-circle me-2"></i>
@@ -181,7 +180,8 @@
               <span class="badge bg-success">95% efectividad</span>
             </div>
             <p class="p-plagas-texto card-text text-muted mb-3">
-              Insecto que perfora los tallos causando pérdidas significativas. Nuestro sistema lo detecta mediante análisis térmico.
+              Insecto que perfora los tallos causando pérdidas significativas. Nuestro sistema lo detecta mediante
+              análisis térmico.
             </p>
             <div class="d-flex align-items-center text-success">
               <i class="bi bi-check2-circle me-2"></i>
@@ -201,7 +201,8 @@
               <span class="badge bg-success">92% efectividad</span>
             </div>
             <p class="p-plagas-texto card-text text-muted mb-3">
-              Afecta el desarrollo temprano de la planta. Identificamos patrones de daño en las hojas para intervención oportuna.
+              Afecta el desarrollo temprano de la planta. Identificamos patrones de daño en las hojas para intervención
+              oportuna.
             </p>
             <div class="d-flex align-items-center text-success">
               <i class="bi bi-check2-circle me-2"></i>
@@ -229,5 +230,126 @@
     </div>
   </div>
 </section>
+
+
+<!-- Feature Start -->
+<div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+  <div class="container feature px-lg-0">
+    <div class="row g-0 mx-lg-0">
+      <div class="col-lg-6 feature-text py-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="p-lg-5 ps-lg-0">
+          <h6 class="text-primary">¡Por Qué Elegirnos!</h6>
+          <h1 class="mb-4">Soluciones Innovadoras para Agricultores de Caña de Azúcar</h1>
+          <p class="mb-4 pb-2">Ofrecemos tecnología de vanguardia para ayudar a los agricultores a identificar y controlar las plagas que dañan sus cultivos. Utilizando drones y análisis de terrenos, garantizamos soluciones de control de plagas precisas, oportunas y eficaces para proteger los campos de caña de azúcar y maximizar los rendimientos.</p>
+          <div class="row g-4">
+            <div class="col-6">
+              <div class="d-flex align-items-center">
+                <div class="btn-lg-square bg-primary rounded-circle">
+                  <i class="fa fa-search text-white"></i>
+                </div>
+                <div class="ms-4">
+                  <p class="mb-0">Identificación de</p>
+                  <h5 class="mb-0">Plagas</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center">
+                <div class="btn-lg-square bg-primary rounded-circle">
+                  <i class="fa fa-bell text-white"></i>
+                </div>
+                <div class="ms-4">
+                  <p class="mb-0">Notificaciones</p>
+                  <h5 class="mb-0">En Tiempo Real</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center">
+                <div class="btn-lg-square bg-primary rounded-circle">
+                  <i class="fa fa-chart-line text-white"></i>
+                </div>
+                <div class="ms-4">
+                  <p class="mb-0">Información</p>
+                  <h5 class="mb-0">Basada en Datos</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center">
+                <div class="btn-lg-square bg-primary rounded-circle">
+                  <i class="fa fa-shield-alt text-white"></i>
+                </div>
+                <div class="ms-4">
+                  <p class="mb-0">Prevención de</p>
+                  <h5 class="mb-0">Plagas</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 pe-lg-0 wow fadeIn" data-wow-delay="0.5s" style="min-height: 400px;">
+        <div class="position-relative h-100">
+          <img class="position-absolute img-fluid w-100 h-100" src="../../../assets/images/home/img-cana-dron.svg"
+            style="object-fit: cover;" alt="Monitoreo de los campos de caña con drones">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Feature End -->
+
+
+
+<!-- Quote Start -->
+<div class="container-fluid overflow-hidden  my-5 px-lg-0">
+  <div class="container quote px-lg-0">
+    <div class="row g-0 mx-lg-0">
+      <div class="col-lg-6 ps-lg-0 wow fadeIn" data-wow-delay="0.1s" style="min-height: 400px;">
+        <div class="position-relative h-100">
+          <img class="position-absolute img-fluid w-100 h-100" src="../../../assets/images/home/img-emai-cana.svg" style="object-fit: cover;" alt="">
+        </div>
+      </div>
+      <div class="col-lg-6 quote-text  py-5 wow fadeIn" data-wow-delay="0.5s">
+        <div class="p-lg-5 pe-lg-0 ">
+          <h6 class="text-primary">Contactatanos</h6>
+          <h1 class="mb-4">No esperes más</h1>
+          <p class="mb-4 pb-2">Contáctanos para proteger tus cultivos de caña con nuestro proyecto 'Cana'. Utilizamos IA avanzada para detectar plagas y mejorar tu productividad. ¡Haz la diferencia hoy mismo!</p>
+          <form>
+            <div class="row g-3">
+              <div class="col-12 col-sm-6">
+                <input type="text" class="form-control border-0" placeholder="Nombre Compelto" style="height: 55px;">
+              </div>
+              <div class="col-12 col-sm-6">
+                <input type="email" class="form-control border-0" placeholder="Correo Eletronico" style="height: 55px;">
+              </div>
+              <div class="col-12 col-sm-6">
+                <input type="text" class="form-control border-0" placeholder="Nuemro Telefonico" style="height: 55px;">
+              </div>
+              <div class="col-12 col-sm-6">
+                <select class="form-select border-0" style="height: 55px;">
+                  <option selected>Motivo</option>
+                  <option value="1">Información</option>
+                  <option value="2">Colaborar</option>
+                  <option value="3">Otro</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <textarea class="form-control border-0" placeholder="Mensage"></textarea>
+              </div>
+              <div class="col-12">
+                <button class="btn bg-primary text-white rounded-pill py-3 px-5" type="submit">Enviar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Quote End -->
+
+
 
 <app-footer-cana></app-footer-cana>

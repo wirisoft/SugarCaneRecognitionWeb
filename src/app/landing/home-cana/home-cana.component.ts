@@ -4,17 +4,17 @@ import { FooterCanaComponent } from "../components/footer-cana/footer-cana.compo
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+declare var $: any; // Declaración de jQuery, ya que estamos usando jQuery y OwlCarousel
+
 @Component({
   selector: 'app-home-cana',
   standalone: true,
   imports: [NavBarCanaComponent, FooterCanaComponent, CommonModule, RouterModule],
   templateUrl: './home-cana.component.html',
-  styleUrl: './home-cana.component.css'
+  styleUrls: ['./home-cana.component.css']
 })
 export class HomeCanaComponent implements AfterViewInit {
   
-  
-
   researchers = [
     { name: "Daniela Ibañez Marcial", role: "Investigador Principal", image: "assets/images/daniela.webp" },
     { name: "Rosalía De los Ángeles De la Rosa Reyes", role: "Análisis de Datos", image: "assets/images/rosa.webp" },
@@ -37,20 +37,49 @@ export class HomeCanaComponent implements AfterViewInit {
   @ViewChild('testimonialContents', { static: false }) testimonialContents!: ElementRef;
 
   ngAfterViewInit(): void {
+    $(document).ready(() => {
+      $(".header-carousel").owlCarousel({
+        autoplay: true,
+        smartSpeed: 1500,
+        loop: true,
+        nav: false,
+        dots: true,
+        items: 1,
+        dotsData: true,
+      });
+    });
+
+    // Back to top button
+    $(window).scroll( () => {
+      if ($(this).scrollTop() > 300) {
+        $('.back-to-top').fadeIn('slow');
+      } else {
+        $('.back-to-top').fadeOut('slow');
+      }
+    });
+    $('.back-to-top').click(function () {
+      $('html, body').animate({ scrollTop: 0 }, 1500, 'easeInOutExpo');
+      return false;
+    });
+
+    // Facts counter
+    $('[data-toggle="counter-up"]').counterUp({
+      delay: 10,
+      time: 2000
+    });
+
+    // Testimonial functionality
     if (this.testimonialPics && this.testimonialContents) {
       const picElements = Array.from(this.testimonialPics.nativeElement.children) as HTMLElement[];
       const textElements = Array.from(this.testimonialContents.nativeElement.children) as HTMLElement[];
 
       picElements.forEach((pic) => {
         pic.addEventListener("click", () => {
-          // Remover la clase 'active' de todas las imágenes
           picElements.forEach(elem => elem.classList.remove("active"));
           pic.classList.add("active");
 
-          // Obtener el índice desde el atributo `id`
           const index = Number(pic.getAttribute("id"));
 
-          // Remover 'active' de todos los textos y activarlo en el actual
           textElements.forEach(text => text.classList.remove("active"));
           if (textElements[index]) {
             textElements[index].classList.add("active");

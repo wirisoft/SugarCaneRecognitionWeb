@@ -11,7 +11,7 @@ export const routes: Routes = [
     ...pageRoutes,
     {
         path: '**',
-        redirectTo: '/landing/home-cana',
+        redirectTo: '/landing/404-cana',
         pathMatch: 'full'
     },
     {

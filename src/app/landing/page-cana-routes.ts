@@ -6,6 +6,7 @@ import { LoginCanaComponent } from "./login-cana/login-cana.component";
 import { RegisterCanaComponent } from "./register-cana/register-cana.component";
 import { InfoSectionsComponent } from "./info-sections/info-sections.component";
 import { UnderDevelopmentComponent } from "./components/under-development/under-development.component";
+import { ErrorCanaComponent } from "./error-cana/error-cana.component";
 
 
 export const pageRoutes: Routes = [
@@ -44,6 +45,10 @@ export const pageRoutes: Routes = [
             {
                 path: 'under-development',
                 component: UnderDevelopmentComponent
+            },
+            {
+                path: '404-cana',
+                component: ErrorCanaComponent
             },
         ]
     }

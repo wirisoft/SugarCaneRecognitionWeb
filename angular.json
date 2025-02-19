@@ -26,9 +26,16 @@
             ],
             "styles": [
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
+              "src/assets/lib/lightbox/css/lightbox.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/owl.carousel/dist/owl.carousel.min.js",
+              "src/assets/lib/lightbox/js/lightbox.min.js"
+
+            ]
           },
           "configurations": {
             "production": {
