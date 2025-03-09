@@ -3,6 +3,7 @@ import { NavBarCanaComponent } from '../components/nav-bar-cana/nav-bar-cana.com
 import { FooterCanaComponent } from '../components/footer-cana/footer-cana.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-cana',
@@ -14,13 +15,17 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login-cana.component.css'
 })
 export class LoginCanaComponent {
+  constructor(private router: Router) {}
   loginData = {
     email: '',
     password: ''
   };
-
-  onSubmit() {
-    console.log('Login attempt with:', this.loginData);
+  navigateToDashboard() {
+    // Add any login validation logic here
+    this.router.navigate(['/dashboard/dashboard-home']);
   }
-
+  onSubmit() {
+    // Your existing login logic here
+    this.navigateToDashboard();
+  }
 }

@@ -25,61 +25,76 @@
         </li>
     </ul>
 
-    <!-- Sección de Plantas -->
-    <div *ngIf="vista === 'plantas'" class="mt-3">
-        <h3 class="text-buscar text-center mb-4">Listado de Especies</h3>
-        <div class="row justify-content-center">
-            <div class="col-md-10 mb-4" *ngFor="let especie of filtrarEspecies(searchInput?.value || '')">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h4 class="card-title text-success">{{ especie.nombre }}</h4>
-                                <p class="text-muted"><strong>Nombre Científico:</strong> {{ especie.nombreCientifico }}</p>
-                                <p class="text-muted"><strong>Género:</strong> {{ especie.genero }}</p>
-                                <p class="text-muted"><strong>Familia:</strong> {{ especie.familia }}</p>
-                            </div>
-                            <div class="col-md-4">
-                                <h6 class="text-success">Variedades:</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item border-0" *ngFor="let variedad of especie.variedades">
-                                        {{ variedad }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4">
-                                <h6 class="text-danger">Plagas Asociadas:</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item border-0" *ngFor="let plaga of especie.plagas">
-                                        {{ plaga }}
-                                    </li>
-                                </ul>
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="row">
+                <!-- Sección de Plantas -->
+                <div *ngIf="vista === 'plantas'" class="mt-3">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10 mb-4" *ngFor="let especie of filtrarEspecies(searchInput?.value || '')">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="image-hover-container" (click)="openImageModal(especie.imagen, especie.nombre)">
+                                                <img [src]="especie.imagen" 
+                                                     class="img-fluid rounded thumbnail-img" 
+                                                     [alt]="especie.nombre">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h4 class="card-title text-success">{{ especie.nombre }}</h4>
+                                            <p class="text-muted"><strong>Nombre Científico:</strong> {{ especie.nombreCientifico }}</p>
+                                            <p class="text-muted"><strong>Género:</strong> {{ especie.genero }}</p>
+                                            <p class="text-muted"><strong>Familia:</strong> {{ especie.familia }}</p>
+                                        </div>
+                                       
+                                        <div class="col-md-4">
+                                            <h6 class="text-success">Variedades:</h6>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item border-0" *ngFor="let variedad of especie.variedades">
+                                                    {{ variedad }}
+                                                </li>
+                                            </ul>
+                                            <h6 class="text-danger">Plagas Asociadas:</h6>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item border-0" *ngFor="let plaga of especie.plagas">
+                                                    {{ plaga }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Sección de Plagas -->
-    <div *ngIf="vista === 'plagas'" class="mt-3">
-        <h3 class="text-danger text-center mb-4">Listado de Plagas</h3>
-        <div class="row justify-content-center">
-            <div class="col-md-10 mb-4" *ngFor="let plaga of filtrarPlagas(searchInput?.value || '')">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h4 class="card-title text-danger">{{ plaga.nombre }}</h4>
-                                <p class="text-muted"><strong>Nombre Científico:</strong> {{ plaga.nombreCientifico }}</p>
-                                <p class="text-muted"><strong>Nivel de Daño:</strong> {{ plaga.nivelDanio }}</p>
-                            </div>
-                            <div class="col-md-4">
-                                <p class="text-muted"><strong>Temporada Común:</strong> {{ plaga.temporadaComun }}</p>
-                            </div>
-                            <div class="col-md-4">
-                                <p class="text-muted"><strong>Descripción:</strong> {{ plaga.descripcion }}</p>
+                <!-- Sección de Plagas -->
+                <div *ngIf="vista === 'plagas'" class="mt-3">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10 mb-4" *ngFor="let plaga of filtrarPlagas(searchInput?.value || '')">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="image-hover-container" (click)="openImageModal(plaga.imagen, plaga.nombre)">
+                                                <img [src]="plaga.imagen" 
+                                                     class="img-fluid rounded thumbnail-img" 
+                                                     [alt]="plaga.nombre">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h4 class="card-title text-danger">{{ plaga.nombre }}</h4>
+                                            <p class="text-muted"><strong>Nombre Científico:</strong> {{ plaga.nombreCientifico }}</p>
+                                            <p class="text-muted"><strong>Nivel de Daño:</strong> {{ plaga.nivelDanio }}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="text-muted"><strong>Temporada Común:</strong> {{ plaga.temporadaComun }}</p>
+                                            <p class="text-muted"><strong>Descripción:</strong> {{ plaga.descripcion }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -90,3 +105,21 @@
 </div>
 
 <app-footer-cana></app-footer-cana>
+<!-- Add this at the bottom of your template, just before </app-footer-cana> -->
+<!-- Image Modal -->
+<div class="modal fade custom-modal" id="imageModal" tabindex="-1" [class.show]="selectedImage !== ''" 
+     [style.display]="selectedImage ? 'block' : 'none'" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-header border-0 p-2">
+                <button type="button" class="btn-close btn-close-white" (click)="selectedImage = ''" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-0">
+                <img [src]="selectedImage" class="img-fluid modal-img rounded" [alt]="selectedTitle">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Backdrop -->
+<div class="modal-backdrop fade show" *ngIf="selectedImage !== ''" (click)="selectedImage = ''"></div>

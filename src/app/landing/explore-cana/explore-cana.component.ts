@@ -16,6 +16,8 @@ import { FooterCanaComponent } from '../components/footer-cana/footer-cana.compo
 })
 export class ExploreCanaComponent {
   vista: string = 'plantas';
+  selectedImage: string = '';
+  selectedTitle: string = '';
 
   especies = [
     {
@@ -24,7 +26,8 @@ export class ExploreCanaComponent {
       genero: 'Saccharum',
       familia: 'Poaceae',
       variedades: ['CP 72-2086', 'RB 92579', 'Mex 69-290'],
-      plagas: ['Barrenador de la Caña', 'Pulgón amarillo']
+      plagas: ['Barrenador de la Caña', 'Pulgón amarillo'],
+      imagen: '../../../assets/images/explore/caña-azucar.svg'
     },
     {
       nombre: 'Caña Morada',
@@ -32,7 +35,8 @@ export class ExploreCanaComponent {
       genero: 'Saccharum',
       familia: 'Poaceae',
       variedades: ['Co 740', 'RB 867515'],
-      plagas: ['Mosca Pinta', 'Gusano Cogollero']
+      plagas: ['Mosca Pinta', 'Gusano Cogollero'],
+      imagen: '../../../assets/images/explore/caña-morada.svg'
     }
   ];
 
@@ -42,24 +46,30 @@ export class ExploreCanaComponent {
       nombreCientifico: 'Aeneolamia spp.',
       descripcion: 'Es una plaga que afecta los cultivos de caña al chupar la savia y debilitar la planta.',
       nivelDanio: 'Alto',
-      temporadaComun: 'Época de lluvias'
+      temporadaComun: 'Época de lluvias',
+      imagen: '../../../assets/images/mosca_pinta.webp'
     },
     {
       nombre: 'Barrenador de la Caña',
       nombreCientifico: 'Diatraea saccharalis',
       descripcion: 'Las larvas perforan los tallos de la caña, afectando su crecimiento y rendimiento.',
       nivelDanio: 'Severo',
-      temporadaComun: 'Verano y Otoño'
+      temporadaComun: 'Verano y Otoño',
+      imagen: '../../../assets/images/gusano_barrenador.webp'
     },
     {
       nombre: 'Gusano Cogollero',
       nombreCientifico: 'Spodoptera frugiperda',
       descripcion: 'Ataca el cogollo de la caña y reduce significativamente la producción.',
       nivelDanio: 'Crítico',
-      temporadaComun: 'Todo el año'
+      temporadaComun: 'Todo el año',
+      imagen: '../../../assets/images/gusano_cogollero.webp'
     }
   ];
-
+  openImageModal(imagen: string, titulo: string) {
+    this.selectedImage = imagen;
+    this.selectedTitle = titulo;
+  }
   // Método para buscar especies
   filtrarEspecies(termino: string) {
     if (!termino) return this.especies;

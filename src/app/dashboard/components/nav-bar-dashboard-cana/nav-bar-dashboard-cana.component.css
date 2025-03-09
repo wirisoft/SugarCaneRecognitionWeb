@@ -1,0 +1,250 @@
+.navbar {
+    background-color: #1a472a;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-logo {
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #ffffff;
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.9) !important;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ffffff !important;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 5px;
+}
+
+.nav-link.active {
+    color: #ffffff !important;
+    background-color: rgba(255,255,255,0.15);
+    border-radius: 5px;
+}
+
+.nav-link i {
+    margin-right: 8px;
+}
+
+.dropdown-menu {
+    background-color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item i {
+    margin-right: 8px;
+    color: #1a472a;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #1a472a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: #1a472a;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+
+    .dropdown-menu {
+        background-color: rgba(255,255,255,0.1);
+    }
+
+    .dropdown-item {
+        color: rgba(255,255,255,0.9);
+    }
+
+    .dropdown-item:hover {
+        background-color: rgba(255,255,255,0.2);
+        color: #ffffff;
+    }
+
+    .dropdown-item i {
+        color: rgba(255,255,255,0.9);
+    }
+}
+
+/* Main Container */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Top Navbar Styles */
+.top-navbar {
+    height: 60px;
+    background-color: #1a472a;
+    padding: 0 1rem;
+    z-index: 1030;
+}
+
+.search-bar {
+    max-width: 400px;
+    width: 100%;
+}
+
+.search-input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+    color: white;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-weight: 500;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    height: calc(100vh - 60px);
+    width: 250px;
+    background-color: #ffffff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 1020;
+}
+
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.sidebar-header {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+}
+
+.sidebar-title {
+    font-weight: 600;
+    color: #1a472a;
+}
+
+.sidebar-nav {
+    list-style: none;
+    padding: 1rem 0;
+    margin: 0;
+}
+
+.sidebar-item {
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    gap: 1rem;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(26, 71, 42, 0.1);
+    color: #1a472a;
+}
+
+.sidebar-link.active {
+    background-color: rgba(26, 71, 42, 0.15);
+    color: #1a472a;
+    font-weight: 500;
+}
+
+.sidebar-link i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 250px;
+    margin-top: 60px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+.main-content.sidebar-collapsed {
+    margin-left: 70px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.collapsed {
+        transform: translateX(0);
+        width: 250px;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .main-content.sidebar-collapsed {
+        margin-left: 0;
+    }
+
+    .user-name {
+        display: none;
+    }
+}

@@ -9,16 +9,11 @@ export const routes: Routes = [
         pathMatch: 'full'
     },
     ...pageRoutes,
+    ...dashboardRoutes,
     {
         path: '**',
         redirectTo: '/landing/404-cana',
         pathMatch: 'full'
-    },
-    {
-        path: 'dashboard-home',
-        redirectTo: '/dashboard/dashboard-home',
-        pathMatch: 'full'
-    },
-    ...dashboardRoutes  
+    },  
 
 ];
