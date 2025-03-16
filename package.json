@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "ag-grid-angular": "^33.1.1",
     "bootstrap-icons": "^1.11.3",
     "cana": "file:",
     "chart.js": "^4.4.1",

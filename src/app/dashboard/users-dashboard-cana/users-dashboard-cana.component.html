@@ -1,0 +1,32 @@
+<app-nav-bar-dashboard-cana>
+    <div class="dashboard-content">
+        <div class="container-fluid p-4">
+            <!-- Header Section -->
+            <div class="dashboard-header mb-4">
+                <h2>Gestión de Usuarios</h2>
+                <p class="text-muted">Administración de usuarios del sistema</p>
+            </div>
+
+            <!-- Main Content Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Lista de Usuarios</h5>
+                        </div>
+                        <div class="card-body">
+                            <ag-grid-angular
+                                style="width: 100%; height: 400px;"
+                                [theme]="myTheme"
+                                [columnDefs]="colDefs"
+                                [rowData]="rowData"
+                                [pagination]="true"
+                                [paginationPageSize]="10"
+                            ></ag-grid-angular>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-nav-bar-dashboard-cana>
