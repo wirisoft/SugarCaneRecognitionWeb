@@ -7,12 +7,15 @@
                 <p class="text-muted">Administración de plantas del sistema</p>
             </div>
 
-            <!-- Main Content Section -->
-            <div class="row">
+            <!-- Table View Section -->
+            <div class="row" [ngClass]="{'d-none': showNewPlantForm}">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">Lista de plantas</h5>
+                            <button class="btn btn-primary-cana" (click)="toggleView()">
+                                <i class="bi bi-plus-circle me-2"></i>Agregar Nueva Planta
+                            </button>
                         </div>
                         <div class="card-body">
                             <ag-grid-angular
@@ -21,10 +24,64 @@
                                 [columnDefs]="colDefs"
                                 [rowData]="rowData"
                                 [pagination]="true"
-                                [paginationPageSize]="10"
-                            ></ag-grid-angular>
+                                [paginationPageSize]="10">
+                            </ag-grid-angular>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- New Plant Form Section -->
+            <div class="row" [ngClass]="{'d-none': !showNewPlantForm}">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Agregar Nueva Planta</h5>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="nombreComun" class="form-label">Nombre Común</label>
+                                    <input type="text" class="form-control" id="nombreComun">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nombreCientifico" class="form-label">Nombre Científico</label>
+                                    <input type="text" class="form-control" id="nombreCientifico">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion" class="form-label">Descripción</label>
+                                    <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="imagen" class="form-label">Imagen</label>
+                                    <input type="file" class="form-control" id="imagen">
+                                </div>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" (click)="toggleView()">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary-cana">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para la vista previa de imagen -->
+    <div class="modal" id="imageModal" 
+         aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Vista previa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="" alt="Vista previa" style="max-width: 100%; max-height: 70vh;">
+                </div>
+                <div class="modal-footer z-index-10" >
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

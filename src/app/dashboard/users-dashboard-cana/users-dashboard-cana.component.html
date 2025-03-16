@@ -7,22 +7,70 @@
                 <p class="text-muted">Administración de usuarios del sistema</p>
             </div>
 
-            <!-- Main Content Section -->
-            <div class="row">
+            <!-- Table View Section -->
+            <div class="row" [ngClass]="{'d-none': showNewUserForm}">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">Lista de Usuarios</h5>
+                            <button class="btn btn-primary-cana" (click)="toggleView()">
+                                <i class="bi bi-plus-circle me-2"></i>Agregar Nuevo Usuario
+                            </button>
                         </div>
                         <div class="card-body">
                             <ag-grid-angular
                                 style="width: 100%; height: 400px;"
-                                [theme]="myTheme"
+                                class="ag-theme-alpine"
                                 [columnDefs]="colDefs"
                                 [rowData]="rowData"
                                 [pagination]="true"
-                                [paginationPageSize]="10"
-                            ></ag-grid-angular>
+                                [paginationPageSize]="10">
+                            </ag-grid-angular>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New User Form Section -->
+            <div class="row" [ngClass]="{'d-none': !showNewUserForm}">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Agregar Nuevo Usuario</h5>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="nombreCompleto" class="form-label">Nombre Completo</label>
+                                    <input type="text" class="form-control" id="nombreCompleto">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="correoElectronico" class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="correoElectronico">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="telefono" class="form-label">Teléfono</label>
+                                    <input type="number" class="form-control" id="telefono">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="roles" class="form-label">Rol</label>
+                                    <select class="form-select" id="roles">
+                                        <option value="usuario">Usuario</option>
+                                        <option value="admin">Administrador</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <select class="form-select" id="estado">
+                                        <option value="activo">Activo</option>
+                                        <option value="inactivo">Inactivo</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" (click)="toggleView()">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary-cana">Guardar</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

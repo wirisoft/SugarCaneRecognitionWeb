@@ -4,6 +4,7 @@ import { AgGridAngular } from "ag-grid-angular";
 import type { ColDef } from "ag-grid-community";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { themeQuartz } from 'ag-grid-community';
+import { CommonModule } from '@angular/common';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -21,7 +22,7 @@ interface IRow {
 @Component({
   selector: 'app-users-dashboard-cana',
   standalone: true,
-  imports: [NavBarDashboardCanaComponent, AgGridAngular],
+  imports: [CommonModule, NavBarDashboardCanaComponent, AgGridAngular],
   templateUrl: './users-dashboard-cana.component.html',
   styleUrl: './users-dashboard-cana.component.css'
 })
@@ -56,4 +57,20 @@ export class UsersDashboardCanaComponent {
   defaultColDef: ColDef = {
     flex: 1,
   };
+  ngOnInit() {
+    // Agregar listener para actualizar la imagen del modal
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'IMG' && target.hasAttribute('data-bs-toggle')) {
+        const modalImg = document.getElementById('modalImage') as HTMLImageElement;
+        modalImg.src = target.getAttribute('src') || '';
+      }
+    });
+  }
+
+  showNewUserForm: boolean = false;  // Changed from showNewPlantForm
+
+  toggleView() {
+    this.showNewUserForm = !this.showNewUserForm;
+  }
 }

@@ -1,1 +1,100 @@
-<p>profile-dashboard-cana works!</p>
+<div class="container py-5">
+    <div class="row">
+        <!-- Profile Picture Section -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img [src]="profileImage || 'assets/images/default-profile.png'" 
+                         alt="Profile Picture" 
+                         class="rounded-circle img-fluid mb-3" 
+                         style="width: 150px; height: 150px; object-fit: cover;">
+                    <h5 class="mb-3">Foto de Perfil</h5>
+                    <div class="d-flex justify-content-center mb-2">
+                        <input type="file" 
+                               class="form-control" 
+                               (change)="onFileSelected($event)" 
+                               accept="image/*">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Information Section -->
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Información Personal</h5>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                        <!-- Nombre Completo -->
+                        <div class="mb-3">
+                            <label class="form-label">Nombre Completo</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   formControlName="fullName"
+                                   placeholder="Ingrese su nombre completo">
+                        </div>
+
+                        <!-- Correo Electrónico -->
+                        <div class="mb-3">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" 
+                                   class="form-control" 
+                                   formControlName="email"
+                                   placeholder="ejemplo@correo.com">
+                        </div>
+
+                        <!-- Teléfono -->
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono</label>
+                            <input type="tel" 
+                                   class="form-control" 
+                                   formControlName="phone"
+                                   placeholder="(123) 456-7890">
+                        </div>
+
+                        <!-- Ubicación -->
+                        <div class="mb-3">
+                            <label class="form-label">Ubicación</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   formControlName="location"
+                                   placeholder="Ciudad, País">
+                        </div>
+
+                        <!-- Contraseña Actual -->
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña Actual</label>
+                            <input type="password" 
+                                   class="form-control" 
+                                   formControlName="currentPassword">
+                        </div>
+
+                        <!-- Nueva Contraseña -->
+                        <div class="mb-3">
+                            <label class="form-label">Nueva Contraseña</label>
+                            <input type="password" 
+                                   class="form-control" 
+                                   formControlName="newPassword">
+                        </div>
+
+                        <!-- Confirmar Nueva Contraseña -->
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar Nueva Contraseña</label>
+                            <input type="password" 
+                                   class="form-control" 
+                                   formControlName="confirmPassword">
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary" [routerLink]="['/dashboard/dashboard-home']">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

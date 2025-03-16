@@ -16,6 +16,7 @@
 /* Header styles */
 .dashboard-header {
     margin-bottom: 2rem;
+    margin-top: -40px;
 }
 
 .dashboard-header h2 {
@@ -50,6 +51,11 @@
 
 .card-body {
     padding: 1.5rem;
+}
+
+.btn-primary-cana{
+    color: #ffffff;
+    background-color: #257032;
 }
 
 /* Responsive adjustments */
