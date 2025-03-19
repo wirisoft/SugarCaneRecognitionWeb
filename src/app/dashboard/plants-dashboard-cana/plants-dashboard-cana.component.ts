@@ -6,6 +6,7 @@ import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { themeQuartz } from 'ag-grid-community';
 import { ICellRendererParams } from 'ag-grid-community';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -90,16 +91,43 @@ export class PlantsDashboardCanaComponent implements OnInit {
       creador: "Admin", 
       FechaCreacion: new Date(2023, 1, 1)  
     },
-    { Id: 5, NombreComun: "Pepe Ricolino", NombreoCientifico: "F-Series", descripcion: "pepepepepe", imagen: "../../../assets/images/explore/caña-azucar.svg", creador: "Activo", FechaCreacion: new Date(2023, 1, 1)   },
-    { Id: 6, NombreComun: "Pepe Ricolino", NombreoCientifico: "Corolla", descripcion: "pepepepepe", imagen: "../../../assets/images/explore/caña-azucar.svg", creador: "Activo", FechaCreacion: new Date(2023, 1, 1)    },
-    { Id: 7, NombreComun: "Pepe Ricolino", NombreoCientifico: "EQA", descripcion: "pepepepepe", imagen: "../../../assets/images/explore/caña-azucar.svg",  creador: "Activo", FechaCreacion: new Date(2023, 1, 1)     },
-    { Id: 8, NombreComun: "Pepe Ricolino", NombreoCientifico: "500", descripcion: "pepepepepe", imagen: "../../../assets/images/explore/caña-azucar.svg", creador: "Activo", FechaCreacion: new Date(2023, 1, 1) },
-    { Id: 9, NombreComun: "Pepe Ricolino", NombreoCientifico: "Juke", descripcion: "pepepepepe", imagen: "../../../assets/images/explore/caña-azucar.svg", creador: "Activo", FechaCreacion: new Date(2023, 1, 1)   },
+    { 
+      Id: 6, 
+      NombreComun: "Caña Morada", 
+      NombreoCientifico: "Saccharum officinarum var. violaceum", 
+      descripcion: "Variedad de caña de azúcar caracterizada por su coloración púrpura en el tallo. Tiene alto contenido de azúcar y antocianinas. Adaptable a diferentes climas tropicales.", 
+      imagen: "../../../assets/images/explore/caña-morada.svg", 
+      creador: "Admin", 
+      FechaCreacion: new Date(2023, 1, 1)
+    },
   ];
 
   // Column Definitions: Defines & controls grid columns.
+  // Add delete handler
+  onDeletePlant(id: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esta acción",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1a472a',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.rowData = this.rowData.filter(row => row.Id !== id);
+        Swal.fire(
+          '¡Eliminado!',
+          'La planta ha sido eliminada.',
+          'success'
+        );
+      }
+    });
+  }
+  // Update column definitions
   colDefs: ColDef<IRow>[] = [
-    { field: "Id", flex: 4, },
+    { field: "Id", flex: .5 },
     { field: "NombreComun", sortable: true, editable: true },
     { field: "NombreoCientifico", sortable: true, editable: true },
     { field: "descripcion", sortable: true, editable: true },
@@ -107,12 +135,35 @@ export class PlantsDashboardCanaComponent implements OnInit {
       field: "imagen",
       cellRenderer: ImageCellRenderer,
       width: 100,
-      cellStyle: {  }
+      cellStyle: { }
     },
-    { field: "creador", sortable: true,},
+    { field: "creador", sortable: true },
     { field: "FechaCreacion", sortable: true },
+    {
+      headerName: 'Acciones',
+      width: 100,
+      pinned: 'right',
+      lockPosition: true,
+      sortable: false,
+      cellRenderer: (params: ICellRendererParams) => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <button class="btn btn-link text-danger p-0" title="Eliminar">
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        `;
+        
+        const button = div.querySelector('button');
+        if (button) {
+          button.addEventListener('click', () => {
+            this.onDeletePlant(params.data.Id);
+          });
+        }
+        
+        return div;
+      }
+    }
   ];
-
   defaultColDef: ColDef = {
     flex: 1,
   };

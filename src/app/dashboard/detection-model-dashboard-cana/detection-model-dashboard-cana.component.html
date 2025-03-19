@@ -1,1 +1,101 @@
-<p>detection-model-dashboard-cana works!</p>
+<app-nav-bar-dashboard-cana>
+    <div class="dashboard-content">
+        <div class="container-fluid p-4">
+            <!-- Header Section with Model Info -->
+            <div class="dashboard-header mb-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h2>Gestión de Modelos de Detección</h2>
+                        <p class="text-muted">Administración de modelos de IA para detección de plagas y enfermedades</p>
+                    </div>
+                    <div class="model-info-container">
+                        <button class="btn btn-outline-primary" 
+                                (mouseenter)="showModelInfo(rowData[0])" 
+                                (mouseleave)="hideModelInfo()">
+                            Modelo Actual
+                        </button>
+                        <div class="model-info-popup" *ngIf="selectedModel">
+                            <h6>{{ selectedModel.name }}</h6>
+                            <p>Versión: {{ selectedModel.version }}</p>
+                            <p>Tipo: {{ selectedModel.type }}</p>
+                            <p>Precisión: {{ selectedModel.precisionMetric | percent }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table View Section -->
+            <div class="row" [ngClass]="{'d-none': showNewModelForm}">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Lista de Modelos</h5>
+                            <button class="btn btn-primary-cana" (click)="toggleView()">
+                                <i class="bi bi-plus-circle me-2"></i>Agregar Nuevo Modelo
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <ag-grid-angular
+                                style="width: 100%; height: 400px;"
+                                [theme]="myTheme"
+                                [columnDefs]="colDefs"
+                                [rowData]="rowData"
+                                [pagination]="true"
+                                [paginationPageSize]="10">
+                            </ag-grid-angular>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit/New Model Form Section -->
+            <div class="row" [ngClass]="{'d-none': !showNewModelForm}">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">{{ isEditing ? 'Editar Modelo' : 'Agregar Nuevo Modelo' }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nombre del Modelo</label>
+                                    <input type="text" class="form-control" id="name" [value]="selectedModel?.name || ''">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="version" class="form-label">Versión</label>
+                                    <input type="text" class="form-control" id="version">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Descripción</label>
+                                    <textarea class="form-control" id="description" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="modelFile" class="form-label">Archivo del Modelo</label>
+                                    <input type="file" class="form-control" id="modelFile">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="type" class="form-label">Tipo</label>
+                                    <select class="form-select" id="type">
+                                        <option value="DISEASE">Enfermedad</option>
+                                        <option value="PEST">Plaga</option>
+                                        <option value="BOTH">Ambos</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="precisionMetric" class="form-label">Precisión</label>
+                                    <input type="number" step="0.01" min="0" max="1" class="form-control" id="precisionMetric">
+                                </div>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" (click)="toggleView()">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary-cana">
+                                        {{ isEditing ? 'Guardar Cambios' : 'Guardar' }}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-nav-bar-dashboard-cana>

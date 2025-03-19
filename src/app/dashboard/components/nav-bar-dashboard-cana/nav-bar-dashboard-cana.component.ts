@@ -15,7 +15,7 @@ import { RouterModule } from '@angular/router';
 export class NavBarDashboardCanaComponent {
   isSidebarCollapsed = false;
   userName: string = 'Juan Pérez'; // Replace with actual user data
-  userAvatar: string = 'assets/images/user-avatar.png'; // Replace with actual user avatar
+  //userAvatar: string = 'assets/images/mosca_pinta.webp'; // Replace with actual user avatar
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;

@@ -1,0 +1,158 @@
+/* Main layout */
+:host {
+    display: block;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.dashboard-content {
+    height: 100vh;
+    overflow-y: auto;
+    margin-left: 250px;
+    padding-top: 60px;
+    background-color: #f8f9fa;
+}
+
+/* Header styles */
+.dashboard-header {
+    margin-bottom: 2rem;
+    margin-top: -40px;
+}
+
+.dashboard-header h2 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-header p {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* Card styles */
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 1rem;
+}
+
+.card-title {
+    color: #2c3e50;
+    font-weight: 600;
+    margin: 0;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.btn-primary-cana {
+    color: #ffffff;
+    background-color: #257032;
+}
+
+.btn-primary-cana:hover {
+    background-color: #1a5024;
+    color: #ffffff;
+}
+
+/* Edit button styles */
+.edit-action {
+    color: #257032;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.edit-action:hover {
+    background-color: rgba(37, 112, 50, 0.1);
+    transform: scale(1.1);
+}
+
+.delete-action {
+    color: #dc3545;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.delete-action:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+    transform: scale(1.1);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Form styles for edit mode */
+.edit-form-container {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboard-content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+.model-info-container {
+    position: relative;
+}
+
+.model-info-popup {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+    min-width: 200px;
+    margin-top: 0.5rem;
+}
+
+.model-info-popup h6 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.model-info-popup p {
+    margin-bottom: 0.25rem;
+    color: #6c757d;
+}
+
+.btn-outline-primary {
+    border-color: #257032;
+    color: #257032;
+}
+
+.btn-outline-primary:hover {
+    background-color: #257032;
+    color: white;
+}
