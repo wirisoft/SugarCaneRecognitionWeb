@@ -4,6 +4,7 @@ import { FooterCanaComponent } from '../components/footer-cana/footer-cana.compo
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login-cana',
@@ -15,17 +16,29 @@ import { Router } from '@angular/router';
   styleUrl: './login-cana.component.css'
 })
 export class LoginCanaComponent {
-  constructor(private router: Router) {}
   loginData = {
     email: '',
     password: ''
   };
-  navigateToDashboard() {
-    // Add any login validation logic here
-    this.router.navigate(['/dashboard/dashboard-home']);
-  }
+
+  constructor(private router: Router, private authService: AuthService) {}
+
   onSubmit() {
-    // Your existing login logic here
-    this.navigateToDashboard();
+    // Llamada al servicio de login
+    this.authService.login(this.loginData.email, this.loginData.password)
+      .subscribe({
+        next: (response: any) => {
+          // Asumiendo que la respuesta contiene { jwt, user }
+          localStorage.setItem('token', response.jwt);
+          this.authService.setUser(response.user);
+          // Redirigir a dashboard u otra ruta protegida
+          this.router.navigate(['/dashboard/dashboard-home']);
+        },
+        error: (err) => {
+          console.error('Error en login:', err);
+          // Aquí puedes mostrar un mensaje de error al usuario
+          alert('Credenciales incorrectas o error en el servidor.');
+        }
+      });
   }
 }
