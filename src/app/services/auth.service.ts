@@ -1,8 +1,10 @@
+// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserEntity } from '../models/user.entity';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -23,10 +25,20 @@ export class AuthService {
     return this.http.post<{ jwt: string; user: UserEntity }>(
       `${this.apiUrl}/login`,
       { email, password }
+    ).pipe(
+      tap(response => {
+        if (response && response.jwt) {
+          localStorage.setItem('token', response.jwt);
+          if (response.user) {
+            this.setUser(response.user);
+          }
+        }
+      })
     );
   }
 
-  register(user: UserEntity): Observable<any> {
+  register(user: Partial<UserEntity>): Observable<any> {
+    console.log('Enviando datos de registro al backend:', JSON.stringify(user));
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
@@ -37,6 +49,10 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
   }
 
   logout() {
