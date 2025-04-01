@@ -8,32 +8,32 @@
                 <i class="fas fa-bars"></i>
             </button>
 
-            <!-- Search Bar -->
-            <div class="search-bar ms-3">
-                <div class="input-group">
-                    <span class="input-group-text bg-transparent border-0">
-                        <i class="fas fa-search text-light"></i>
-                    </span>
-                    <input type="text" class="form-control search-input" placeholder="Buscar...">
-                </div>
-            </div>
+            
 
             <!-- User Info & Actions -->
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle user-info" href="#" id="userDropdown" 
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="../../../assets/images/mosca_pinta.webp" class="avatar" alt="User Avatar">
-                        <span class="user-name ms-2">Juan Pérez</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="/dashboard/profile-cana"><i class="fas fa-user"></i> Mi Perfil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Configuración</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
-                    </ul>
-                </li>
-            </ul>
+<ul class="navbar-nav ms-auto">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle user-info" href="#" id="userDropdown" 
+         data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="avatar-initials">
+          {{ userInitials }}
+        </div>
+        <span class="user-name ms-2">{{ fullName }}</span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+        <li><a class="dropdown-item" routerLink="/dashboard/profile-cana">
+          <i class="fas fa-user"></i> Mi Perfil
+        </a></li>
+        <li><a class="dropdown-item" routerLink="/dashboard/settings">
+          <i class="fas fa-cog"></i> Configuración
+        </a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" (click)="onLogout()" style="cursor: pointer;">
+          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </a></li>
+      </ul>
+    </li>
+  </ul>
         </div>
     </nav>
 

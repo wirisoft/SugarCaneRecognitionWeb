@@ -16,6 +16,6 @@ export interface Plant {
     diseases?: Disease[];  // Relación con enfermedades
     pests?: Pest[];        // Relación con plagas
     detections?: Detection[];  // Detecciones asociadas
-    createdBy?: UserEntity;      // Usuario que creó la planta
+    createdBy?: any;      // Usuario que creó la planta
   }
   

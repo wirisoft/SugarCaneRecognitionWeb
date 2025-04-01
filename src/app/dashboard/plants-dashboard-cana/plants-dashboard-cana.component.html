@@ -1,89 +1,117 @@
 <app-nav-bar-dashboard-cana>
     <div class="dashboard-content">
-        <div class="container-fluid p-4">
-            <!-- Header Section -->
-            <div class="dashboard-header mb-4">
-                <h2>Gestión de Plantas</h2>
-                <p class="text-muted">Administración de plantas del sistema</p>
-            </div>
-
-            <!-- Table View Section -->
-            <div class="row" [ngClass]="{'d-none': showNewPlantForm}">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Lista de plantas</h5>
-                            <button class="btn btn-primary-cana" (click)="toggleView()">
-                                <i class="bi bi-plus-circle me-2"></i>Agregar Nueva Planta
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <ag-grid-angular
-                                style="width: 100%; height: 400px;"
-                                [theme]="myTheme"
-                                [columnDefs]="colDefs"
-                                [rowData]="rowData"
-                                [pagination]="true"
-                                [paginationPageSize]="10">
-                            </ag-grid-angular>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- New Plant Form Section -->
-            <div class="row" [ngClass]="{'d-none': !showNewPlantForm}">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Agregar Nueva Planta</h5>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="nombreComun" class="form-label">Nombre Común</label>
-                                    <input type="text" class="form-control" id="nombreComun">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nombreCientifico" class="form-label">Nombre Científico</label>
-                                    <input type="text" class="form-control" id="nombreCientifico">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="descripcion" class="form-label">Descripción</label>
-                                    <textarea class="form-control" id="descripcion" rows="3"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="imagen" class="form-label">Imagen</label>
-                                    <input type="file" class="form-control" id="imagen">
-                                </div>
-                                <div class="d-flex justify-content-end gap-2">
-                                    <button type="button" class="btn btn-secondary" (click)="toggleView()">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary-cana">Guardar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="container-fluid p-4">
+        <!-- Sección de Encabezado -->
+        <div class="dashboard-header mb-4">
+          <h2>Gestión de Plantas</h2>
+          <p class="text-muted">Administración de plantas del sistema</p>
         </div>
-    </div>
-
-    <!-- Modal para la vista previa de imagen -->
-    <div class="modal" id="imageModal" 
-         aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Vista previa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <img id="modalImage" src="" alt="Vista previa" style="max-width: 100%; max-height: 70vh;">
-                </div>
-                <div class="modal-footer z-index-10" >
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
+  
+        <!-- Indicador de Carga -->
+        <div *ngIf="isLoading" class="text-center my-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="mt-2">Cargando datos...</p>
         </div>
+  
+        <!-- Mensaje de Error -->
+        <div *ngIf="errorMessage && !isLoading" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+  
+        <!-- Vista de Lista de Plantas -->
+        <div class="row" [ngClass]="{'d-none': showNewPlantForm}">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Lista de plantas</h5>
+                <button class="btn btn-primary-cana" (click)="toggleView()">
+                  <i class="bi bi-plus-circle me-2"></i>Agregar Nueva Planta
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="alert alert-info mb-3">
+                  <i class="bi bi-info-circle me-2"></i>
+                  Para editar, haga clic en una celda y modifique su contenido. Luego presione el botón de guardar en la columna de acciones.
+                </div>
+                <ag-grid-angular
+                  style="width: 100%; height: 400px;"
+                  [theme]="myTheme"
+                  [columnDefs]="colDefs"
+                  [rowData]="rowData"
+                  [pagination]="true"
+                  [paginationPageSize]="10"
+                  (cellValueChanged)="onCellValueChanged($event)">
+                </ag-grid-angular>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Formulario para Nueva Planta -->
+        <div class="row" [ngClass]="{'d-none': !showNewPlantForm}">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Agregar Nueva Planta</h5>
+                <button class="btn btn-outline-secondary" (click)="toggleView()">
+                  <i class="bi bi-arrow-left me-2"></i>Volver a la lista
+                </button>
+              </div>
+              <div class="card-body">
+                <form [formGroup]="plantForm" (ngSubmit)="onSubmit()">
+                  <div class="mb-3">
+                    <label for="commonName" class="form-label">Nombre Común <span class="text-danger">*</span></label>
+                    <input type="text" id="commonName" class="form-control" formControlName="commonName">
+                    <div *ngIf="plantForm.get('commonName')?.invalid && plantForm.get('commonName')?.touched" class="text-danger small">
+                      El nombre común es obligatorio.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="scientificName" class="form-label">Nombre Científico</label>
+                    <input type="text" id="scientificName" class="form-control" formControlName="scientificName">
+                  </div>
+                  <div class="mb-3">
+                    <label for="description" class="form-label">Descripción</label>
+                    <textarea id="description" rows="3" class="form-control" formControlName="description"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen</label>
+                    <input type="file" id="imagen" class="form-control" (change)="onFileSelected($event)" accept="image/*">
+                    <small class="text-muted">La imagen se convertirá a Base64 antes de enviarse al servidor.</small>
+                  </div>
+                  <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-secondary" (click)="toggleView()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary-cana" [disabled]="plantForm.invalid || isLoading">
+                      <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                      Guardar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</app-nav-bar-dashboard-cana>
+  
+    <!-- Modal para la Vista Previa de Imagen -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="imageModalLabel">Vista previa</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body text-center">
+            <img id="modalImage" src="" alt="Vista previa" style="max-width: 100%; max-height: 70vh;">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-nav-bar-dashboard-cana>
+  

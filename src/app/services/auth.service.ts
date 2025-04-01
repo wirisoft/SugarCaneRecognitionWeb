@@ -42,10 +42,11 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
-  setUser(user: UserEntity) {
-    this.userSubject.next(user);
-    localStorage.setItem('usuario', JSON.stringify(user));
-  }
+  // En auth.service.ts
+setUser(user: UserEntity) {
+  this.userSubject.next(user);
+  localStorage.setItem('usuario', JSON.stringify(user)); // Asegurar que se guarda correctamente
+}
 
   getToken(): string | null {
     return localStorage.getItem('token');
@@ -59,6 +60,23 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
     this.userSubject.next(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/landing/login-cana']);
+  }
+
+  // Añade este método en la clase AuthService
+  getUser(): UserEntity | null {
+    return this.userSubject.value;
+  }
+  
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    // Create a request payload for password change
+    const payload = {
+      currentPassword,
+      newPassword
+    };
+    
+    // You'll need to create an endpoint on your server to handle password changes
+    // This could be a dedicated endpoint like /auth/change-password or using the user update endpoint
+    return this.http.post(`${this.apiUrl}/change-password`, payload);
   }
 }

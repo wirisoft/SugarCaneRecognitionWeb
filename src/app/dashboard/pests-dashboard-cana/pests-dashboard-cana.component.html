@@ -7,8 +7,16 @@
                 <p class="text-muted">Administración de plagas del sistema</p>
             </div>
 
+            <!-- Loading indicator -->
+            <div *ngIf="isLoading" class="text-center py-5">
+                <div class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="mt-2">Cargando datos...</p>
+            </div>
+
             <!-- Table View Section -->
-            <div class="row" [ngClass]="{'d-none': showNewPestForm}">
+            <div class="row" [ngClass]="{'d-none': showNewPestForm || isLoading}">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -19,7 +27,7 @@
                         </div>
                         <div class="card-body">
                             <ag-grid-angular
-                                style="width: 100%; height: 400px;"
+                                style="width: 100%; height: 500px;"
                                 [theme]="myTheme"
                                 [columnDefs]="colDefs"
                                 [rowData]="rowData"
@@ -32,33 +40,81 @@
             </div>
 
             <!-- New Pest Form Section -->
-            <div class="row" [ngClass]="{'d-none': !showNewPestForm}">
+            <div class="row" [ngClass]="{'d-none': !showNewPestForm || isLoading}">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">Agregar Nueva Plaga</h5>
+                            <button class="btn btn-outline-secondary" (click)="toggleView()">
+                                <i class="bi bi-arrow-left me-2"></i>Volver a la lista
+                            </button>
                         </div>
                         <div class="card-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="nombreComun" class="form-label">Nombre Común</label>
-                                    <input type="text" class="form-control" id="nombreComun">
+                            <form [formGroup]="pestForm" (ngSubmit)="onSubmit()">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="commonName" class="form-label">Nombre Común <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="commonName" formControlName="commonName">
+                                        <div *ngIf="pestForm.get('commonName')?.invalid && pestForm.get('commonName')?.touched" class="text-danger small">
+                                            El nombre común es requerido
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="scientificName" class="form-label">Nombre Científico</label>
+                                        <input type="text" class="form-control" id="scientificName" formControlName="scientificName">
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="nombreCientifico" class="form-label">Nivel de Amenaza</label>
-                                    <input type="number" class="form-control" id="nombreCientifico">
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="damageLevel" class="form-label">Nivel de Daño <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="damageLevel" formControlName="damageLevel">
+                                            <option value="">Seleccionar nivel</option>
+                                            <option value="Bajo">Bajo</option>
+                                            <option value="Medio">Medio</option>
+                                            <option value="Alto">Alto</option>
+                                            <option value="Severo">Severo</option>
+                                        </select>
+                                        <div *ngIf="pestForm.get('damageLevel')?.invalid && pestForm.get('damageLevel')?.touched" class="text-danger small">
+                                            El nivel de daño es requerido
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="commonSeason" class="form-label">Temporada Común</label>
+                                        <input type="text" class="form-control" id="commonSeason" formControlName="commonSeason" placeholder="Ej: Primavera-Verano">
+                                    </div>
                                 </div>
+                                
                                 <div class="mb-3">
-                                    <label for="descripcion" class="form-label">Metodo de prevención</label>
-                                    <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                                    <label for="description" class="form-label">Descripción</label>
+                                    <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
                                 </div>
+                                
                                 <div class="mb-3">
-                                    <label for="imagen" class="form-label">Imagen</label>
-                                    <input type="file" class="form-control" id="imagen">
+                                    <label for="preventionMethods" class="form-label">Métodos de Prevención <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="preventionMethods" rows="3" formControlName="preventionMethods"></textarea>
+                                    <div *ngIf="pestForm.get('preventionMethods')?.invalid && pestForm.get('preventionMethods')?.touched" class="text-danger small">
+                                        Los métodos de prevención son requeridos
+                                    </div>
                                 </div>
-                                <div class="d-flex justify-content-end gap-2">
+                                
+                                <div class="mb-3">
+                                    <label for="controlMethods" class="form-label">Métodos de Control</label>
+                                    <textarea class="form-control" id="controlMethods" rows="3" formControlName="controlMethods"></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Imagen</label>
+                                    <input type="file" class="form-control" id="image" (change)="onFileSelected($event)" accept="image/*">
+                                    <small class="text-muted">La imagen será convertida a base64 antes de enviarse al servidor</small>
+                                </div>
+                                
+                                <div class="d-flex justify-content-end gap-2 mt-4">
                                     <button type="button" class="btn btn-secondary" (click)="toggleView()">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary-cana">Guardar</button>
+                                    <button type="submit" class="btn btn-primary-cana" [disabled]="pestForm.invalid || isLoading">
+                                        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                        Guardar
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -68,8 +124,7 @@
         </div>
     </div>
 
-    <!-- Modal remains the same -->
-    <!-- Add this at the end of your template if it's not already there -->
+    <!-- Image Modal -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">

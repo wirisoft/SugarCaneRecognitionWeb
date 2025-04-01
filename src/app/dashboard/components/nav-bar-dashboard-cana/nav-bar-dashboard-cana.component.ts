@@ -1,6 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { UserEntity } from '../../../models/user.entity';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../../services/auth.service';
+import { SearchService } from '../../../services/search.service';
+
+
 
 @Component({
   selector: 'app-nav-bar-dashboard-cana',
@@ -12,24 +18,64 @@ import { RouterModule } from '@angular/router';
   templateUrl: './nav-bar-dashboard-cana.component.html',
   styleUrl: './nav-bar-dashboard-cana.component.css'
 })
-export class NavBarDashboardCanaComponent {
+export class NavBarDashboardCanaComponent implements OnInit, OnDestroy{
   isSidebarCollapsed = false;
-  userName: string = 'Juan Pérez'; // Replace with actual user data
-  //userAvatar: string = 'assets/images/mosca_pinta.webp'; // Replace with actual user avatar
+  currentUser: UserEntity | null = null;
+  private userSub!: Subscription;
+
+  searchResults: any = { users: [], plants: [], pests: [] };
+  searchTerm: string = '';
+
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    // Cargar usuario inicial desde localStorage
+    const storedUser = localStorage.getItem('usuario');
+    if (storedUser) {
+      this.currentUser = JSON.parse(storedUser);
+    }
+  
+    // Suscribirse a cambios futuros
+    this.userSub = this.authService.user$.subscribe(user => {
+      this.currentUser = user;
+      console.log('Usuario actualizado:', user); // Para debug
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.userSub) this.userSub.unsubscribe();
+  }
+
+  get userInitials(): string {
+    if (!this.currentUser) return '';
+    return `${this.currentUser.firstName?.charAt(0) || ''}${this.currentUser.lastName?.charAt(0) || ''}`.toUpperCase();
+  }
+
+  get fullName(): string {
+    return this.currentUser 
+      ? `${this.currentUser.firstName} ${this.currentUser.lastName}`
+      : 'Usuario';
+  }
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
-  onSearch(searchTerm: string) {
-    // Implement search functionality
-    console.log('Searching for:', searchTerm);
-  }
+  
 
+  // En nav-bar-dashboard-cana.component.ts
   onLogout() {
-    // Implement logout functionality
-    console.log('Logging out...');
+    this.authService.logout();
+    localStorage.clear();
+    this.router.navigate(['/landing/login-cana']); // Redirección explícita
   }
+  
+  
+  
+  
+
+
 
   navigateToProfile() {
     // Implement profile navigation
@@ -40,4 +86,6 @@ export class NavBarDashboardCanaComponent {
     // Implement settings navigation
     console.log('Navigating to settings...');
   }
+
+  
 }

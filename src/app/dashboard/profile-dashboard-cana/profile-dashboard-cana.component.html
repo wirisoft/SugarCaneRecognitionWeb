@@ -27,13 +27,37 @@
                 </div>
                 <div class="card-body">
                     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-                        <!-- Nombre Completo -->
+                        <!-- Nombre -->
                         <div class="mb-3">
-                            <label class="form-label">Nombre Completo</label>
+                            <label class="form-label">Nombre</label>
                             <input type="text" 
                                    class="form-control" 
-                                   formControlName="fullName"
-                                   placeholder="Ingrese su nombre completo">
+                                   formControlName="firstName"
+                                   placeholder="Ingrese su nombre">
+                            <div *ngIf="isFieldInvalid('firstName')" class="text-danger">
+                                {{ getErrorMessage('firstName') }}
+                            </div>
+                        </div>
+
+                        <!-- Segundo Nombre -->
+                        <div class="mb-3">
+                            <label class="form-label">Segundo Nombre (opcional)</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   formControlName="middleName"
+                                   placeholder="Ingrese su segundo nombre">
+                        </div>
+
+                        <!-- Apellido -->
+                        <div class="mb-3">
+                            <label class="form-label">Apellido</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   formControlName="lastName"
+                                   placeholder="Ingrese su apellido">
+                            <div *ngIf="isFieldInvalid('lastName')" class="text-danger">
+                                {{ getErrorMessage('lastName') }}
+                            </div>
                         </div>
 
                         <!-- Correo Electrónico -->
@@ -43,6 +67,9 @@
                                    class="form-control" 
                                    formControlName="email"
                                    placeholder="ejemplo@correo.com">
+                            <div *ngIf="isFieldInvalid('email')" class="text-danger">
+                                {{ getErrorMessage('email') }}
+                            </div>
                         </div>
 
                         <!-- Teléfono -->
@@ -50,18 +77,13 @@
                             <label class="form-label">Teléfono</label>
                             <input type="tel" 
                                    class="form-control" 
-                                   formControlName="phone"
+                                   formControlName="phoneNumber"
                                    placeholder="(123) 456-7890">
                         </div>
 
-                        <!-- Ubicación -->
-                        <div class="mb-3">
-                            <label class="form-label">Ubicación</label>
-                            <input type="text" 
-                                   class="form-control" 
-                                   formControlName="location"
-                                   placeholder="Ciudad, País">
-                        </div>
+                        <!-- Divider for Password Section -->
+                        <hr class="my-4">
+                        <h5 class="mb-3">Cambiar Contraseña</h5>
 
                         <!-- Contraseña Actual -->
                         <div class="mb-3">
@@ -69,14 +91,24 @@
                             <input type="password" 
                                    class="form-control" 
                                    formControlName="currentPassword">
+                            <div *ngIf="isFieldInvalid('currentPassword')" class="text-danger">
+                                {{ getErrorMessage('currentPassword') }}
+                            </div>
                         </div>
 
                         <!-- Nueva Contraseña -->
                         <div class="mb-3">
                             <label class="form-label">Nueva Contraseña</label>
                             <input type="password" 
-                                   class="form-control" 
-                                   formControlName="newPassword">
+                                class="form-control" 
+                                formControlName="newPassword">
+                            <div *ngIf="isFieldInvalid('newPassword')" class="text-danger">
+                                {{ getErrorMessage('newPassword') }}
+                            </div>
+                            <small class="form-text text-muted">
+                                La contraseña debe tener entre 8 y 16 caracteres, al menos un número, 
+                                una minúscula y una mayúscula.
+                            </small>
                         </div>
 
                         <!-- Confirmar Nueva Contraseña -->
@@ -85,6 +117,9 @@
                             <input type="password" 
                                    class="form-control" 
                                    formControlName="confirmPassword">
+                            <div *ngIf="isFieldInvalid('confirmPassword')" class="text-danger">
+                                {{ getErrorMessage('confirmPassword') }}
+                            </div>
                         </div>
 
                         <!-- Botones -->

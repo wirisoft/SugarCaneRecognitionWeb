@@ -1,8 +1,9 @@
 // src/app/services/user.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models/user';
+import { UserEntity } from '../models/user.entity'; // Change import from User to UserEntity
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +13,20 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/get-all`);
+  getAllUsers(): Observable<UserEntity[]> {
+    return this.http.get<UserEntity[]>(`${this.apiUrl}/get-all`);
   }
 
-  getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/get/${id}`);
+  getUserById(id: number): Observable<UserEntity> {
+    return this.http.get<UserEntity>(`${this.apiUrl}/get/${id}`);
   }
 
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/create`, user);
+  createUser(user: UserEntity): Observable<UserEntity> {
+    return this.http.post<UserEntity>(`${this.apiUrl}/create`, user);
   }
 
-  updateUser(id: number, user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/update/${id}`, user);
+  updateUser(id: number, user: Partial<UserEntity>): Observable<UserEntity> {
+    return this.http.put<UserEntity>(`${this.apiUrl}/update/${id}`, user);
   }
 
   deleteUser(id: number): Observable<any> {

@@ -1,80 +1,126 @@
 <app-nav-bar-dashboard-cana>
     <div class="dashboard-content">
-        <div class="container-fluid p-4">
-            <!-- Header Section -->
-            <div class="dashboard-header mb-4">
-                <h2>Gestión de Usuarios</h2>
-                <p class="text-muted">Administración de usuarios del sistema</p>
-            </div>
-
-            <!-- Table View Section -->
-            <div class="row" [ngClass]="{'d-none': showNewUserForm}">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Lista de Usuarios</h5>
-                            <button class="btn btn-primary-cana" (click)="toggleView()">
-                                <i class="bi bi-plus-circle me-2"></i>Agregar Nuevo Usuario
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <ag-grid-angular
-                                style="width: 100%; height: 400px;"
-                                [theme]="myTheme"
-                                [columnDefs]="colDefs"
-                                [rowData]="rowData"
-                                [pagination]="true"
-                                [paginationPageSize]="10">
-                            </ag-grid-angular>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- New User Form Section -->
-            <div class="row" [ngClass]="{'d-none': !showNewUserForm}">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Agregar Nuevo Usuario</h5>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="nombreCompleto" class="form-label">Nombre Completo</label>
-                                    <input type="text" class="form-control" id="nombreCompleto">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="correoElectronico" class="form-label">Correo Electrónico</label>
-                                    <input type="email" class="form-control" id="correoElectronico">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="telefono" class="form-label">Teléfono</label>
-                                    <input type="number" class="form-control" id="telefono">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="roles" class="form-label">Rol</label>
-                                    <select class="form-select" id="roles">
-                                        <option value="usuario">Usuario</option>
-                                        <option value="admin">Administrador</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="estado" class="form-label">Estado</label>
-                                    <select class="form-select" id="estado">
-                                        <option value="activo">Activo</option>
-                                        <option value="inactivo">Inactivo</option>
-                                    </select>
-                                </div>
-                                <div class="d-flex justify-content-end gap-2">
-                                    <button type="button" class="btn btn-secondary" (click)="toggleView()">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary-cana">Guardar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="container-fluid p-4">
+        <!-- Sección de cabecera -->
+        <div class="dashboard-header mb-4">
+          <h2>Gestión de Usuarios</h2>
+          <p class="text-muted">Administración de usuarios del sistema</p>
         </div>
+  
+        <!-- Mensajes de carga y error -->
+        <div *ngIf="isLoading" class="text-center my-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="mt-2">Cargando datos...</p>
+        </div>
+  
+        <div *ngIf="errorMessage && !isLoading" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+  
+        <!-- Sección de tabla (vista por defecto) -->
+        <div class="row" [ngClass]="{'d-none': showNewUserForm}">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Lista de Usuarios</h5>
+                <button class="btn btn-primary-cana" (click)="toggleView()">
+                  <i class="bi bi-plus-circle me-2"></i>Agregar Nuevo Usuario
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="alert alert-info mb-3">
+                  <i class="bi bi-info-circle me-2"></i>
+                  Para editar, haga clic en una celda y modifique su contenido. Luego presione el botón de guardar en la columna de acciones.
+                </div>
+                <ag-grid-angular
+                  style="width: 100%; height: 400px;"
+                  [theme]="myTheme"
+                  [columnDefs]="colDefs"
+                  [rowData]="rowData"
+                  [pagination]="true"
+                  [paginationPageSize]="10"
+                  (cellValueChanged)="onCellValueChanged($event)">
+                </ag-grid-angular>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Sección de formulario para crear un nuevo usuario -->
+        <div class="row" [ngClass]="{'d-none': !showNewUserForm}">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title mb-0">Agregar Nuevo Usuario</h5>
+              </div>
+              <div class="card-body">
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                  <div class="mb-3">
+                    <label for="firstName" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="firstName" formControlName="firstName">
+                    <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-danger">
+                      El nombre es obligatorio
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="middleName" class="form-label">Apellido paterno</label>
+                    <input type="text" class="form-control" id="middleName" formControlName="middleName">
+                  </div>
+                  <div class="mb-3">
+                    <label for="lastName" class="form-label">Apellido materno</label>
+                    <input type="text" class="form-control" id="lastName" formControlName="lastName">
+                    <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="text-danger">
+                      El apellido es obligatorio
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="email" formControlName="email">
+                    <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+                      Se requiere un correo válido
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" formControlName="password">
+                    <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+                      La contraseña es obligatoria
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+                  </div>
+                  <div class="mb-3">
+                    <label for="isActive" class="form-label">Estado</label>
+                    <select class="form-select" id="isActive" formControlName="isActive">
+                      <option [ngValue]="true">Activo</option>
+                      <option [ngValue]="false">Inactivo</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="roles" class="form-label">Rol</label>
+                    <select class="form-select" id="roles" formControlName="roles">
+                      <option value="usuario">Usuario</option>
+                      <option value="admin">Administrador</option>
+                    </select>
+                  </div>
+                  <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-secondary" (click)="toggleView()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary-cana" [disabled]="userForm.invalid || isLoading">
+                      <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                      Guardar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
     </div>
-</app-nav-bar-dashboard-cana>
+  </app-nav-bar-dashboard-cana>
+  

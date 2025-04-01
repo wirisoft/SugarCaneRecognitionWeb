@@ -17,4 +17,5 @@ export interface UserEntity {
   roles?: Role[];
   detections?: Detection[];
   plants?: Plant[];
+  profileImage?: string;
 }
