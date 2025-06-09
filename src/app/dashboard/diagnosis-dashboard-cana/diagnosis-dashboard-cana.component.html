@@ -1,0 +1,438 @@
+<app-nav-bar-dashboard-cana>
+  <div class="dashboard-content">
+    <div class="container-fluid p-4">
+      
+      <!-- Sección de información del usuario -->
+      @if (isUserAuthenticated && showUserInfo) {
+        <div class="card user-info-card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="card-title mb-0">
+              <i class="fas fa-user me-2"></i>
+              Información del Usuario
+            </h6>
+            <button class="btn btn-sm btn-outline-secondary" (click)="toggleUserInfo()">
+              <i class="fas fa-eye-slash"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <h6>{{userInfo?.firstName}} {{userInfo?.middleName}} {{userInfo?.lastName}}</h6>
+                <p class="mb-1">
+                  <i class="fas fa-envelope me-2 text-muted"></i>
+                  {{userInfo?.email}}
+                </p>
+                <p class="mb-1">
+                  <i class="fas fa-phone me-2 text-muted"></i>
+                  {{userInfo?.phoneNumber || 'No especificado'}}
+                </p>
+                <p class="mb-0">
+                  <i class="fas fa-shield-alt me-2 text-muted"></i>
+                  @if (userInfo?.roles) {
+                    @for (role of userInfo.roles; track role.id) {
+                      <span class="badge bg-secondary me-1">{{role.name}}</span>
+                    }
+                  }
+                </p>
+              </div>
+              @if (userStats) {
+                <div class="col-md-6">
+                  <h6>Estadísticas Personales</h6>
+                  <div class="row text-center">
+                    <div class="col-4">
+                      <div class="stat-item">
+                        <h4 class="text-primary mb-0">{{userStats.total_detections}}</h4>
+                        <small class="text-muted">Detecciones</small>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="stat-item">
+                        <h4 class="text-success mb-0">{{userStats.summary.total_classes_detected}}</h4>
+                        <small class="text-muted">Clases</small>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="stat-item">
+                        <h4 class="text-info mb-0">{{(userStats.summary.avg_confidence_overall * 100).toFixed(1)}}%</h4>
+                        <small class="text-muted">Confianza</small>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="mt-3">
+                    <button class="btn btn-sm btn-outline-primary me-2" (click)="viewDetectionHistory()">
+                      <i class="fas fa-history me-1"></i>
+                      Ver Historial
+                    </button>
+                    <button class="btn btn-sm btn-outline-success" (click)="refreshUserData()">
+                      <i class="fas fa-sync-alt me-1"></i>
+                      Actualizar
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Alerta para usuarios no autenticados -->
+      @if (!isUserAuthenticated) {
+        <div class="alert alert-info mb-4" role="alert">
+          <i class="fas fa-info-circle me-2"></i>
+          <strong>Modo Anónimo:</strong> Puedes usar el sistema sin autenticarte, pero no se guardará historial personal.
+        </div>
+      }
+
+      <!-- Sección de cabecera -->
+      <div class="dashboard-header">
+        <h2>🌾 Identificación Inteligente de Plagas</h2>
+        <p>Nuestro sistema de IA analiza tus imágenes para detectar y clasificar plagas con precisión avanzada</p>
+        @if (isUserAuthenticated) {
+          <div class="text-muted">
+            <small>
+              <i class="fas fa-database me-1"></i>
+              Todas tus detecciones se guardan automáticamente en tu historial personal
+            </small>
+          </div>
+        }
+      </div>
+
+      <!-- Mensajes de carga y error -->
+      @if (isAnalyzing) {
+        <div class="loading-indicator text-center">
+          <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Analizando...</span>
+          </div>
+          <p class="mt-3">Procesando imágenes con IA...</p>
+          @if (isUserAuthenticated) {
+            <div class="small text-muted">
+              <i class="fas fa-save me-1"></i>
+              Guardando resultados en tu historial...
+            </div>
+          }
+        </div>
+      }
+
+      @if (errorMessage && !isAnalyzing) {
+        <div class="alert alert-danger" role="alert">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          {{ errorMessage }}
+          <button type="button" class="btn-close" (click)="errorMessage = null"></button>
+        </div>
+      }
+
+      <!-- Sección de opciones de análisis (solo para usuarios autenticados) -->
+      @if (isUserAuthenticated) {
+        <div class="card mb-4">
+          <div class="card-header">
+            <h6 class="card-title">
+              <i class="fas fa-cogs me-2"></i>
+              Opciones de Análisis
+            </h6>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <label class="form-label">Ubicación</label>
+                <input type="text" 
+                       class="form-control form-control-sm" 
+                       [(ngModel)]="analysisOptions.location"
+                       placeholder="Ej: Campo Norte, Lote 5">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">ID de Planta</label>
+                <input type="text" 
+                       class="form-control form-control-sm" 
+                       [(ngModel)]="analysisOptions.plantId"
+                       placeholder="Ej: P001">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Sección del Campo</label>
+                <input type="text" 
+                       class="form-control form-control-sm" 
+                       [(ngModel)]="analysisOptions.fieldSection"
+                       placeholder="Ej: Sección A">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Notas</label>
+                <input type="text" 
+                       class="form-control form-control-sm" 
+                       [(ngModel)]="analysisOptions.notes"
+                       placeholder="Observaciones adicionales">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" 
+                         type="checkbox" 
+                         [(ngModel)]="analysisOptions.enhanceContrast"
+                         id="enhanceContrast">
+                  <label class="form-check-label" for="enhanceContrast">
+                    Mejorar contraste automáticamente
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6 text-end">
+                <button class="btn btn-sm btn-outline-secondary" (click)="clearResults()">
+                  <i class="fas fa-trash me-1"></i>
+                  Limpiar Resultados
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Sección de carga de imágenes -->
+      <div class="upload-section">
+        <div class="text-center mb-4">
+          <button class="upload-button" (click)="fileInput.click()">
+            <i class="fas fa-plus me-2"></i>
+            Seleccionar Imágenes
+          </button>
+          <input #fileInput 
+                 type="file" 
+                 (change)="onFileSelected($event)" 
+                 accept="image/*" 
+                 multiple 
+                 class="d-none">
+          <p class="text-muted mt-2 mb-0">Soporta múltiples imágenes • Formatos: JPG, PNG, WebP</p>
+        </div>
+
+        <!-- Grid de imágenes usando tus estilos -->
+        <div class="images-grid">
+          @for (i of imageIndexes; track i) {
+            <div class="image-box" 
+                 [class.has-image]="imagePreviews[i]"
+                 (click)="!imagePreviews[i] && fileInput.click()">
+              @if (imagePreviews[i]) {
+                <img [src]="imagePreviews[i]!" 
+                     alt="Imagen para análisis">
+                <button class="remove-btn" 
+                        (click)="removeImage(i); $event.stopPropagation()"
+                        title="Eliminar imagen">
+                  <i class="fas fa-times"></i>
+                </button>
+              } @else {
+                <div class="image-placeholder">
+                  <i class="fas fa-image"></i>
+                  <span>Agregar imagen</span>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Botón de identificar -->
+        <div class="text-center mt-4">
+          <button class="identify-button" 
+                  [disabled]="!hasImages || isAnalyzing"
+                  (click)="identify()">
+            @if (isAnalyzing) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Analizando...
+            } @else {
+              <i class="fas fa-search me-2"></i>
+              Identificar Plagas
+            }
+          </button>
+        </div>
+      </div>
+
+      <!-- Sección de resultados usando tus estilos -->
+      @if (analysisResults.length > 0) {
+        <div class="results-section">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="results-title">
+              <i class="fas fa-chart-line me-2"></i>
+              Resultados del Análisis
+            </h3>
+            <div class="text-muted small">
+              <i class="fas fa-save me-1"></i>
+              {{ getSavedResultsCount() }} de {{ getTotalResultsCount() }} guardadas en historial
+            </div>
+          </div>
+          
+          <div class="results-grid">
+            @for (result of analysisResults; track result.id) {
+              <div class="result-card">
+                <div class="result-card-body">
+                  <!-- Imagen del resultado -->
+                  <img [src]="result.imagen" 
+                       class="result-image" 
+                       alt="Imagen analizada">
+                  
+                  <!-- Indicador de guardado -->
+                  @if (result.history_id) {
+                    <div class="position-absolute top-0 start-0 p-2">
+                      <i class="fas fa-check-circle text-success" 
+                         title="Guardado en historial"
+                         style="font-size: 1.2rem; background: white; border-radius: 50%; padding: 2px;"></i>
+                    </div>
+                  }
+                  
+                  <!-- Información principal -->
+                  <h5 class="result-title">{{result.plaga.nombre_comun}}</h5>
+                  <div class="confidence-badge">
+                    <i class="fas fa-chart-line me-1"></i>
+                    Confianza: {{getConfidencePercentage(result.confianza)}}%
+                  </div>
+
+                  <!-- Estado de autenticación -->
+                  <div class="mt-2 mb-3">
+                    @if (result.user_authenticated) {
+                      <span class="badge bg-success">
+                        <i class="fas fa-user-check me-1"></i>
+                        Usuario Autenticado
+                      </span>
+                    } @else {
+                      <span class="badge bg-secondary">
+                        <i class="fas fa-user-times me-1"></i>
+                        Usuario Anónimo
+                      </span>
+                    }
+                  </div>
+
+                  <!-- Información de la plaga -->
+                  <div class="info-section">
+                    <h6 class="info-title">
+                      <i class="fas fa-bug me-2" style="color: #dc3545;"></i>
+                      Información de la Plaga
+                    </h6>
+                    <ul class="info-list">
+                      <li><strong>Nombre científico:</strong> {{getScientificName(result)}}</li>
+                      <li><strong>Nivel de daño:</strong> 
+                        <span [class]="'badge bg-' + getDamageLevelColor(getDamageLevel(result))">
+                          {{getDamageLevel(result)}}
+                        </span>
+                      </li>
+                      <li><strong>Temporada común:</strong> {{getSeasonInfo(result)}}</li>
+                    </ul>
+                    @if (hasDescription(result)) {
+                      <p class="text-muted mt-2" style="font-size: 0.9rem;">
+                        {{result.plaga.descripcion}}
+                      </p>
+                    }
+                  </div>
+
+                  <!-- Información de la variedad -->
+                  <div class="info-section">
+                    <h6 class="info-title">
+                      <i class="fas fa-seedling me-2" style="color: #28a745;"></i>
+                      Variedad de Caña
+                    </h6>
+                    <p class="mb-1"><strong>{{result.variedad.nombre}}</strong> 
+                      @if (hasVarietyCode(result)) {
+                        <span class="badge bg-secondary ms-2">{{getVarietyCode(result)}}</span>
+                      }
+                    </p>
+                    @if (hasVarietyCharacteristics(result)) {
+                      <p class="text-muted" style="font-size: 0.9rem;">
+                        {{getVarietyCharacteristics(result)}}
+                      </p>
+                    }
+                  </div>
+
+                  <!-- Síntomas -->
+                  <div class="info-section">
+                    <h6 class="info-title">
+                      <i class="fas fa-exclamation-triangle me-2" style="color: #ffc107;"></i>
+                      Síntomas Detectados
+                    </h6>
+                    @if (hasSymptomsData(result)) {
+                      <div>
+                        @for (sintoma of result.sintomas; track sintoma.id_sintoma) {
+                          <div class="symptom-item">
+                            <i class="fas fa-chevron-right symptom-icon"></i>
+                            <div>
+                              <strong>{{sintoma.nombre}}</strong>
+                              <div class="text-muted" style="font-size: 0.85rem;">
+                                {{sintoma.descripcion}}
+                              </div>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    } @else {
+                      <p class="text-muted" style="font-size: 0.9rem;">
+                        <i class="fas fa-info-circle me-1"></i>
+                        No se detectaron síntomas específicos
+                      </p>
+                    }
+                  </div>
+
+                  <!-- Información de fecha y historial -->
+                  <div class="date-info">
+                    <i class="fas fa-calendar-alt me-1"></i>
+                    Análisis realizado: {{result.fecha | date:'medium'}}
+                    
+                    @if (result.history_id) {
+                      <div class="mt-2">
+                        <button class="btn btn-sm btn-outline-primary" 
+                                (click)="viewDetectionImage(result.history_id)">
+                          <i class="fas fa-image me-1"></i>
+                          Ver en Historial
+                        </button>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Sección de detecciones recientes (solo para usuarios autenticados) -->
+      @if (isUserAuthenticated && recentDetections.length > 0) {
+        <div class="card mt-4">
+          <div class="card-header">
+            <h6 class="card-title">
+              <i class="fas fa-clock me-2"></i>
+              Mis Detecciones Recientes
+            </h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Enfermedad</th>
+                    <th>Confianza</th>
+                    <th>Ubicación</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (detection of recentDetections; track detection.id) {
+                    <tr>
+                      <td>{{ formatDate(detection.timestamp) }}</td>
+                      <td>
+                        <span [class]="'badge bg-' + getDiseaseColor(detection.prediction.class_name)">
+                          {{ detection.prediction.class_name }}
+                        </span>
+                      </td>
+                      <td>{{ getDetectionConfidencePercentage(detection) }}%</td>
+                      <td>{{ getDetectionLocation(detection) }}</td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary" 
+                                (click)="viewDetectionImage(detection.id)"
+                                title="Ver imagen">
+                          <i class="fas fa-eye"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      }
+
+    </div>
+  </div>
+</app-nav-bar-dashboard-cana>

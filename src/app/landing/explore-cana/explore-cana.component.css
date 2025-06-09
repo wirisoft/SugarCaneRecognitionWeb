@@ -1,125 +1,498 @@
+/* Usando la paleta de colores del proyecto */
+:root {
+  --primary-green: #5fc871;
+  --light-green-1: #f2fbf3;
+  --light-green-2: #e1f7e4;
+  --light-green-3: #c4eecb;
+  --light-green-4: #95e0a1;
+  --medium-green-1: #3aad4e;
+  --medium-green-2: #2b8e3c;
+  --medium-green-3: #257032;
+  --dark-green-1: #22592c;
+  --dark-green-2: #1d4a26;
+  --dark-green-3: #0b2811;
+}
+
+/* Tarjetas principales */
 .card {
-    border-radius: 15px;
-    transition: transform 0.2s ease-in-out;
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     margin-bottom: 1.5rem;
     background-color: #ffffff;
+    border: 1px solid var(--light-green-3);
+    box-shadow: 0 8px 25px rgba(95, 200, 113, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(95, 200, 113, 0.02), rgba(95, 200, 113, 0.05));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.card:hover::before {
+    opacity: 1;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(95, 200, 113, 0.15);
+    border-color: var(--primary-green);
 }
 
-.list-group-item {
-    background-color: transparent;
-    padding: 0.5rem 0;
+/* Tarjetas específicas */
+.plant-card {
+    border-left: 5px solid var(--primary-green);
+    background: linear-gradient(135deg, #ffffff 0%, var(--light-green-1) 100%);
 }
 
-.list-group-item:not(:last-child) {
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+.plant-card:hover {
+    border-left: 5px solid var(--medium-green-1);
+    background: linear-gradient(135deg, #ffffff 0%, var(--light-green-2) 100%);
 }
 
-.nav-tabs .nav-link {
+.disease-card {
+    border-left: 5px solid #dc3545;
+    background: linear-gradient(135deg, #ffffff 0%, #fdf2f2 100%);
+}
+
+.disease-card:hover {
+    border-left: 5px solid #c82333;
+    background: linear-gradient(135deg, #ffffff 0%, #fbeaea 100%);
+}
+
+/* Títulos */
+h2 {
+    color: var(--dark-green-3);
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.card-title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Barra de búsqueda */
+.search-container {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--medium-green-2);
+    z-index: 10;
+}
+
+.search-input {
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem 0.75rem 3rem;
+    border: 2px solid var(--light-green-3);
+    box-shadow: 0 4px 15px rgba(95, 200, 113, 0.1);
+    transition: all 0.3s ease;
+    background: var(--light-green-1);
+}
+
+.search-input:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.2rem rgba(95, 200, 113, 0.25);
+    background: white;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: var(--medium-green-2);
+}
+
+/* Pestañas personalizadas con animaciones mejoradas */
+.custom-tabs {
+    border-bottom: 2px solid var(--light-green-3);
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-tabs .nav-link {
     cursor: pointer;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 15px 15px 0 0;
+    color: var(--medium-green-2);
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--light-green-1);
+    margin: 0 0.25rem;
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0);
 }
 
-.nav-tabs .nav-link.active {
-    font-weight: bold;
+.custom-tabs .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--primary-green), var(--medium-green-1));
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
 }
 
-/* Estilos responsivos */
-@media (max-width: 768px) {
-    .card-body .row > div {
-        margin-bottom: 1.5rem;
+.custom-tabs .nav-link:hover {
+    background: var(--light-green-2);
+    color: var(--dark-green-3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(95, 200, 113, 0.2);
+}
+
+.custom-tabs .nav-link:hover::before {
+    left: 0;
+}
+
+.custom-tabs .nav-link.active {
+    background: var(--primary-green);
+    color: white;
+    font-weight: 700;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(95, 200, 113, 0.4);
+    z-index: 10;
+}
+
+.custom-tabs .nav-link.active::before {
+    left: 0;
+}
+
+.custom-tabs .nav-link.transitioning {
+    pointer-events: none;
+    opacity: 0.7;
+    transform: scale(0.95);
+}
+
+/* Indicador de tab */
+.tab-indicator {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(45deg, var(--primary-green), var(--medium-green-1));
+    border-radius: 2px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-tabs .nav-link.active .tab-indicator {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* Animaciones de contenido mejoradas */
+.content-wrapper {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation-fill-mode: both;
+}
+
+.content-wrapper.transitioning {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+}
+
+.content-section {
+    animation: contentSlideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: headerFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+}
+
+.section-header h3 {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+}
+
+.section-header h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: linear-gradient(45deg, var(--primary-green), var(--medium-green-1));
+    border-radius: 2px;
+    animation: expandLine 1s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+}
+
+/* Animaciones específicas para plantas con alternancia */
+.plantas-section .plant-card {
+    animation: plantCardEnter 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation-delay: var(--animation-delay, 0ms);
+}
+
+.plantas-section .plant-card:nth-child(odd) {
+    animation-name: slideInLeft;
+}
+
+.plantas-section .plant-card:nth-child(even) {
+    animation-name: slideInRight;
+}
+
+/* Animaciones específicas para enfermedades */
+.plagas-section .disease-card {
+    animation: diseaseCardEnter 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation-delay: var(--animation-delay, 0ms);
+}
+
+/* Keyframes para animaciones */
+@keyframes contentSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
     }
-    
-    .card-body .row > div:last-child {
-        margin-bottom: 0;
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 
-/* Personalización de la barra de búsqueda */
-.form-control {
-    border-radius: 20px;
-    padding: 0.75rem 1.5rem;
-    border: 1px solid #dee2e6;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+@keyframes headerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.form-control:focus {
-    border-color: #28a745;
-    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+@keyframes expandLine {
+    from {
+        width: 0;
+    }
+    to {
+        width: 60px;
+    }
 }
 
-.text-buscar{
-    font-size: 30px;
-    font-weight: 500;
-    
+@keyframes plantCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-80px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(80px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes diseaseCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(40px) rotateX(10deg) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0) scale(1);
+    }
+}
+
+/* Listas personalizadas */
+.custom-list {
+    list-style: none;
+    padding: 0;
+}
+
+.custom-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(95, 200, 113, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
+}
+
+.custom-list li:hover {
+    background: var(--light-green-1);
+    padding-left: 0.5rem;
+    transform: translateX(5px);
+    border-color: var(--primary-green);
+}
+
+.custom-list li:last-child {
+    border-bottom: none;
+}
+
+/* Contenedores de imagen mejorados */
 .image-hover-container {
     cursor: pointer;
     overflow: hidden;
     position: relative;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid var(--light-green-3);
+    background: var(--light-green-1);
+}
+
+.image-hover-container:hover {
+    border-color: var(--primary-green);
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(95, 200, 113, 0.2);
 }
 
 .thumbnail-img {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: brightness(1);
 }
 
 .image-hover-container:hover .thumbnail-img {
-    transform: scale(1.1);
+    transform: scale(1.15);
+    filter: brightness(1.1);
 }
 
-/* Modal styles */
-.modal-img {
-    max-height: 80vh;
-    object-fit: contain;
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(95, 200, 113, 0.8), rgba(58, 173, 78, 0.9));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(2px);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .thumbnail-img {
-        height: 150px;
+.image-overlay i {
+    color: white;
+    font-size: 2rem;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.image-hover-container:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-hover-container:hover .image-overlay i {
+    transform: scale(1.2);
+}
+
+/* Descripción de enfermedades mejorada */
+.description-text {
+    line-height: 1.7;
+    text-align: justify;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 1rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--light-green-1), #ffffff);
+    border-left: 3px solid var(--light-green-3);
+}
+
+.card:hover .description-text {
+    background: linear-gradient(135deg, var(--light-green-2), var(--light-green-1));
+    border-left-color: var(--primary-green);
+    transform: translateX(3px);
+}
+
+/* Colores para niveles de daño mejorados */
+.text-success { 
+    color: var(--medium-green-1) !important; 
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(58, 173, 78, 0.1);
+}
+
+.text-info { 
+    color: #17a2b8 !important; 
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(23, 162, 184, 0.1);
+}
+
+.text-warning { 
+    color: #ffc107 !important; 
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(255, 193, 7, 0.1);
+}
+
+.text-danger { 
+    color: #dc3545 !important; 
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(220, 53, 69, 0.1);
+}
+
+/* Estilos especiales para nivel severo/crítico con animación */
+.text-dark.bg-danger {
+    background: linear-gradient(45deg, #dc3545, #c82333) !important;
+    color: white !important;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    animation: dangerPulse 2s infinite;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@keyframes dangerPulse {
+    0% { 
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        transform: scale(1);
     }
-    .modal-dialog {
-        margin: 0.5rem;
+    50% { 
+        box-shadow: 0 8px 25px rgba(220, 53, 69, 0.5);
+        transform: scale(1.02);
+    }
+    100% { 
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        transform: scale(1);
     }
 }
 
-@media (max-width: 576px) {
-    .thumbnail-img {
-        height: 120px;
-    }
-}
-
-/* Fix for modal scrolling issues */
-body.modal-open {
-    overflow: hidden;
-    padding-right: 0 !important;
-}
-
-/* Modal backdrop */
-.modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-.modal-content {
-    background-color: transparent;
-    border: none;
-}
-.modal-header {
-    background-color: white;
-    border-bottom: none;
-    border-radius: 8px 8px 0 0;
-}
-.modal-body {
-    background-color: transparent;
-}
-/* Custom Modal Styles */
+/* Modal personalizado mejorado */
 .custom-modal .modal-header {
     position: absolute;
     right: 0;
@@ -128,21 +501,26 @@ body.modal-open {
 }
 
 .custom-modal .btn-close {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 0.75rem;
-    margin: 0.5rem;
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(11, 40, 17, 0.8));
+    padding: 1rem;
+    margin: 1rem;
     border-radius: 50%;
-    opacity: 0.8;
-    transition: all 0.3s ease;
+    opacity: 0.9;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
 }
 
 .custom-modal .btn-close:hover {
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(90deg);
+    background: linear-gradient(45deg, var(--dark-green-3), var(--dark-green-1));
+    box-shadow: 0 5px 20px rgba(11, 40, 17, 0.4);
 }
 
 .custom-modal .modal-content {
     background: transparent;
+    backdrop-filter: blur(20px);
 }
 
 .custom-modal .modal-body {
@@ -150,7 +528,170 @@ body.modal-open {
 }
 
 .custom-modal .modal-img {
-    max-height: 90vh;
+    max-height: 85vh;
     object-fit: contain;
-    border-radius: 8px;
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s ease;
 }
+
+.custom-modal .modal-img:hover {
+    transform: scale(1.02);
+}
+
+.modal-footer-info {
+    background: linear-gradient(135deg, rgba(11, 40, 17, 0.9), rgba(29, 74, 38, 0.9));
+    padding: 1.5rem;
+    border-radius: 0 0 15px 15px;
+    margin-top: -5px;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-footer-info h5 {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    font-weight: 600;
+}
+
+.modal-backdrop {
+    background: linear-gradient(135deg, rgba(11, 40, 17, 0.8), rgba(29, 74, 38, 0.6));
+    backdrop-filter: blur(5px);
+}
+
+/* Iconos con animaciones */
+.fas {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover .fas {
+    transform: scale(1.15);
+    filter: drop-shadow(0 2px 5px rgba(95, 200, 113, 0.3));
+}
+
+/* Mejoras adicionales */
+.container-fluid {
+    background: linear-gradient(135deg, var(--light-green-1) 0%, #ffffff 100%);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
+/* Estado hover para texto */
+.text-muted {
+    transition: color 0.3s ease;
+}
+
+.card:hover .text-muted {
+    color: var(--medium-green-2) !important;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-green-2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-green);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--medium-green-1);
+}
+
+/* Responsivo mejorado */
+@media (max-width: 768px) {
+    .card-body .row > div {
+        margin-bottom: 1.5rem;
+    }
+    
+    .card-body .row > div:last-child {
+        margin-bottom: 0;
+    }
+
+    .thumbnail-img {
+        height: 150px;
+    }
+
+    .custom-tabs .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .search-input {
+        padding: 0.6rem 1rem 0.6rem 2.5rem;
+    }
+
+    .search-icon {
+        left: 0.75rem;
+    }
+
+    .card:hover {
+        transform: translateY(-8px) scale(1.01);
+    }
+}
+
+@media (max-width: 576px) {
+    .thumbnail-img {
+        height: 120px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .custom-tabs .nav-link {
+        padding: 0.5rem 0.75rem;
+        margin: 0 0.1rem;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+    }
+
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+
+    .card:hover {
+        transform: translateY(-5px) scale(1);
+    }
+}
+
+/* Efectos de carga inicial */
+.plantas-section,
+.plagas-section {
+    animation: sectionFadeIn 0.8s ease-out;
+}
+
+@keyframes sectionFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mejoras de accesibilidad */
+.custom-tabs .nav-link:focus {
+    outline: 2px solid var(--primary-green);
+    outline-offset: 2px;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(95, 200, 113, 0.25);
+}
+
+/* Prevenir layout shift durante transiciones */
+.content-wrapper {
+    min-height: 400px;
+}
+
+/* Fallback para imágenes que no cargan */

@@ -5,6 +5,7 @@ import { ProfileDashboardCanaComponent } from './profile-dashboard-cana/profile-
 import { PlantsDashboardCanaComponent } from './plants-dashboard-cana/plants-dashboard-cana.component';
 import { PestsDashboardCanaComponent } from './pests-dashboard-cana/pests-dashboard-cana.component';
 import { DetectionModelDashboardCanaComponent } from './detection-model-dashboard-cana/detection-model-dashboard-cana.component';
+import { DiagnosisDashboardCanaComponent } from './diagnosis-dashboard-cana/diagnosis-dashboard-cana.component';
 
 export const dashboardRoutes: Routes = [
     {
@@ -38,6 +39,10 @@ export const dashboardRoutes: Routes = [
             {
                 path: 'detections-model-cana',
                 component: DetectionModelDashboardCanaComponent
+            },
+            {
+                path: 'diagnosis-cana',
+                component: DiagnosisDashboardCanaComponent
             }
 
         ]

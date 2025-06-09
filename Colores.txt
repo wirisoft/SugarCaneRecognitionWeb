@@ -1,0 +1,16 @@
+colores hexadecimal
+principal:
+#5fc871
+
+de mas claro al color fuerte
+
+#f2fbf3
+#e1f7e4
+#c4eecb
+#95e0a1
+#3aad4e
+#2b8e3c
+#257032
+#22592c
+#1d4a26
+#0b2811

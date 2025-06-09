@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #1a472a;
+    background-color: #2b8e3c; /* Verde de tu paleta */
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -31,7 +31,7 @@
 
 .nav-link.active {
     color: #ffffff !important;
-    background-color: rgba(26, 71, 42, 0.9);
+    background-color: rgba(43, 142, 60, 0.9);
     border-radius: 5px;
 }
 
@@ -43,15 +43,15 @@
     transform: translateX(-50%);
     width: 80%;
     height: 2px;
-    background-color: #00FF6B;
+    background-color: #5fc871; /* Tu color principal como accent */
 }
 
 /* Update sidebar active state */
 .sidebar-link.active {
-    background-color: rgba(26, 71, 42, 0.15);
-    color: #1a472a;
+    background-color: rgba(43, 142, 60, 0.15);
+    color: #2b8e3c;
     font-weight: 500;
-    border-left: 4px solid #00FF6B;
+    border-left: 4px solid #5fc871; /* Tu color principal */
 }
 
 .nav-link i {
@@ -73,18 +73,18 @@
 
 .dropdown-item i {
     margin-right: 8px;
-    color: #1a472a;
+    color: #2b8e3c; /* Verde de tu paleta */
 }
 
 .dropdown-item:hover {
     background-color: #f8f9fa;
-    color: #1a472a;
+    color: #2b8e3c;
 }
 
 /* Responsive adjustments */
 @media (max-width: 991.98px) {
     .navbar-collapse {
-        background-color: #1a472a;
+        background-color: #2b8e3c; /* Verde de tu paleta */
         padding: 1rem;
         border-radius: 8px;
         margin-top: 1rem;
@@ -118,7 +118,7 @@
 /* Top Navbar Styles */
 .top-navbar {
     height: 60px;
-    background-color: #1a472a;
+    background-color: #2b8e3c; /* Verde de tu paleta */
     padding: 0 1rem;
     z-index: 1030;
 }
@@ -161,6 +161,20 @@
     font-weight: 500;
 }
 
+/* Avatar initials styles */
+.avatar-initials {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #5fc871; /* Tu color principal */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 /* Sidebar Styles */
 .sidebar {
     position: fixed;
@@ -194,7 +208,7 @@
 
 .sidebar-title {
     font-weight: 600;
-    color: #1a472a;
+    color: #2b8e3c; /* Verde de tu paleta */
 }
 
 .sidebar-nav {
@@ -219,20 +233,20 @@
 }
 
 .sidebar-link:hover {
-    background-color: rgba(26, 71, 42, 0.1);
-    color: #1a472a;
+    background-color: rgba(43, 142, 60, 0.1);
+    color: #2b8e3c;
 }
 
 .sidebar-link.active {
-    background-color: rgba(26, 71, 42, 0.15);
-    color: #1a472a;
+    background-color: rgba(43, 142, 60, 0.15);
+    color: #2b8e3c;
     font-weight: 500;
-    border-left: 4px solid #00FF6B;
+    border-left: 4px solid #5fc871; /* Tu color principal */
 }
 
 /* Remove or update these conflicting styles */
 .nav-link.active {
-    color: #1a472a !important;
+    color: #2b8e3c !important;
     background-color: transparent;
     border-radius: 0;
 }

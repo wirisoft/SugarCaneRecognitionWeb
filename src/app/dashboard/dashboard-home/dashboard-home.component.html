@@ -1,58 +1,316 @@
+<!-- dashboard-home.component.html - Versión Corregida -->
 <app-nav-bar-dashboard-cana>
     <div class="dashboard-content">
-        <div class="container-fluid ">
+        <div class="container-fluid">
             <!-- Header Section -->
-            <div class="dashboard-header mb-3">
-                <h2>Panel de Control - Monitoreo de Caña</h2>
-                <p class="text-muted">Resumen de condiciones y estado del cultivo</p>
+            <div class="dashboard-header mb-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2>
+                            <i class="fas fa-chart-line me-3" style="color: #5fc871;"></i>
+                            Panel de Control - Monitoreo de Caña
+                        </h2>
+                        <p class="text-muted mb-0">
+                            
+                            Resumen de condiciones y estado del sistema | 
+                            <span>{{ currentDate | date:'medium':'es-ES' }}</span>
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="d-flex align-items-center justify-content-end">
+                            <div class="status-indicator me-3">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i>
+                                    Sistema Activo
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards Row -->
+            <div class="row mb-4" *ngIf="detectionStatistics">
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <div class="mb-2">
+                                <i class="fas fa-search fa-2x" style="color: #5fc871; opacity: 0.3;"></i>
+                            </div>
+                            <h5 class="card-title text-primary mb-2">{{detectionStatistics.total_detections}}</h5>
+                            <p class="card-text mb-0">Total Detecciones</p>
+                            <small class="text-muted mt-1">Todos los análisis</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <div class="mb-2">
+                                <i class="fas fa-list fa-2x" style="color: #3aad4e; opacity: 0.3;"></i>
+                            </div>
+                            <h5 class="card-title text-info mb-2">{{getDetectionClassesCount()}}</h5>
+                            <p class="card-text mb-0">Tipos Detectados</p>
+                            <small class="text-muted mt-1">Categorías únicas</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <div class="mb-2">
+                                <i class="fas fa-clock fa-2x" style="color: #2b8e3c; opacity: 0.3;"></i>
+                            </div>
+                            <h5 class="card-title text-success mb-2">{{recentDetections.length}}</h5>
+                            <p class="card-text mb-0">Recientes</p>
+                            <small class="text-muted mt-1">Últimas 24h</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center h-100">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <div class="mb-2">
+                                <i class="fas fa-star fa-2x" style="color: #95e0a1; opacity: 0.3;"></i>
+                            </div>
+                            <h5 class="card-title text-warning mb-2">{{getMostCommonCount()}}</h5>
+                            <p class="card-text mb-0">Más Común</p>
+                            <small class="text-muted mt-1">Diagnóstico frecuente</small>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Charts Section -->
             <div class="row">
-                <!-- Temperature and Humidity Chart -->
-                <div class="col-lg-8 mb-4">
-                    <div class="card">
+                <!-- Disease Detection Distribution -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Temperatura y Humedad</h5>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-chart-pie me-3" style="color: #5fc871;"></i>
+                                <h5 class="card-title mb-0">Distribución de Enfermedades</h5>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <canvas baseChart
-                                [type]="'line'"
-                                [data]="weatherData"
-                                [options]="weatherOptions">
-                            </canvas>
+                        <div class="card-body d-flex align-items-center justify-content-center">
+                            <div *ngIf="isLoadingDetections" class="text-center">
+                                <div class="spinner-border text-primary mb-3" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <p class="text-muted">Cargando datos de distribución...</p>
+                            </div>
+                            <div *ngIf="detectionsError" class="alert alert-danger w-100">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Error al cargar datos de detecciones
+                            </div>
+                            <div *ngIf="!isLoadingDetections && !detectionsError" class="w-100">
+                                <canvas baseChart
+                                    [type]="'doughnut'"
+                                    [data]="detectionsByClassData"
+                                    [options]="doughnutOptions">
+                                </canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Climate Distribution Chart -->
-                <div class="col-lg-4 mb-5">
-                    <div class="card">
+                <!-- Confidence Distribution Chart -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Distribución del Clima</h5>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-chart-bar me-3" style="color: #3aad4e;"></i>
+                                <h5 class="card-title mb-0">Confianza Promedio por Enfermedad</h5>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <canvas baseChart
-                                [type]="'doughnut'"
-                                [data]="climateData"
-                                [options]="climateOptions">
-                            </canvas>
+                        <div class="card-body d-flex align-items-center justify-content-center">
+                            <div *ngIf="isLoadingDetections" class="text-center">
+                                <div class="spinner-border text-primary mb-3" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <p class="text-muted">Analizando confianza...</p>
+                            </div>
+                            <div *ngIf="!isLoadingDetections && !detectionsError" class="w-100">
+                                <canvas baseChart
+                                    [type]="'bar'"
+                                    [data]="confidenceDistributionData"
+                                    [options]="barOptions">
+                                </canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Planting Days Chart -->
-                <div class="col-lg-12 mb-5">
+                <!-- Daily Detections Chart -->
+                <div class="col-lg-12 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Días Óptimos para Plantación</h5>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-chart-line me-3" style="color: #2b8e3c;"></i>
+                                    <h5 class="card-title mb-0">Detecciones Diarias (Últimos 7 días)</h5>
+                                </div>
+                                <div class="chart-controls">
+                                    <span class="badge" style="background: linear-gradient(45deg, #5fc871, #3aad4e); color: white;">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        Tendencia Semanal
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <canvas baseChart
-                                [type]="'line'"
-                                [data]="plantingData"
-                                [options]="plantingOptions">
-                            </canvas>
+                            <div *ngIf="isLoadingDetections" class="text-center py-4">
+                                <div class="spinner-border text-primary mb-3" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <p class="text-muted">Generando gráfico de tendencias...</p>
+                            </div>
+                            <div *ngIf="!isLoadingDetections && !detectionsError">
+                                <canvas baseChart
+                                    [type]="'line'"
+                                    [data]="dailyDetectionsData"
+                                    [options]="lineDetectionsOptions">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Detections List -->
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                <div class="d-flex align-items-center mb-2 mb-md-0">
+                                    <i class="fas fa-history me-3" style="color: #257032;"></i>
+                                    <h5 class="card-title mb-0">Detecciones Recientes</h5>
+                                    <span class="badge bg-info ms-3">{{recentDetections.length}} registros</span>
+                                </div>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <label class="form-label mb-0 me-2 fw-bold" style="color: #257032;">Filtrar:</label>
+                                    <select class="form-select form-select-sm" 
+                                            [(ngModel)]="selectedClassFilter" 
+                                            (change)="filterByClass()"
+                                            style="width: auto; min-width: 200px;">
+                                        <option *ngFor="let cls of availableClasses" [value]="cls.value">
+                                            {{cls.label}}
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-sm btn-outline-secondary" 
+                                            (click)="loadDetectionData()" 
+                                            [disabled]="isLoadingDetections">
+                                        <span *ngIf="isLoadingDetections" class="spinner-border spinner-border-sm me-1"></span>
+                                        <i *ngIf="!isLoadingDetections" class="fas fa-sync-alt me-1"></i>
+                                        Actualizar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div *ngIf="isLoadingDetections" class="text-center py-5">
+                                <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                    <span class="visually-hidden">Cargando detecciones...</span>
+                                </div>
+                                <h6 class="text-muted">Cargando detecciones recientes...</h6>
+                                <p class="text-muted small">Esto puede tomar unos segundos</p>
+                            </div>
+
+                            <div *ngIf="detectionsError" class="alert alert-danger">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+                                    <div>
+                                        <strong>Error de conexión:</strong> No se pudieron cargar las detecciones.
+                                        <br>
+                                        <small>Verifica tu conexión a internet y el estado del servidor.</small>
+                                        <br>
+                                        <button class="btn btn-link p-0 mt-2" (click)="loadDetectionData()">
+                                            <i class="fas fa-redo me-1"></i>
+                                            Intentar de nuevo
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!isLoadingDetections && !detectionsError">
+                                <div *ngIf="recentDetections.length === 0" class="text-center py-5">
+                                    <i class="fas fa-search fa-3x mb-3" style="color: #95e0a1;"></i>
+                                    <h5 class="text-muted">No se encontraron detecciones</h5>
+                                    <p class="text-muted">{{getNoDetectionsMessage()}}</p>
+                                    <button *ngIf="selectedClassFilter" 
+                                            class="btn btn-outline-secondary btn-sm" 
+                                            (click)="clearFilter()">
+                                        <i class="fas fa-times me-1"></i>
+                                        Limpiar filtro
+                                    </button>
+                                </div>
+
+                                <div class="table-responsive" *ngIf="recentDetections.length > 0">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th><i class="fas fa-calendar me-2"></i>Fecha</th>
+                                                <th><i class="fas fa-bug me-2"></i>Enfermedad</th>
+                                                <th><i class="fas fa-percentage me-2"></i>Confianza</th>
+                                                <th><i class="fas fa-user me-2"></i>Usuario</th>
+                                                <th><i class="fas fa-heartbeat me-2"></i>Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let detection of recentDetections; trackBy: trackByDetectionId">
+                                                <td>
+                                                    <div class="d-flex flex-column">
+                                                        <small class="fw-bold">{{formatDate(detection.timestamp)}}</small>
+                                                        <small class="text-muted">ID: {{getShortId(detection.id)}}</small>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="disease-indicator me-2" 
+                                                             [style.background-color]="getDiseaseColor(detection.prediction.class_name)">
+                                                        </div>
+                                                        <div>
+                                                            <strong>{{getDiseaseDisplayName(detection.prediction.class_name)}}</strong>
+                                                            <br>
+                                                            <small class="text-muted">{{detection.prediction.class_name}}</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="confidence-display">
+                                                        <span [class]="getConfidenceClass(detection.prediction.confidence)" 
+                                                              class="fw-bold fs-6">
+                                                            {{getConfidencePercentage(detection.prediction.confidence)}}%
+                                                        </span>
+                                                        <br>
+                                                        <small class="badge badge-sm" 
+                                                               [class]="getBadgeClass(detection.prediction.confidence)">
+                                                            {{getConfidenceText(detection.prediction.confidence)}}
+                                                        </small>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span *ngIf="isUserAuthenticated(detection); else anonymous">
+                                                        <i class="fas fa-user-check text-success me-1"></i>
+                                                        <small>{{getUserEmail(detection)}}</small>
+                                                    </span>
+                                                    <ng-template #anonymous>
+                                                        <span class="text-muted">
+                                                            <i class="fas fa-user-secret me-1"></i>
+                                                            <small>Anónimo</small>
+                                                        </span>
+                                                    </ng-template>
+                                                </td>
+                                                <td>
+                                                    <span [class]="getDetectionStatusClass(detection.prediction.class_name)">
+                                                        <i [class]="getStatusIcon(detection.prediction.class_name)" class="me-1"></i>
+                                                        {{getStatusText(detection.prediction.class_name)}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

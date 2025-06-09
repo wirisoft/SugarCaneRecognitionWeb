@@ -1,134 +1,400 @@
 <app-nav-bar-cana></app-nav-bar-cana>
 
 <div class="container mt-4">
-    <!-- Título y descripciones -->
-    <section class="hero-section">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-6">
-            <h1 class="display-5 fw-bold text-primary mb-4">Identificación Inteligente de Plagas</h1>
-            <p class="lead mb-4">Nuestro sistema de IA analiza tus imágenes para detectar y clasificar plagas con precisión.</p>
-          </div>
-          <div class="col-md-6">
-            <div class="svg-container">
-              <div style="background: white !important; padding: 1rem; border-radius: 0.5rem;">
-                <img src="assets/images/undraw_augmented-reality_3ie0_verde.svg" 
-                     alt="Realidad Aumentada" 
-                     class="img-fluid"
-                     style="background: white !important; mix-blend-mode: multiply;">
-              </div>
+  <!-- Título y descripciones -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h1 class="display-5 fw-bold text-primary mb-4">Identificación Inteligente de Plagas</h1>
+          <p class="lead mb-4">Nuestro sistema de IA analiza tus imágenes para detectar y clasificar plagas con precisión.</p>
+          
+          
+        </div>
+        <div class="col-md-6">
+          <div class="svg-container">
+            <div style="background: white !important; padding: 1rem; border-radius: 0.5rem;">
+              <img src="assets/images/undraw_augmented-reality_3ie0_verde.svg" 
+                   alt="Realidad Aumentada" 
+                   class="img-fluid"
+                   style="background: white !important; mix-blend-mode: multiply;">
             </div>
           </div>
         </div>
       </div>
-    </section>
-  
-    <!-- Botón de carga -->
-    <div class="text-center mb-4">
-      <button class="btn btn-outline-secondary px-4" (click)="fileInput.click()">
-        añadir / soltar imagen
-      </button>
-      <input #fileInput 
-             type="file" 
-             (change)="onFileSelected($event)" 
-             accept="image/*" 
-             multiple 
-             class="d-none">
     </div>
-  
-    <!-- Contenedor de imágenes -->
-    <div class="image-grid mb-4">
-      <div class="row">
-        @for (i of imageIndexes; track i) {
-          <div class="col-3">
-            <div class="image-box" 
-                 [class.has-image]="images[i]"
-                 (click)="!images[i] && fileInput.click()">
-              @if (images[i]) {
-                <img [src]="images[i]!" 
-                     class="preview-image" 
-                     alt="Preview">
-                <button class="remove-btn" 
-                        (click)="removeImage(i)">×</button>
-              }
+  </section>
+
+  <!-- Opciones de procesamiento -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Configuración de Análisis</h5>
+        <button class="btn btn-sm btn-outline-secondary" 
+                (click)="toggleAdvancedOptions()">
+          <i class="bi" [class.bi-chevron-down]="!showAdvancedOptions" 
+                       [class.bi-chevron-up]="showAdvancedOptions"></i>
+          Opciones Avanzadas
+        </button>
+      </div>
+    </div>
+    
+    @if (showAdvancedOptions) {
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" 
+                     [(ngModel)]="useAdvancedProcessing" 
+                     id="advancedProcessing">
+              <label class="form-check-label" for="advancedProcessing">
+                Usar procesamiento avanzado
+              </label>
             </div>
+            
+            @if (useAdvancedProcessing) {
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" 
+                       [(ngModel)]="processingOptions.enhanceContrast" 
+                       id="enhanceContrast">
+                <label class="form-check-label" for="enhanceContrast">
+                  Mejorar contraste automáticamente
+                </label>
+              </div>
+            }
+            
+            <div class="mb-3">
+              <label for="location" class="form-label">Ubicación (opcional)</label>
+              <input type="text" class="form-control" id="location"
+                     [(ngModel)]="processingOptions.location"
+                     placeholder="Ej: Campo Norte, Lote 5">
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="plantId" class="form-label">ID de Planta (opcional)</label>
+              <input type="text" class="form-control" id="plantId"
+                     [(ngModel)]="processingOptions.plantId"
+                     placeholder="Identificador de planta">
+            </div>
+            
+            <div class="mb-3">
+              <label for="fieldSection" class="form-label">Sección del Campo (opcional)</label>
+              <input type="text" class="form-control" id="fieldSection"
+                     [(ngModel)]="processingOptions.fieldSection"
+                     placeholder="Ej: Sección A, Hilera 12">
+            </div>
+            
+            <div class="mb-3">
+              <label for="notes" class="form-label">Notas (opcional)</label>
+              <textarea class="form-control" id="notes" rows="2"
+                        [(ngModel)]="processingOptions.notes"
+                        placeholder="Observaciones adicionales..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Botón de carga -->
+  <div class="text-center mb-4">
+    <button class="btn btn-outline-secondary px-4" 
+            (click)="fileInput.click()"
+            [disabled]="isAnalyzing">
+      <i class="bi bi-cloud-upload me-2"></i>
+      Añadir / Soltar Imagen
+    </button>
+    <input #fileInput 
+           type="file" 
+           (change)="onFileSelected($event)" 
+           accept="image/*" 
+           multiple 
+           class="d-none">
+    <small class="d-block text-muted mt-2">
+      Formatos soportados: JPG, PNG, WebP (máximo 10MB por imagen)
+    </small>
+  </div>
+
+  <!-- Contenedor de imágenes -->
+  <div class="image-grid mb-4">
+    <div class="row">
+      @for (i of imageIndexes; track i) {
+        <div class="col-3">
+          <div class="image-box" 
+               [class.has-image]="images[i]"
+               (click)="!images[i] && !isAnalyzing && fileInput.click()">
+            @if (images[i]) {
+              <img [src]="images[i]!" 
+                   class="preview-image" 
+                   alt="Preview">
+              <button class="remove-btn" 
+                      (click)="removeImage(i)"
+                      [disabled]="isAnalyzing">×</button>
+            } @else {
+              <div class="upload-placeholder">
+                <i class="bi bi-image fs-1 text-muted"></i>
+                <p class="text-muted mt-2">Clic para añadir imagen</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="text-center mb-4">
+    <button class="btn btn-success px-4 me-3" 
+            [disabled]="!hasImages || isAnalyzing"
+            (click)="identify()">
+      @if (isAnalyzing) {
+        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        Analizando...
+      } @else {
+        <i class="bi bi-search me-2"></i>
+        Identificar
+      }
+    </button>
+    
+    @if (analysisResults.length > 0) {
+      <button class="btn btn-outline-danger" 
+              (click)="clearResults()"
+              [disabled]="isAnalyzing">
+        <i class="bi bi-trash me-2"></i>
+        Limpiar Resultados
+      </button>
+    }
+  </div>
+</div>
+
+<!-- Indicador de análisis -->
+@if (isAnalyzing) {
+  <div class="text-center mt-4">
+    <div class="card">
+      <div class="card-body">
+        <div class="spinner-border text-success mb-3" role="status">
+          <span class="visually-hidden">Analizando...</span>
+        </div>
+        <h5>Procesando imágenes...</h5>
+        <p class="text-muted">Por favor espera mientras analizamos tus imágenes con inteligencia artificial.</p>
+        
+        <!-- Progress indicator -->
+        @if (analysisResults.length > 0) {
+          <div class="mt-3">
+            @for (result of analysisResults; track result.id) {
+              <div class="d-flex align-items-center mb-2">
+                <small class="me-2">Imagen {{result.id + 1}}:</small>
+                @if (result.isProcessing) {
+                  <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                  <small class="text-muted">Procesando...</small>
+                } @else if (result.error) {
+                  <i class="bi bi-x-circle text-danger me-2"></i>
+                  <small class="text-danger">Error</small>
+                } @else {
+                  <i class="bi bi-check-circle text-success me-2"></i>
+                  <small class="text-success">Completado</small>
+                }
+              </div>
+            }
           </div>
         }
       </div>
     </div>
-  
-    <!-- Botón de identificar -->
-    <div class="text-center">
-      <button class="btn btn-success px-4" 
-              [disabled]="!hasImages"
-              (click)="identify()">
-        Identificar
-      </button>
-    </div>
-  </div>
-
-  <!-- Agrega esto después del botón de identificar en tu template -->
-@if (isAnalyzing) {
-  <div class="text-center mt-4">
-    <div class="spinner-border text-success" role="status">
-      <span class="visually-hidden">Analizando...</span>
-    </div>
-    <p class="mt-2">Analizando imágenes...</p>
   </div>
 }
 
-@if (analysisResults.length > 0) {
+<!-- Resultados del análisis -->
+@if (analysisResults.length > 0 && !isAnalyzing) {
   <div class="results-container mt-4">
-    <h2 class="text-center mb-4">Resultados del Análisis</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Resultados del Análisis</h2>
+      <small class="text-muted">
+        {{ getSuccessfulCount() }} de {{ getTotalCount() }} imágenes procesadas exitosamente
+      </small>
+    </div>
     
     @for (result of analysisResults; track result.id) {
       <div class="card mb-4">
         <div class="card-body">
-          <div class="row">
-            <div class="col-md-4">
-              <img [src]="result.imagen" class="img-fluid rounded" alt="Imagen analizada">
-            </div>
-            <div class="col-md-8">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h3 class="card-title">{{result.plaga.nombre_comun}}</h3>
-                <span class="badge bg-success">
-                  Confianza: {{(result.confianza * 100).toFixed(1)}}%
-                </span>
+          @if (result.error) {
+            <!-- Mostrar error -->
+            <div class="row">
+              <div class="col-md-4">
+                <img [src]="result.imagen" class="img-fluid rounded" alt="Imagen con error">
               </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <h4 class="h6">Información de la Plaga</h4>
-                  <ul class="list-unstyled">
-                    <li><strong>Nombre científico:</strong> {{result.plaga.nombre_cientifico}}</li>
-                    <li><strong>Nivel de daño:</strong> {{result.plaga.nivel_danio}}</li>
-                    <li><strong>Temporada común:</strong> {{result.plaga.temporada_comun}}</li>
-                  </ul>
-
-                  <h4 class="h6 mt-3">Variedad Afectada</h4>
-                  <p>{{result.variedad.nombre}} ({{result.variedad.codigo}})</p>
-                  <p class="text-muted">{{result.variedad.caracteristicas}}</p>
+              <div class="col-md-8">
+                <div class="alert alert-danger">
+                  <h5 class="alert-heading">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Error en el procesamiento
+                  </h5>
+                  <p class="mb-0">{{result.error}}</p>
+                </div>
+                <small class="text-muted">
+                  @if (result.originalFile) {
+                    Archivo: {{result.originalFile.name}} | 
+                  }
+                  Fecha: {{result.fecha | date:'medium'}}
+                </small>
+              </div>
+            </div>
+          } @else if (result.prediction) {
+            <!-- Mostrar resultado exitoso -->
+            <div class="row">
+              <div class="col-md-4">
+                <img [src]="result.imagen" class="img-fluid rounded" alt="Imagen analizada">
+                <div class="mt-2 text-center">
+                  <button class="btn btn-sm btn-outline-info me-2" 
+                          (click)="showPredictionDetails(result)">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Detalles
+                  </button>
+                  <button class="btn btn-sm btn-outline-success" 
+                          (click)="downloadResult(result)">
+                    <i class="bi bi-download me-1"></i>
+                    Descargar
+                  </button>
+                </div>
+              </div>
+              
+              <div class="col-md-8">
+                <!-- Encabezado del resultado -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h3 class="card-title">{{result.prediction.class_name}}</h3>
+                  <div>
+                    <span class="badge fs-6" 
+                          [class]="'bg-' + getConfidenceColor(result.prediction.confidence)">
+                      Confianza: {{(result.prediction.confidence * 100).toFixed(1)}}%
+                    </span>
+                    <small class="d-block text-muted mt-1">
+                      {{getConfidenceText(result.prediction.confidence)}}
+                    </small>
+                  </div>
                 </div>
 
-                <div class="col-md-6">
-                  <h4 class="h6">Síntomas Detectados</h4>
-                  <ul class="list-unstyled">
-                    @for (sintoma of result.sintomas; track sintoma.id_sintoma) {
-                      <li class="mb-2">
-                        <i class="bi bi-exclamation-triangle text-warning me-2"></i>
-                        {{sintoma.nombre}}
-                        <small class="text-muted d-block">{{sintoma.descripcion}}</small>
-                      </li>
+                <!-- Información de la plaga -->
+                @if (result.prediction.plaga_info) {
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <h4 class="h6">
+                        <i class="bi bi-bug text-danger me-2"></i>
+                        Información de la Plaga
+                      </h4>
+                      <ul class="list-unstyled">
+                        <li><strong>Nombre científico:</strong> {{result.prediction.plaga_info.nombre_cientifico}}</li>
+                        <li>
+                          <strong>Nivel de daño:</strong> 
+                          <span [class]="getDamageColorClass(result.prediction.plaga_info.nivel_danio)">
+                            {{result.prediction.plaga_info.nivel_danio}}
+                          </span>
+                        </li>
+                        <li><strong>Temporada común:</strong> {{result.prediction.plaga_info.temporada_comun}}</li>
+                      </ul>
+                      
+                      @if (result.prediction.plaga_info.descripcion) {
+                        <p class="text-muted small">{{result.prediction.plaga_info.descripcion}}</p>
+                      }
+                    </div>
+
+                    <!-- Síntomas -->
+                    <div class="col-md-6">
+                      @if (result.prediction.plaga_info.sintomas && result.prediction.plaga_info.sintomas.length > 0) {
+                        <h4 class="h6">
+                          <i class="bi bi-list-check text-warning me-2"></i>
+                          Síntomas Asociados
+                        </h4>
+                        <ul class="list-unstyled">
+                          @for (sintoma of result.prediction.plaga_info.sintomas; track sintoma.id_sintoma) {
+                            <li class="mb-2">
+                              <i class="bi bi-exclamation-triangle text-warning me-2"></i>
+                              <strong>{{sintoma.nombre}}</strong>
+                              @if (sintoma.descripcion) {
+                                <small class="text-muted d-block">{{sintoma.descripcion}}</small>
+                              }
+                            </li>
+                          }
+                        </ul>
+                      }
+                    </div>
+                  </div>
+                }
+
+                <!-- Información de la variedad -->
+                @if (result.prediction.variedad_info) {
+                  <div class="mb-3">
+                    <h4 class="h6">
+                      <i class="bi bi-flower1 text-success me-2"></i>
+                      Variedad Detectada
+                    </h4>
+                    <p class="mb-1">
+                      <strong>{{result.prediction.variedad_info.nombre}}</strong> 
+                      ({{result.prediction.variedad_info.codigo}})
+                    </p>
+                    @if (result.prediction.variedad_info.caracteristicas) {
+                      <p class="text-muted small">{{result.prediction.variedad_info.caracteristicas}}</p>
                     }
-                  </ul>
-                </div>
-              </div>
+                  </div>
+                }
 
-              <div class="mt-3 text-muted small">
-                Fecha de análisis: {{result.fecha | date:'medium'}}
+                <!-- Información adicional -->
+                <div class="row text-muted small">
+                  <div class="col-md-6">
+                    <p class="mb-1">
+                      <i class="bi bi-clock me-1"></i>
+                      Fecha: {{result.fecha | date:'medium'}}
+                    </p>
+                    @if (result.prediction.history_id) {
+                      <p class="mb-1">
+                        <i class="bi bi-database me-1"></i>
+                        ID: {{result.prediction.history_id}}
+                      </p>
+                    }
+                  </div>
+                  <div class="col-md-6">
+                    @if (result.originalFile) {
+                      <p class="mb-1">
+                        <i class="bi bi-file-text me-1"></i>
+                        Archivo: {{result.originalFile.name}}
+                      </p>
+                    }
+                    @if (result.prediction.user_authenticated) {
+                      <p class="mb-1">
+                        <i class="bi bi-shield-check text-success me-1"></i>
+                        Guardado en historial
+                      </p>
+                    }
+                  </div>
+                </div>
+
+                <!-- Top predicciones alternativas -->
+                @if (result.prediction.all_predictions) {
+                  <div class="mt-3">
+                    <button class="btn btn-sm btn-outline-secondary" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            [attr.data-bs-target]="'#predictions-' + result.id">
+                      <i class="bi bi-list me-1"></i>
+                      Comparar con otras predicciones
+                    </button>
+                    
+                    <div class="collapse mt-2" [id]="'predictions-' + result.id">
+                      <div class="card card-body">
+                        <h6>Todas las predicciones:</h6>
+                        @for (prediction of getPredictionsArray(result.prediction.all_predictions); track prediction.key) {
+                          <div class="d-flex justify-content-between">
+                            <span>{{prediction.key}}</span>
+                            <span>{{(prediction.value * 100).toFixed(2)}}%</span>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                }
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
     }

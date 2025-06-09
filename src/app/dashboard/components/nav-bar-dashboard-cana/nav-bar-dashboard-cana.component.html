@@ -24,9 +24,7 @@
         <li><a class="dropdown-item" routerLink="/dashboard/profile-cana">
           <i class="fas fa-user"></i> Mi Perfil
         </a></li>
-        <li><a class="dropdown-item" routerLink="/dashboard/settings">
-          <i class="fas fa-cog"></i> Configuración
-        </a></li>
+        
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" (click)="onLogout()" style="cursor: pointer;">
           <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
@@ -42,7 +40,7 @@
         <!-- Logo Section -->
         <div class="sidebar-header">
             <img src="assets/images/icono.jpeg" alt="CANA Logo" class="sidebar-logo">
-            <span class="sidebar-title" *ngIf="!isSidebarCollapsed">CANA Dashboard</span>
+            <span class="sidebar-title" *ngIf="!isSidebarCollapsed">CAÑA Dashboard</span>
         </div>
 
         <!-- Navigation Links -->
@@ -57,6 +55,12 @@
                 <a class="sidebar-link" routerLink="/dashboard/users-cana" routerLinkActive="active">
                     <i class="fas fa-users"></i>
                     <span *ngIf="!isSidebarCollapsed">Usuarios</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" routerLink="/dashboard/diagnosis-cana" routerLinkActive="active">
+                    <i class="fas fa-microscope"></i>
+                    <span *ngIf="!isSidebarCollapsed">Diagnóstico</span>
                 </a>
             </li>
             <li class="sidebar-item">

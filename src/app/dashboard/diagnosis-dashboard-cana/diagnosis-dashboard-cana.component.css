@@ -1,0 +1,433 @@
+/* Main layout - Adaptado al dashboard */
+:host {
+    display: block;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.dashboard-content {
+    height: 100vh;
+    overflow-y: auto;
+    margin-left: 250px; /* Match sidebar width */
+    padding-top: 60px; /* Match navbar height */
+    background-color: #f8f9fa;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Header styles - Adaptado al dashboard */
+.dashboard-header {
+    margin-bottom: 2rem;
+    margin-top: -40px;
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border-radius: 20px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+}
+
+.dashboard-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    color: white;
+}
+
+.dashboard-header p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    margin-bottom: 0;
+    color: white;
+}
+
+/* Card styles - Mantener consistencia con el dashboard */
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+    border: none;
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 1rem;
+}
+
+.card-title {
+    color: #2c3e50;
+    font-weight: 600;
+    margin: 0;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Botones consistentes con el dashboard */
+.btn-primary-cana {
+    color: #ffffff;
+    background-color: #257032;
+    border-color: #257032;
+}
+
+.btn-primary-cana:hover {
+    background-color: #1e5a29;
+    border-color: #1e5a29;
+}
+
+/* Sección de carga de imágenes - Adaptada */
+.upload-section {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: none;
+}
+
+.upload-button {
+    background-color: #257032;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.upload-button:hover {
+    background-color: #1e5a29;
+    transform: translateY(-1px);
+}
+
+/* Grid de imágenes - Mejorado para el dashboard */
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.image-box {
+    position: relative;
+    height: 200px;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.image-box:hover {
+    border-color: #257032;
+    background: #f1f8f3;
+}
+
+.image-box.has-image {
+    border: 2px solid #257032;
+    background: white;
+    padding: 5px;
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    transition: transform 0.3s ease;
+}
+
+.image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.image-placeholder i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.5;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #dc3545;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.remove-btn:hover {
+    background: #c82333;
+    transform: scale(1.1);
+}
+
+/* Botón de identificar - Adaptado al dashboard */
+.identify-button {
+    background-color: #257032;
+    border: none;
+    padding: 1.2rem 3rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 6px;
+    color: white;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.identify-button:hover:not(:disabled) {
+    background-color: #1e5a29;
+    transform: translateY(-2px);
+}
+
+.identify-button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Indicador de carga - Adaptado */
+.loading-indicator {
+    background: white;
+    padding: 3rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 2rem 0;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3em;
+}
+
+/* Alertas - Adaptadas al dashboard */
+.alert {
+    border: none;
+    border-radius: 8px;
+    padding: 1.5rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+/* Sección de resultados - Adaptada */
+.results-section {
+    margin-top: 2rem;
+}
+
+.results-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #257032;
+    margin-bottom: 2rem;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+/* Tarjetas de resultados - Adaptadas al dashboard */
+.result-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.result-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.result-card-body {
+    padding: 1.5rem;
+}
+
+.result-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.result-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #257032;
+    margin-bottom: 0.5rem;
+}
+
+.confidence-badge {
+    background-color: #257032;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.info-section {
+    margin-bottom: 1.5rem;
+}
+
+.info-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+}
+
+.info-list li {
+    padding: 0.3rem 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.info-list li strong {
+    color: #2c3e50;
+}
+
+.symptom-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+
+.symptom-icon {
+    color: #ffc107;
+    margin-right: 0.5rem;
+    margin-top: 0.1rem;
+}
+
+.date-info {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+/* Badges consistentes con el dashboard */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529;
+}
+
+.bg-success {
+    background-color: #28a745 !important;
+}
+
+.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+/* Responsive design - Adaptado al dashboard */
+@media (max-width: 768px) {
+    .dashboard-content {
+        margin-left: 0;
+        width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .dashboard-header {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .dashboard-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .images-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .image-box {
+        height: 150px;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .identify-button {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .images-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .upload-button,
+    .identify-button {
+        width: 100%;
+    }
+    
+    .dashboard-content {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
