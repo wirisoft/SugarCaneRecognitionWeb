@@ -1,11 +1,14 @@
+// src/app/dashboard/profile-dashboard-cana/profile-dashboard-cana.component.ts (VERSIÓN ESTABLE CON 2FA)
 import { UserService } from '../../services/user.service';
+import { TwoFactorService } from '../../services/two-factor.service';
 import { UserEntity } from '../../models/user.entity';
+import { TwoFactorStatus } from '../../models/two-factor.model';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-
+import { RouterModule, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-profile-dashboard-cana',
@@ -18,15 +21,23 @@ import { RouterModule } from '@angular/router';
   templateUrl: './profile-dashboard-cana.component.html',
   styleUrl: './profile-dashboard-cana.component.css'
 })
-export class ProfileDashboardCanaComponent implements OnInit {
+export class ProfileDashboardCanaComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  
   profileForm: FormGroup;
   profileImage: string | null = null;
   currentUser: UserEntity | null = null;
+  
+  // ✅ PROPIEDADES 2FA AGREGADAS
+  twoFactorStatus: TwoFactorStatus | null = null;
+  loadingTwoFactor = false;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private twoFactorService: TwoFactorService,
+    private router: Router
   ) {
     this.profileForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
@@ -34,7 +45,7 @@ export class ProfileDashboardCanaComponent implements OnInit {
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
       phoneNumber: [''],
-      currentPassword: [''], // Opcional si solo actualizas perfil sin cambiar contraseña
+      currentPassword: [''],
       newPassword: ['', [
         Validators.pattern('^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,16}$')
       ]],
@@ -44,14 +55,12 @@ export class ProfileDashboardCanaComponent implements OnInit {
     });
   }
 
-  
-
   ngOnInit() {
-    // Cargar datos del usuario desde el servicio de autenticación
     this.loadUserProfile();
+    this.loadTwoFactorStatus();
     
     // Suscribirse a cambios en el usuario
-    this.authService.user$.subscribe(user => {
+    this.authService.user$.pipe(takeUntil(this.destroy$)).subscribe(user => {
       this.currentUser = user;
       if (user) {
         this.updateFormWithUserData(user);
@@ -59,9 +68,49 @@ export class ProfileDashboardCanaComponent implements OnInit {
     });
   }
 
-  // Modifica el método loadUserProfile
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  // ✅ MÉTODO PARA CARGAR ESTADO 2FA
+  loadTwoFactorStatus() {
+    this.loadingTwoFactor = true;
+    this.twoFactorService.getTwoFactorStatus()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (status) => {
+          this.twoFactorStatus = status;
+          this.loadingTwoFactor = false;
+          console.log('🔒 Estado 2FA cargado:', status);
+        },
+        error: (err) => {
+          this.loadingTwoFactor = false;
+          if (err.status === 404) {
+            this.twoFactorStatus = { enabled: false };
+            console.log('🔒 Usuario sin 2FA configurado');
+          } else {
+            console.error('❌ Error cargando estado 2FA:', err);
+          }
+        }
+      });
+  }
+
+  // ✅ MÉTODO PARA CONFIGURAR 2FA
+  setupTwoFactor() {
+    console.log('🔧 Navegando a configuración de seguridad para configurar 2FA');
+    this.router.navigate(['/dashboard/security-settings'], {
+      queryParams: { setup2fa: 'true' }
+    });
+  }
+
+  // ✅ MÉTODO PARA GESTIONAR 2FA
+  manageTwoFactor() {
+    console.log('🔧 Navegando a configuración de seguridad');
+    this.router.navigate(['/dashboard/security-settings']);
+  }
+
   loadUserProfile() {
-    // Obtener el usuario actual del servicio
     this.currentUser = this.authService.getUser();
     if (this.currentUser) {
       this.updateFormWithUserData(this.currentUser);
@@ -69,7 +118,6 @@ export class ProfileDashboardCanaComponent implements OnInit {
   }
 
   updateFormWithUserData(user: UserEntity) {
-    // Actualizar el formulario con los datos del usuario
     this.profileForm.patchValue({
       firstName: user.firstName || '',
       middleName: user.middleName || '',
@@ -84,7 +132,16 @@ export class ProfileDashboardCanaComponent implements OnInit {
   onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      // Convertir el archivo a data URL (base64)
+      if (!file.type.startsWith('image/')) {
+        alert('Por favor selecciona un archivo de imagen válido');
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        alert('La imagen es demasiado grande. Máximo 5MB permitido');
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = (e) => {
         this.profileImage = e.target?.result as string;
@@ -102,47 +159,50 @@ export class ProfileDashboardCanaComponent implements OnInit {
     if (this.profileForm.valid && this.currentUser?.id) {
       const formData = this.profileForm.value;
   
-      // Verificar si se está intentando cambiar la contraseña
       if (formData.newPassword && formData.confirmPassword && formData.newPassword === formData.confirmPassword) {
-        // Crear objeto de usuario actualizado que incluye la contraseña
         const updatedUser: Partial<UserEntity> = {
           firstName: formData.firstName,
           middleName: formData.middleName,
           lastName: formData.lastName,
           email: formData.email,
           phoneNumber: formData.phoneNumber,
-          password: formData.newPassword, // Incluir la nueva contraseña
-          profileImage: this.profileImage || undefined// Usar this.profileImage en lugar de formData.profileImage
+          password: formData.newPassword,
+          profileImage: this.profileImage || undefined
         };
         
-        // Actualizar el usuario usando el método existente
         this.userService.updateUser(this.currentUser.id, updatedUser).subscribe({
-          next: (updatedUser) => {
-            // Actualizar el usuario en el servicio de autenticación
-            this.authService.setUser(updatedUser);
-            // Mostrar mensaje de éxito
+          next: (updatedUserResponse: UserEntity) => {
+            // ✅ CORREGIDO: El UserService ya devuelve directamente UserEntity
+            this.authService.setUser(updatedUserResponse);
+            this.loadTwoFactorStatus();
             alert('Perfil actualizado correctamente');
+            
+            this.profileForm.patchValue({
+              currentPassword: '',
+              newPassword: '',
+              confirmPassword: ''
+            });
           },
           error: (err) => {
-            // Manejar errores
             console.error('Error al actualizar el perfil:', err);
             alert('Error al actualizar el perfil. Por favor, intenta de nuevo.');
           }
         });
       } else if (!formData.newPassword && !formData.confirmPassword) {
-        // Si no se está cambiando la contraseña, actualizar solo los otros datos
         const updatedUser: Partial<UserEntity> = {
           firstName: formData.firstName,
           middleName: formData.middleName,
           lastName: formData.lastName,
           email: formData.email,
           phoneNumber: formData.phoneNumber,
-          profileImage: this.profileImage || undefined // Usar this.profileImage en lugar de formData.profileImage
+          profileImage: this.profileImage || undefined
         };
         
         this.userService.updateUser(this.currentUser.id, updatedUser).subscribe({
-          next: (updatedUser) => {
-            this.authService.setUser(updatedUser);
+          next: (updatedUserResponse: UserEntity) => {
+            // ✅ CORREGIDO: El UserService ya devuelve directamente UserEntity
+            this.authService.setUser(updatedUserResponse);
+            this.loadTwoFactorStatus();
             alert('Perfil actualizado correctamente');
           },
           error: (err) => {
@@ -151,15 +211,12 @@ export class ProfileDashboardCanaComponent implements OnInit {
           }
         });
       } else {
-        // Si hay campos de contraseña pero no coinciden o son inválidos
         alert('Las contraseñas no coinciden o no cumplen con los requisitos');
       }
     } else {
       this.markFormGroupTouched(this.profileForm);
     }
   }
-
-
 
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
@@ -171,13 +228,11 @@ export class ProfileDashboardCanaComponent implements OnInit {
     });
   }
 
-  // Helper method to check if a field is invalid
   isFieldInvalid(fieldName: string): boolean {
     const field = this.profileForm.get(fieldName);
     return field ? field.invalid && (field.dirty || field.touched) : false;
   }
 
-  // Helper method to get error message
   getErrorMessage(fieldName: string): string {
     const control = this.profileForm.get(fieldName);
     if (control?.errors) {
@@ -200,7 +255,6 @@ export class ProfileDashboardCanaComponent implements OnInit {
       }
     }
     
-    // Verificar si hay error de coincidencia de contraseñas
     if (fieldName === 'confirmPassword' && this.profileForm.hasError('mismatch')) {
       return 'Las contraseñas no coinciden';
     }

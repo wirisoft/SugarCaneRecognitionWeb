@@ -1,6 +1,6 @@
-/* login-cana.component.css */
+/* register-cana.component.css */
 .page-container {
-  min-height: calc(100vh - 120px); /* Ajusta según la altura de tu navbar y footer */
+  min-height: calc(100vh - 120px);
   background-color: #f2fbf3;
   padding: 2rem 1rem;
 }
@@ -20,23 +20,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 600px;
+  min-height: 800px;
 }
 
 .form-container {
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   padding: 2rem;
 }
 
 .svg-section {
   background-color: #95e0a1;
-  min-height: 600px;
+  min-height: 800px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
   margin-top: 120px;
+}
+
+.imagen-svg-register {
+  background-color: #95e0a1;
 }
 
 .svg-container {
@@ -51,12 +55,14 @@
 .form-label {
   font-weight: 500;
   color: #0b2811;
+  margin-bottom: 0.5rem;
 }
 
 .form-control {
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 0.5rem;
+  transition: all 0.3s ease;
 }
 
 .form-control:focus {
@@ -64,6 +70,217 @@
   box-shadow: 0 0 0 0.2rem rgba(149, 224, 161, 0.25);
 }
 
+.form-control:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.form-control.is-valid {
+  border-color: #28a745;
+  background-image: none;
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+  background-image: none;
+}
+
+/* Password input group */
+.password-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-group .form-control {
+  padding-right: 80px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.3s ease;
+  z-index: 10;
+}
+
+.generate-btn {
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 5px 10px;
+  font-size: 0.875rem;
+  z-index: 10;
+}
+
+.password-toggle:hover,
+.generate-btn:hover {
+  color: #333;
+}
+
+.password-toggle:disabled,
+.generate-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Password strength indicator */
+.password-strength-indicator {
+  margin-top: 0.5rem;
+}
+
+.strength-bar {
+  height: 5px;
+  background-color: #e9ecef;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.strength-bar-fill {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strength-bar-fill.very-weak {
+  background-color: #dc3545;
+}
+
+.strength-bar-fill.weak {
+  background-color: #fd7e14;
+}
+
+.strength-bar-fill.medium {
+  background-color: #ffc107;
+}
+
+.strength-bar-fill.strong {
+  background-color: #20c997;
+}
+
+.strength-bar-fill.very-strong {
+  background-color: #28a745;
+}
+
+.strength-text {
+  font-size: 0.875rem;
+}
+
+.strength-text.very-weak {
+  color: #dc3545;
+}
+
+.strength-text.weak {
+  color: #fd7e14;
+}
+
+.strength-text.medium {
+  color: #ffc107;
+}
+
+.strength-text.strong {
+  color: #20c997;
+}
+
+.strength-text.very-strong {
+  color: #28a745;
+}
+
+/* Password requirements */
+.password-requirements {
+  background-color: #f8f9fa;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.requirement {
+  display: block;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  transition: color 0.3s ease;
+}
+
+.requirement.met {
+  color: #28a745;
+  font-weight: 500;
+}
+
+.requirement i {
+  margin-right: 0.5rem;
+  font-size: 0.75rem;
+}
+
+/* Checkbox styles */
+.form-check {
+  padding-left: 1.5rem;
+}
+
+.form-check-input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.25rem;
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: #95e0a1;
+  border-color: #95e0a1;
+}
+
+.form-check-input:focus {
+  border-color: #95e0a1;
+  box-shadow: 0 0 0 0.2rem rgba(149, 224, 161, 0.25);
+}
+
+.form-check-label {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Alertas */
+.alert {
+  padding: 15px 20px;
+  border-radius: 0.5rem;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botones */
 .btn-primary {
   background-color: #95e0a1;
   border-color: #95e0a1;
@@ -74,18 +291,49 @@
   transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
   background-color: #7bc485;
   border-color: #7bc485;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(123, 196, 133, 0.3);
 }
 
+.btn-primary:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+/* Enlaces */
 a {
   color: #0b2811;
   font-weight: 500;
+  text-decoration: none;
 }
 
 a:hover {
   color: #7bc485;
+  text-decoration: underline;
+}
+
+/* Invalid feedback */
+.invalid-feedback {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #dc3545;
 }
 
 /* Responsive adjustments */
@@ -97,16 +345,30 @@ a:hover {
   .form-section,
   .svg-section {
     min-height: auto;
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
   }
 
   .form-container {
     padding: 1rem;
+    max-width: 500px;
   }
 
   .svg-container {
     width: 90%;
     padding: 1rem;
+  }
+
+  .svg-section {
+    min-height: 400px;
+    margin-top: 0;
+  }
+
+  .order-2 {
+    order: 2 !important;
+  }
+  
+  .order-1 {
+    order: 1 !important;
   }
 }
 
@@ -118,28 +380,16 @@ a:hover {
   .form-container {
     padding: 0;
   }
-}
 
-.form-section {
-  min-height: 800px; /* Más alto para acomodar el formulario más largo */
-}
-
-@media (max-width: 991.98px) {
-  .form-section {
-    min-height: auto;
-    padding: 3rem 1rem;
+  .password-requirements {
+    padding: 0.5rem;
   }
-  
-  .order-2 {
-    order: 2 !important;
-  }
-  
-  .order-1 {
-    order: 1 !important;
-  }
-}
 
+  .requirement {
+    font-size: 0.813rem;
+  }
 
-.imagen-svg-register{
-  background-color: #95e0a1;
+  h1 {
+    font-size: 1.5rem;
+  }
 }

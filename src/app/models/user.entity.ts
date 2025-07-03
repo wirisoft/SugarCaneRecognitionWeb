@@ -3,6 +3,7 @@ import { Detection } from './detection';
 import { Plant } from './plant';
 import { Role } from './role';
 
+// Actualiza tu user.entity.ts agregando estos campos:
 export interface UserEntity {
   id?: number;
   email: string;
@@ -18,4 +19,12 @@ export interface UserEntity {
   detections?: Detection[];
   plants?: Plant[];
   profileImage?: string;
+  
+  // Nuevos campos de seguridad
+  twoFactorEnabled?: boolean;
+  lastLogin?: string;
+  lastLoginIp?: string;
+  accountLocked?: boolean;
+  passwordChangedAt?: string;
+  forcePasswordChange?: boolean;
 }

@@ -4,85 +4,259 @@
 <div class="page-container">
   <div class="content-wrapper">
     <div class="row g-0">
-      <!-- Formulario -->
-      <div class="col-lg-6 order-2 order-lg-1">
+      <!-- Formulario de Registro -->
+      <div class="col-lg-7 order-lg-1 order-2">
         <div class="form-section">
           <div class="form-container">
             <h1 class="text-center mb-4">Crear Cuenta</h1>
             
-            <!-- Alerta de error -->
+            <!-- Mensaje de éxito -->
+            <div *ngIf="successMessage" class="alert alert-success mb-3">
+              <i class="fas fa-check-circle"></i> {{ successMessage }}
+            </div>
+
+            <!-- Mensaje de error -->
             <div *ngIf="errorMessage" class="alert alert-danger mb-3">
-              {{ errorMessage }}
+              <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
             </div>
             
-            <form (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+            <form (ngSubmit)="onSubmit()" class="needs-validation">
+              <!-- Email -->
               <div class="mb-3">
-                <label class="form-label">Correo electrónico *</label>
+                <label class="form-label">
+                  Correo electrónico <span class="text-danger">*</span>
+                </label>
                 <input 
                   type="email" 
                   class="form-control"
-                  placeholder="usuario@gmail.com"
+                  placeholder="usuario@ejemplo.com"
                   [(ngModel)]="registerData.email"
                   name="email"
-                  required>
+                  required
+                  [disabled]="loading">
               </div>
 
+              <!-- Contraseña -->
               <div class="mb-3">
-                <label class="form-label">Contraseña *</label>
-                <input 
-                  type="password" 
-                  class="form-control"
-                  [(ngModel)]="registerData.password"
-                  name="password"
-                  required>
+                <label class="form-label">
+                  Contraseña <span class="text-danger">*</span>
+                </label>
+                <div class="password-input-group">
+                  <input 
+                    [type]="showPassword ? 'text' : 'password'" 
+                    class="form-control"
+                    [(ngModel)]="registerData.password"
+                    (input)="onPasswordChange()"
+                    (blur)="passwordTouched = true"
+                    name="password"
+                    required
+                    [class.is-invalid]="passwordTouched && !passwordStrength.meetsAllRequirements"
+                    [class.is-valid]="passwordTouched && passwordStrength.meetsAllRequirements"
+                    [disabled]="loading">
+                  <button
+                    type="button"
+                    class="password-toggle"
+                    (click)="togglePasswordVisibility('password')"
+                    tabindex="-1"
+                    [disabled]="loading">
+                    <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-secondary generate-btn"
+                    (click)="generatePassword()"
+                    tabindex="-1"
+                    [disabled]="loading"
+                    title="Generar contraseña segura">
+                    <i class="fas fa-sync"></i>
+                  </button>
+                </div>
+
+                <!-- Indicador de fortaleza -->
+                <div class="password-strength-indicator mt-2" *ngIf="registerData.password">
+                  <div class="strength-bar">
+                    <div 
+                      class="strength-bar-fill"
+                      [class.very-weak]="passwordStrength.strengthLevel === 'very-weak'"
+                      [class.weak]="passwordStrength.strengthLevel === 'weak'"
+                      [class.medium]="passwordStrength.strengthLevel === 'medium'"
+                      [class.strong]="passwordStrength.strengthLevel === 'strong'"
+                      [class.very-strong]="passwordStrength.strengthLevel === 'very-strong'"
+                      [style.width.%]="passwordStrength.score">
+                    </div>
+                  </div>
+                  <small [class]="'strength-text ' + passwordStrength.strengthLevel">
+                    <strong>{{ passwordStrength.strengthText }}</strong>
+                    <span *ngIf="passwordStrength.estimatedCrackTime" class="text-muted">
+                      (Tiempo estimado para descifrar: {{ passwordStrength.estimatedCrackTime }})
+                    </span>
+                  </small>
+                </div>
+
+                <!-- Requisitos de contraseña -->
+                <div class="password-requirements mt-2">
+                  <small class="d-block mb-1"><strong>Requisitos de contraseña:</strong></small>
+                  <small class="requirement" [class.met]="passwordStrength.hasMinLength && passwordStrength.hasMaxLength">
+                    <i class="fas" [ngClass]="passwordStrength.hasMinLength && passwordStrength.hasMaxLength ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'"></i>
+                    Entre 8 y 16 caracteres
+                  </small>
+                  <small class="requirement" [class.met]="passwordStrength.hasUpperCase">
+                    <i class="fas" [ngClass]="passwordStrength.hasUpperCase ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'"></i>
+                    Una letra mayúscula
+                  </small>
+                  <small class="requirement" [class.met]="passwordStrength.hasLowerCase">
+                    <i class="fas" [ngClass]="passwordStrength.hasLowerCase ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'"></i>
+                    Una letra minúscula
+                  </small>
+                  <small class="requirement" [class.met]="passwordStrength.hasNumbers">
+                    <i class="fas" [ngClass]="passwordStrength.hasNumbers ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'"></i>
+                    Un número
+                  </small>
+                  <small class="requirement" [class.met]="passwordStrength.hasSpecialChars">
+                    <i class="fas" [ngClass]="passwordStrength.hasSpecialChars ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'"></i>
+                    Un carácter especial (!#$%^&*)
+                  </small>
+                </div>
               </div>
 
+              <!-- Confirmar Contraseña -->
               <div class="mb-3">
-                <label class="form-label">Nombre *</label>
+                <label class="form-label">
+                  Confirmar Contraseña <span class="text-danger">*</span>
+                </label>
+                <div class="password-input-group">
+                  <input 
+                    [type]="showConfirmPassword ? 'text' : 'password'" 
+                    class="form-control"
+                    [(ngModel)]="registerData.confirmPassword"
+                    (blur)="confirmPasswordTouched = true"
+                    name="confirmPassword"
+                    required
+                    [class.is-invalid]="showConfirmError"
+                    [class.is-valid]="confirmPasswordTouched && passwordsMatch && registerData.confirmPassword !== ''"
+                    [disabled]="loading">
+                  <button
+                    type="button"
+                    class="password-toggle"
+                    (click)="togglePasswordVisibility('confirm')"
+                    tabindex="-1"
+                    [disabled]="loading">
+                    <i class="fas" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  </button>
+                </div>
+                <div class="invalid-feedback" *ngIf="showConfirmError">
+                  Las contraseñas no coinciden
+                </div>
+              </div>
+
+              <!-- Nombre -->
+              <div class="mb-3">
+                <label class="form-label">
+                  Nombre <span class="text-danger">*</span>
+                </label>
                 <input 
                   type="text" 
                   class="form-control"
-                  [(ngModel)]="registerData.nombre"
-                  name="nombre"
-                  required>
+                  [(ngModel)]="registerData.firstName"
+                  name="firstName"
+                  required
+                  minlength="3"
+                  maxlength="15"
+                  [disabled]="loading">
               </div>
 
+              <!-- Segundo Nombre (Opcional) -->
               <div class="mb-3">
-                <label class="form-label">Apellido paterno *</label>
+                <label class="form-label">Segundo nombre</label>
                 <input 
                   type="text" 
                   class="form-control"
-                  [(ngModel)]="registerData.apellidoPaterno"
-                  name="apellidoPaterno"
-                  required>
+                  [(ngModel)]="registerData.middleName"
+                  name="middleName"
+                  maxlength="15"
+                  [disabled]="loading">
               </div>
 
+              <!-- Apellido -->
               <div class="mb-3">
-                <label class="form-label">Apellido materno</label>
+                <label class="form-label">
+                  Apellido paterno <span class="text-danger">*</span>
+                </label>
                 <input 
                   type="text" 
                   class="form-control"
-                  [(ngModel)]="registerData.apellidoMaterno"
-                  name="apellidoMaterno">
+                  [(ngModel)]="registerData.lastName"
+                  name="lastName"
+                  required
+                  minlength="3"
+                  maxlength="30"
+                  [disabled]="loading">
               </div>
 
-              <div class="mb-4">
+              <!-- Teléfono -->
+              <div class="mb-3">
                 <label class="form-label">Teléfono</label>
                 <input 
                   type="tel" 
                   class="form-control"
-                  [(ngModel)]="registerData.telefono"
-                  name="telefono">
+                  [(ngModel)]="registerData.phoneNumber"
+                  name="phoneNumber"
+                  placeholder="(555) 123-4567"
+                  [disabled]="loading">
               </div>
 
-              <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="loading">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                Crear cuenta
-              </button>
+              <!-- 2FA -->
+              <div class="mb-3">
+                <div class="form-check">
+                  <input 
+                    type="checkbox" 
+                    class="form-check-input"
+                    [(ngModel)]="registerData.enableTwoFactor"
+                    name="enableTwoFactor"
+                    id="enable2FA"
+                    [disabled]="loading">
+                  <label class="form-check-label" for="enable2FA">
+                    <strong>Habilitar Autenticación de Dos Factores (2FA)</strong>
+                    <small class="d-block text-muted">
+                      Añade una capa extra de seguridad. Podrás configurarlo después de registrarte.
+                    </small>
+                  </label>
+                </div>
+              </div>
 
-              <div class="text-center mt-4">
-                <span>¿Ya tiene una cuenta? </span>
-                <a href="/landing/login-cana" class="text-decoration-none">Iniciar sesión</a>
+              <!-- Términos y Condiciones -->
+              <div class="mb-4">
+                <div class="form-check">
+                  <input 
+                    type="checkbox" 
+                    class="form-check-input"
+                    [(ngModel)]="registerData.acceptTerms"
+                    name="acceptTerms"
+                    id="acceptTerms"
+                    required
+                    [disabled]="loading">
+                  <label class="form-check-label" for="acceptTerms">
+                    Acepto los <a href="/terms" target="_blank">Términos y Condiciones</a> 
+                    y la <a href="/privacy" target="_blank">Política de Privacidad</a> 
+                    <span class="text-danger">*</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Botón de Submit -->
+              <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="loading">
+                <span *ngIf="!loading">
+                  <i class="fas fa-user-plus"></i> Crear cuenta
+                </span>
+                <span *ngIf="loading">
+                  <i class="fas fa-spinner fa-spin"></i> Creando cuenta...
+                </span>
+              </button>
+              
+              <!-- Link a Login -->
+              <div class="text-center">
+                <span>¿Ya tienes una cuenta? </span>
+                <a routerLink="/landing/login-cana" class="text-decoration-none">Iniciar sesión</a>
               </div>
             </form>
           </div>
@@ -90,8 +264,8 @@
       </div>
 
       <!-- SVG Ilustración -->
-      <div class="imagen-svg-register col-lg-6 order-1 order-lg-2">
-        <div class="svg-section">
+      <div class="col-lg-5 order-lg-2 order-1">
+        <div class="svg-section imagen-svg-register">
           <div class="svg-container">
             <img src="assets/images/undraw_sign-up_qamz.svg" 
                  alt="Register Illustration" 

@@ -1,0 +1,356 @@
+<!-- src/app/dashboard/security-settings/security-settings.component.html (CORREGIDO) -->
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Encabezado -->
+      <div class="text-center mb-5">
+        <h2 class="mb-3">Configuración de Seguridad</h2>
+        <p class="text-muted">Gestiona la seguridad de tu cuenta</p>
+      </div>
+
+      <!-- Mensajes -->
+      <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+        <i class="fas fa-check-circle me-2"></i>
+        {{ successMessage }}
+        <button type="button" class="btn-close" (click)="clearMessages()"></button>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        {{ errorMessage }}
+        <button type="button" class="btn-close" (click)="clearMessages()"></button>
+      </div>
+
+      <!-- Card de Autenticación de Dos Factores -->
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <i class="fas fa-shield-alt me-2"></i>
+            Autenticación de Dos Factores (2FA)
+          </h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center py-4">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2 text-muted">Cargando estado de 2FA...</p>
+          </div>
+
+          <div *ngIf="!loading">
+            <!-- Estado actual -->
+            <div class="d-flex align-items-center justify-content-between mb-4">
+              <div>
+                <h6 class="mb-1">Estado de 2FA</h6>
+                <span class="badge" 
+                      [class.bg-success]="twoFactorStatus?.enabled" 
+                      [class.bg-secondary]="!twoFactorStatus?.enabled">
+                  <i class="fas" [ngClass]="twoFactorStatus?.enabled ? 'fa-check' : 'fa-times'"></i>
+                  {{ twoFactorStatus?.enabled ? 'Habilitado' : 'Deshabilitado' }}
+                </span>
+              </div>
+              <div class="text-end">
+                <button 
+                  *ngIf="!twoFactorStatus?.enabled" 
+                  class="btn btn-primary"
+                  (click)="initializeTwoFactorSetup()"
+                  [disabled]="loadingSetup">
+                  <span *ngIf="!loadingSetup">
+                    <i class="fas fa-plus me-2"></i>Habilitar 2FA
+                  </span>
+                  <span *ngIf="loadingSetup">
+                    <i class="fas fa-spinner fa-spin me-2"></i>Configurando...
+                  </span>
+                </button>
+                <button 
+                  *ngIf="twoFactorStatus?.enabled" 
+                  class="btn btn-danger"
+                  (click)="openDisableModal()">
+                  <i class="fas fa-times me-2"></i>Deshabilitar 2FA
+                </button>
+              </div>
+            </div>
+            
+            <!-- Información adicional cuando está habilitado -->
+            <div *ngIf="twoFactorStatus?.enabled" class="row">
+              <div class="col-md-6">
+                <div class="info-item">
+                  <strong>Habilitado:</strong>
+                  <span class="text-muted">
+                    {{ twoFactorStatus?.enabledAt ? (twoFactorStatus?.enabledAt | date:'dd/MM/yyyy HH:mm') : 'No disponible' }}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="info-item">
+                  <strong>Último uso:</strong>
+                  <span class="text-muted">
+                    {{ twoFactorStatus?.lastUsed ? (twoFactorStatus?.lastUsed | date:'dd/MM/yyyy HH:mm') : 'Nunca' }}
+                  </span>
+                </div>
+              </div>
+              <div class="col-12 mt-3">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <strong>Códigos de respaldo restantes:</strong>
+                    <span class="badge bg-info ms-2">{{ twoFactorStatus?.backupCodesRemaining || 0 }}</span>
+                  </div>
+                  <button 
+                    class="btn btn-outline-primary btn-sm"
+                    (click)="openBackupCodesModal()">
+                    <i class="fas fa-sync me-2"></i>Regenerar códigos
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Información sobre 2FA -->
+            <div class="mt-4 p-3 bg-light rounded">
+              <h6 class="mb-2">
+                <i class="fas fa-info-circle me-2"></i>
+                ¿Qué es la Autenticación de Dos Factores?
+              </h6>
+              <p class="mb-0 text-muted small">
+                La autenticación de dos factores añade una capa extra de seguridad a tu cuenta. 
+                Además de tu contraseña, necesitarás un código temporal generado por una aplicación 
+                como Google Authenticator, Microsoft Authenticator o Authy.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Configuración 2FA -->
+<div class="modal fade" [class.show]="showSetupModal" [style.display]="showSetupModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-shield-alt me-2"></i>
+          Configurar Autenticación de Dos Factores
+        </h5>
+        <button type="button" class="btn-close" (click)="closeSetupModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="setupData">
+          <div class="row">
+            <!-- QR Code -->
+            <div class="col-md-6 text-center">
+              <h6>1. Escanea este código QR</h6>
+              <div class="qr-container mb-3">
+                <img [src]="setupData.qrCode" alt="QR Code" class="img-fluid qr-code">
+              </div>
+              <p class="small text-muted">
+                Usa Google Authenticator, Microsoft Authenticator o Authy
+              </p>
+            </div>
+
+            <!-- Clave secreta manual -->
+            <div class="col-md-6">
+              <h6>2. O ingresa la clave manualmente</h6>
+              <div class="secret-key-container mb-3">
+                <label class="form-label">Clave secreta:</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" [value]="setupData.secret" readonly>
+                  <button class="btn btn-outline-secondary" (click)="copyToClipboard(setupData.secret)">
+                    <i class="fas fa-copy"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Códigos de respaldo -->
+          <div class="backup-codes-section mt-4">
+            <h6>
+              <i class="fas fa-key me-2"></i>
+              Códigos de Respaldo
+            </h6>
+            <div class="alert alert-warning">
+              <strong>¡Importante!</strong> Guarda estos códigos en un lugar seguro. 
+              Puedes usarlos si pierdes acceso a tu aplicación de autenticación.
+            </div>
+            <div class="row">
+              <div *ngFor="let code of setupData.backupCodes; let i = index" class="col-md-4 mb-2">
+                <div class="backup-code">
+                  {{ i + 1 }}. {{ code }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verificación -->
+          <div class="verification-section mt-4">
+            <h6>3. Ingresa el código de verificación</h6>
+            <div class="input-group mb-3">
+              <input 
+                type="text" 
+                class="form-control text-center" 
+                placeholder="000000"
+                maxlength="6"
+                [value]="verificationCode"
+                (input)="onCodeInput($event, 'verification')"
+                [class.is-invalid]="verificationCode && !isValidCode(verificationCode)">
+              <button 
+                class="btn btn-primary" 
+                (click)="enableTwoFactor()"
+                [disabled]="!isValidCode(verificationCode) || loadingEnable">
+                <span *ngIf="!loadingEnable">
+                  <i class="fas fa-check me-2"></i>Verificar y Habilitar
+                </span>
+                <span *ngIf="loadingEnable">
+                  <i class="fas fa-spinner fa-spin me-2"></i>Verificando...
+                </span>
+              </button>
+            </div>
+            <small class="text-muted">
+              Ingresa el código de 6 dígitos que aparece en tu aplicación de autenticación
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Deshabilitar 2FA -->
+<div class="modal fade" [class.show]="showDisableModal" [style.display]="showDisableModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-exclamation-triangle me-2 text-warning"></i>
+          Deshabilitar 2FA
+        </h5>
+        <button type="button" class="btn-close" (click)="closeDisableModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning">
+          <strong>¡Atención!</strong> Esto reducirá la seguridad de tu cuenta. 
+          Solo deshabilitarás 2FA si ya no tienes acceso a tu aplicación de autenticación.
+        </div>
+        
+        <div class="mb-3">
+          <label class="form-label">Código de verificación</label>
+          <input 
+            type="text" 
+            class="form-control text-center" 
+            placeholder="000000"
+            maxlength="6"
+            [value]="disableCode"
+            (input)="onCodeInput($event, 'disable')"
+            [class.is-invalid]="disableCode && !isValidCode(disableCode)">
+          <small class="text-muted">
+            Ingresa un código de tu aplicación de autenticación o un código de respaldo
+          </small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDisableModal()">
+          Cancelar
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-danger" 
+          (click)="disableTwoFactor()"
+          [disabled]="!isValidCode(disableCode) || loadingDisable">
+          <span *ngIf="!loadingDisable">
+            <i class="fas fa-times me-2"></i>Deshabilitar 2FA
+          </span>
+          <span *ngIf="loadingDisable">
+            <i class="fas fa-spinner fa-spin me-2"></i>Deshabilitando...
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Regenerar Códigos de Respaldo -->
+<div class="modal fade" [class.show]="showBackupCodesModal" [style.display]="showBackupCodesModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-key me-2"></i>
+          Regenerar Códigos de Respaldo
+        </h5>
+        <button type="button" class="btn-close" (click)="closeBackupCodesModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="newBackupCodes.length === 0">
+          <div class="alert alert-info">
+            <strong>¿Por qué regenerar?</strong> Si crees que tus códigos de respaldo actuales 
+            están comprometidos o has usado la mayoría, puedes generar nuevos códigos.
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Código de verificación</label>
+            <div class="input-group">
+              <input 
+                type="text" 
+                class="form-control text-center" 
+                placeholder="000000"
+                maxlength="6"
+                [value]="backupCodeCode"
+                (input)="onCodeInput($event, 'backup')"
+                [class.is-invalid]="backupCodeCode && !isValidCode(backupCodeCode)">
+              <button 
+                class="btn btn-primary" 
+                (click)="regenerateBackupCodes()"
+                [disabled]="!isValidCode(backupCodeCode) || loadingBackupCodes">
+                <span *ngIf="!loadingBackupCodes">
+                  <i class="fas fa-sync me-2"></i>Regenerar
+                </span>
+                <span *ngIf="loadingBackupCodes">
+                  <i class="fas fa-spinner fa-spin me-2"></i>Generando...
+                </span>
+              </button>
+            </div>
+            <small class="text-muted">
+              Ingresa un código de tu aplicación de autenticación
+            </small>
+          </div>
+        </div>
+
+        <!-- Nuevos códigos generados -->
+        <div *ngIf="newBackupCodes.length > 0">
+          <div class="alert alert-success">
+            <strong>¡Éxito!</strong> Se han generado nuevos códigos de respaldo. 
+            Los códigos anteriores ya no son válidos.
+          </div>
+          
+          <h6>Nuevos Códigos de Respaldo</h6>
+          <div class="backup-codes-grid mb-3">
+            <div *ngFor="let code of newBackupCodes; let i = index" class="backup-code-item">
+              {{ i + 1 }}. {{ code }}
+            </div>
+          </div>
+          
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary" (click)="downloadBackupCodes()">
+              <i class="fas fa-download me-2"></i>Descargar
+            </button>
+            <button class="btn btn-outline-secondary" (click)="copyToClipboard(newBackupCodes.join('\n'))">
+              <i class="fas fa-copy me-2"></i>Copiar Todos
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeBackupCodesModal()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop para modales -->
+<div *ngIf="showSetupModal || showDisableModal || showBackupCodesModal" 
+     class="modal-backdrop fade show" 
+     (click)="showSetupModal ? closeSetupModal() : showDisableModal ? closeDisableModal() : closeBackupCodesModal()">
+</div>

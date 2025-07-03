@@ -5,6 +5,8 @@ import { UserEntity } from '../../../models/user.entity';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { SearchService } from '../../../services/search.service';
+import { SessionService } from '../../../services/session.service';
+
 
 
 
@@ -64,12 +66,22 @@ export class NavBarDashboardCanaComponent implements OnInit, OnDestroy{
 
   
 
-  // En nav-bar-dashboard-cana.component.ts
-  onLogout() {
-    this.authService.logout();
-    localStorage.clear();
-    this.router.navigate(['/landing/login-cana']); // Redirección explícita
-  }
+  
+  // nav-bar-dashboard-cana.component.ts
+onLogout() {
+  this.authService.logout().subscribe({
+    next: (response) => {
+      console.log('Logout exitoso:', response);
+      // El AuthService ya maneja la limpieza y navegación
+    },
+    error: (error) => {
+      console.error('Error en logout:', error);
+      // Aún así, limpiar datos locales por seguridad
+      localStorage.clear();
+      this.router.navigate(['/landing/login-cana']);
+    }
+  });
+}
   
   
   
