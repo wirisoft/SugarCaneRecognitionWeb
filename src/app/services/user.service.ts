@@ -9,6 +9,8 @@ import {
 } from '../models/user-response.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +22,40 @@ export class UserService {
 
   // ✅ Método para obtener headers con token de autorización
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token') || localStorage.getItem('sessionToken');
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': token ? `Bearer ${token}` : ''
-    });
+  const token = localStorage.getItem('token') || localStorage.getItem('sessionToken');
+  
+  console.log('🔍 Obteniendo headers...');
+  console.log('🔑 Token encontrado:', token ? 'Sí' : 'No');
+  
+  if (token) {
+    console.log('🔑 Token (primeros 20 chars):', token.substring(0, 20) + '...');
+    
+    // Verificar si el token no está expirado (opcional)
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const now = Math.floor(Date.now() / 1000);
+      
+      if (payload.exp && payload.exp < now) {
+        console.warn('⚠️ Token expirado');
+        localStorage.removeItem('token');
+        localStorage.removeItem('sessionToken');
+        throw new Error('Token expirado');
+      }
+      
+      console.log('✅ Token válido, expira en:', new Date(payload.exp * 1000));
+    } catch (e) {
+      console.warn('⚠️ No se pudo verificar expiración del token:', e);
+    }
   }
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': token ? `Bearer ${token}` : ''
+  });
+
+  console.log('📋 Headers creados:', headers.keys());
+  return headers;
+}
 
   // ✅ Corregido para manejar la respuesta del backend
   getAllUsers(): Observable<UserEntity[]> {
@@ -144,15 +174,45 @@ export class UserService {
   }
 
   deleteUser(id: number): Observable<any> {
-    console.log('🗑️ Eliminando usuario:', id);
-    
-    return this.http.delete(`${this.apiUrl}/delete/${id}`, { headers: this.getHeaders() }).pipe(
-      map(response => {
-        console.log('✅ Usuario eliminado:', response);
-        return response;
-      })
-    );
+  console.log('🔍 UserService.deleteUser llamado');
+  console.log('🆔 ID a eliminar:', id, 'Tipo:', typeof id);
+  
+  if (!id || id <= 0) {
+    console.error('❌ ID inválido en UserService:', id);
+    return throwError(() => new Error('ID de usuario inválido'));
   }
+
+  const headers = this.getHeaders();
+  const url = `${this.apiUrl}/delete/${id}`;
+  
+  console.log('🌐 URL de eliminación:', url);
+  console.log('📋 Headers:', headers.keys());
+  
+  // Verificar token
+  const authHeader = headers.get('Authorization');
+  if (!authHeader || authHeader === 'Bearer ') {
+    console.error('❌ Token de autorización faltante o inválido');
+    return throwError(() => new Error('Token de autorización requerido'));
+  }
+  
+  console.log('🔑 Authorization header:', authHeader.substring(0, 20) + '...');
+
+  return this.http.delete<any>(url, { headers }).pipe(
+    tap(response => {
+      console.log('✅ Eliminación exitosa - respuesta completa:', response);
+    }),
+    catchError(error => {
+      console.error('❌ Error en deleteUser:', error);
+      console.error('📊 Status del error:', error.status);
+      console.error('📝 StatusText del error:', error.statusText);
+      console.error('🔍 Error body:', error.error);
+      console.error('🌐 URL que falló:', error.url);
+      
+      // Re-lanzar el error para que el componente lo maneje
+      return throwError(() => error);
+    })
+  );
+}
 
   // ✅ Métodos adicionales útiles
   getMyProfile(): Observable<UserProfileResponse> {

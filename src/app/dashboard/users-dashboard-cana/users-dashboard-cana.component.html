@@ -114,6 +114,27 @@
                       Guardar
                     </button>
                   </div>
+                  <!-- 🔄 En users-dashboard-cana.component.html -->
+<!-- AGREGAR estos botones TEMPORALMENTE en la sección de cabecera, después del h2: -->
+
+<div class="dashboard-header mb-4">
+  <h2>Gestión de Usuarios</h2>
+  <p class="text-muted">Administración de usuarios del sistema</p>
+  
+  <!-- ✅ AGREGAR estos botones temporalmente para debugging: -->
+  <div class="mb-3" style="border: 2px dashed #ffc107; padding: 10px; background: #fff3cd;">
+    <small class="text-warning">🧪 <strong>Botones de Testing (temporal)</strong></small><br>
+    <button class="btn btn-warning btn-sm me-2" (click)="testBackendConnection()">
+      🔗 Test Conexión Backend
+    </button>
+    <button class="btn btn-info btn-sm" (click)="testDeleteDirectly()" [disabled]="rowData.length === 0">
+      🗑️ Test Eliminación Directa
+    </button>
+    <small class="d-block mt-1 text-muted">
+      Total usuarios cargados: {{ rowData.length }}
+    </small>
+  </div>
+</div>
                 </form>
               </div>
             </div>
@@ -122,5 +143,6 @@
   
       </div>
     </div>
+
   </app-nav-bar-dashboard-cana>
   

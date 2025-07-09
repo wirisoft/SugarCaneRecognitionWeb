@@ -1,191 +1,205 @@
-<!-- src/app/components/login-cana/login-cana.component.html (ACTUALIZADO) -->
+<!-- src/app/components/login-cana/login-cana.component.html (MEJORADO SIMPLE) -->
 <app-nav-bar-cana></app-nav-bar-cana>
 
-<div class="login-container">
-  <div class="login-card">
-    <div class="text-center mb-4">
-      <div class="login-icon">
-        <i class="fas fa-user-circle"></i>
-      </div>
-      <h2 class="mb-3">Iniciar Sesión</h2>
-      <p class="text-muted">Accede a tu cuenta de Sugar Cane Recognition</p>
-    </div>
-
-    <!-- Mensajes -->
-    <div *ngIf="errorMessage" class="alert alert-danger">
-      <i class="fas fa-exclamation-circle me-2"></i>
-      {{ errorMessage }}
-    </div>
-
-    <div *ngIf="successMessage" class="alert alert-success">
-      <i class="fas fa-check-circle me-2"></i>
-      {{ successMessage }}
-    </div>
-
-    <!-- Formulario de Login (visible cuando NO se requiere 2FA) -->
-    <form *ngIf="!requires2FA" (ngSubmit)="onSubmit()" class="login-form">
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <div class="input-group">
-          <span class="input-group-text">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <input 
-            type="email" 
-            class="form-control" 
-            id="email"
-            name="email"
-            placeholder="tu@email.com"
-            [(ngModel)]="loginData.email"
-            [disabled]="loading"
-            required>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="password" class="form-label">Contraseña</label>
-        <div class="input-group">
-          <span class="input-group-text">
-            <i class="fas fa-lock"></i>
-          </span>
-          <input 
-            [type]="showPassword ? 'text' : 'password'" 
-            class="form-control" 
-            id="password"
-            name="password"
-            placeholder="Tu contraseña"
-            [(ngModel)]="loginData.password"
-            [disabled]="loading"
-            required>
-          <button 
-            type="button" 
-            class="btn btn-outline-secondary"
-            (click)="togglePasswordVisibility()"
-            [disabled]="loading">
-            <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
-          </button>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <div class="form-check">
-          <input 
-            class="form-check-input" 
-            type="checkbox" 
-            id="rememberMe"
-            [(ngModel)]="rememberMe"
-            name="rememberMe">
-          <label class="form-check-label" for="rememberMe">
-            Recordar mi email
-          </label>
-        </div>
-      </div>
-
-      <div class="d-grid gap-2">
-        <button 
-          type="submit" 
-          class="btn btn-primary btn-lg"
-          [disabled]="loading">
-          <span *ngIf="!loading">
-            <i class="fas fa-sign-in-alt me-2"></i>
-            Iniciar Sesión
-          </span>
-          <span *ngIf="loading">
-            <i class="fas fa-spinner fa-spin me-2"></i>
-            Iniciando sesión...
-          </span>
-        </button>
-        
-        <button 
-          type="button" 
-          class="btn btn-link"
-          (click)="forgotPassword()"
-          [disabled]="loading">
-          ¿Olvidaste tu contraseña?
-        </button>
-      </div>
-    </form>
-
-    <!-- Sección de Verificación 2FA (visible cuando se requiere 2FA) -->
-    <div *ngIf="requires2FA" class="two-factor-section">
-      <div class="text-center mb-4">
-        <div class="two-factor-icon">
-          <i class="fas fa-shield-alt"></i>
-        </div>
-        <h3 class="mb-3">Verificación de Dos Factores</h3>
-        <p class="text-muted">
-          Ingresa el código de 6 dígitos de tu aplicación de autenticación
-        </p>
-        <small class="text-muted d-block">
-          Usuario: <strong>{{ loginData.email }}</strong>
-        </small>
-      </div>
-
-      <form (ngSubmit)="verify2FACode()" class="two-factor-form">
-        <div class="mb-4">
-          <label class="form-label">Código de verificación</label>
-          <input 
-            type="text" 
-            class="form-control code-input"
-            placeholder="000000"
-            maxlength="6"
-            [(ngModel)]="twoFactorCode"
-            (input)="onCodeInput($event)"
-            [class.is-invalid]="twoFactorCode && twoFactorCode.length !== 6"
-            name="twoFactorCode"
-            required
-            autofocus
-            [disabled]="loading">
-          <small class="form-text text-muted">
-            Código de 6 dígitos de Google Authenticator, Microsoft Authenticator o similar
-          </small>
-        </div>
-
-        <div class="d-grid gap-2">
-          <button 
-            type="submit" 
-            class="btn btn-primary btn-lg"
-            [disabled]="loading || twoFactorCode.length !== 6">
-            <span *ngIf="!loading">
-              <i class="fas fa-sign-in-alt me-2"></i>
-              Verificar e Ingresar
-            </span>
-            <span *ngIf="loading">
-              <i class="fas fa-spinner fa-spin me-2"></i>
-              Verificando...
-            </span>
-          </button>
-          
-          <button 
-            type="button" 
-            class="btn btn-outline-secondary"
-            (click)="cancel2FA()"
-            [disabled]="loading">
-            <i class="fas fa-arrow-left me-2"></i>
-            Volver al Login
-          </button>
-        </div>
-      </form>
-
-      <!-- Información adicional para 2FA -->
-      <div class="help-section mt-4">
-        <h6>¿Necesitas ayuda?</h6>
-        <ul class="help-list">
-          <li>Asegúrate de que la hora en tu dispositivo sea correcta</li>
-          <li>Verifica que estás usando el código más reciente</li>
-          <li>Si perdiste tu dispositivo, usa un código de respaldo</li>
-        </ul>
+<div class="page-container">
+  <div class="content-wrapper">
+    <!-- Sección del SVG -->
+    <div class="svg-section">
+      <div class="svg-container">
+        <img src="assets/images/undraw_sign-up_qamz.svg" 
+             alt="Sugar Cane Recognition - Login" 
+             class="svg-image">
       </div>
     </div>
 
-    <!-- Enlaces de navegación -->
-    <div class="text-center mt-4" *ngIf="!requires2FA">
-      <p class="mb-0">
-        ¿No tienes cuenta? 
-        <a routerLink="/landing/register-cana" class="text-decoration-none">
-          Regístrate aquí
-        </a>
-      </p>
+    <!-- Sección del Formulario -->
+    <div class="form-section">
+      <div class="form-container">
+        <div class="text-center mb-4">
+          <div class="login-icon">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h2 class="mb-3">Iniciar Sesión</h2>
+          <p class="text-muted">Accede a tu cuenta de Sugar Cane Recognition</p>
+        </div>
+
+        <!-- Mensajes -->
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          <i class="fas fa-exclamation-circle me-2"></i>
+          {{ errorMessage }}
+        </div>
+
+        <div *ngIf="successMessage" class="alert alert-success">
+          <i class="fas fa-check-circle me-2"></i>
+          {{ successMessage }}
+        </div>
+
+        <!-- Formulario de Login (visible cuando NO se requiere 2FA) -->
+        <form *ngIf="!requires2FA" (ngSubmit)="onSubmit()" class="login-form">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fas fa-envelope"></i>
+              </span>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email"
+                name="email"
+                placeholder="tu@email.com"
+                [(ngModel)]="loginData.email"
+                [disabled]="loading"
+                required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fas fa-lock"></i>
+              </span>
+              <input 
+                [type]="showPassword ? 'text' : 'password'" 
+                class="form-control" 
+                id="password"
+                name="password"
+                placeholder="Tu contraseña"
+                [(ngModel)]="loginData.password"
+                [disabled]="loading"
+                required>
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary password-toggle"
+                (click)="togglePasswordVisibility()"
+                [disabled]="loading">
+                <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-check">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                id="rememberMe"
+                [(ngModel)]="rememberMe"
+                name="rememberMe">
+              <label class="form-check-label" for="rememberMe">
+                Recordar mi email
+              </label>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2">
+            <button 
+              type="submit" 
+              class="btn btn-primary btn-lg"
+              [disabled]="loading">
+              <span *ngIf="!loading">
+                <i class="fas fa-sign-in-alt me-2"></i>
+                Iniciar Sesión
+              </span>
+              <span *ngIf="loading">
+                <i class="fas fa-spinner fa-spin me-2"></i>
+                Iniciando sesión...
+              </span>
+            </button>
+            
+            <button 
+              type="button" 
+              class="btn btn-link"
+              (click)="forgotPassword()"
+              [disabled]="loading">
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+        </form>
+
+        <!-- Sección de Verificación 2FA (visible cuando se requiere 2FA) -->
+        <div *ngIf="requires2FA" class="two-factor-section">
+          <div class="text-center mb-4">
+            <div class="two-factor-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 class="mb-3">Verificación de Dos Factores</h3>
+            <p class="text-muted">
+              Ingresa el código de 6 dígitos de tu aplicación de autenticación
+            </p>
+            <small class="text-muted d-block">
+              Usuario: <strong>{{ loginData.email }}</strong>
+            </small>
+          </div>
+
+          <form (ngSubmit)="verify2FACode()" class="two-factor-form">
+            <div class="mb-4">
+              <label class="form-label">Código de verificación</label>
+              <input 
+                type="text" 
+                class="form-control code-input"
+                placeholder="000000"
+                maxlength="6"
+                [(ngModel)]="twoFactorCode"
+                (input)="onCodeInput($event)"
+                [class.is-invalid]="twoFactorCode && twoFactorCode.length !== 6"
+                name="twoFactorCode"
+                required
+                autofocus
+                [disabled]="loading">
+              <small class="form-text text-muted">
+                Código de 6 dígitos de Google Authenticator, Microsoft Authenticator o similar
+              </small>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg"
+                [disabled]="loading || twoFactorCode.length !== 6">
+                <span *ngIf="!loading">
+                  <i class="fas fa-sign-in-alt me-2"></i>
+                  Verificar e Ingresar
+                </span>
+                <span *ngIf="loading">
+                  <i class="fas fa-spinner fa-spin me-2"></i>
+                  Verificando...
+                </span>
+              </button>
+              
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary"
+                (click)="cancel2FA()"
+                [disabled]="loading">
+                <i class="fas fa-arrow-left me-2"></i>
+                Volver al Login
+              </button>
+            </div>
+          </form>
+
+          <!-- Información adicional para 2FA -->
+          <div class="help-section mt-4">
+            <h6>¿Necesitas ayuda?</h6>
+            <ul class="help-list">
+              <li>Asegúrate de que la hora en tu dispositivo sea correcta</li>
+              <li>Verifica que estás usando el código más reciente</li>
+              <li>Si perdiste tu dispositivo, usa un código de respaldo</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Enlaces de navegación -->
+        <div class="text-center mt-4" *ngIf="!requires2FA">
+          <p class="mb-0">
+            ¿No tienes cuenta? 
+            <a routerLink="/landing/register-cana" class="text-decoration-none">
+              Regístrate aquí
+            </a>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
