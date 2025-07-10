@@ -10,6 +10,8 @@ import { DiagnosisDashboardCanaComponent } from './diagnosis-dashboard-cana/diag
 import { SecuritySettingsComponent } from './security-settings/security-settings.component';
 import { dashboardGuard, adminOnlyGuard, authGuard } from '../guards/dashboard.guard';
 import { AuthGuard } from '../guards/auth.guard';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
 
 export const dashboardRoutes: Routes = [
     {
@@ -60,6 +62,16 @@ export const dashboardRoutes: Routes = [
                 path: 'security-settings',
                 component: SecuritySettingsComponent
                 // ✅ Accesible por USER y ADMIN para gestionar su propio 2FA
+            },
+            {
+                path: 'privacy-policy',
+                component: PrivacyPolicyComponent
+                // ✅ Accesible por USER y ADMIN
+            },
+            {
+                path: 'terms-and-conditions',
+                component: TermsAndConditionsComponent
+                // ✅ Accesible por USER y ADMIN
             }
         ]
     }

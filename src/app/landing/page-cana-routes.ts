@@ -10,6 +10,8 @@ import { UnderDevelopmentComponent } from "./components/under-development/under-
 import { ErrorCanaComponent } from "./error-cana/error-cana.component";
 import { TwoFactorVerificationComponent } from "../dashboard/two-factor-verification/two-factor-verification.component";
 import { NoAuthGuard, TwoFactorGuard } from "../guards/auth.guard";
+import { PrivacyPolicyComponent } from "../dashboard/components/privacy-policy/privacy-policy.component";
+import { TermsAndConditionsComponent } from "../dashboard/components/terms-and-conditions/terms-and-conditions.component";
 
 export const pageRoutes: Routes = [
     {
@@ -58,7 +60,17 @@ export const pageRoutes: Routes = [
             {
                 path: '404-cana',
                 component: ErrorCanaComponent
-            }
+            },
+                        {
+                            path: 'privacy-policy',
+                            component: PrivacyPolicyComponent
+                            // ✅ Accesible por USER y ADMIN
+                        },
+                        {
+                            path: 'terms-and-conditions',
+                            component: TermsAndConditionsComponent
+                            // ✅ Accesible por USER y ADMIN
+                        }
         ]
     }
 ];
