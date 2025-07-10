@@ -306,10 +306,10 @@ colDefs: ColDef<DetectionModel>[] = [
       const div = document.createElement('div');
       div.className = 'action-buttons';
       div.innerHTML = `
-        <button class="btn edit-action" title="Editar">
-          <i class="bi bi-pencil-fill"></i>
+        <button class="btn btn-sm btn-outline-primary save-btn" title="Guardar Cambios">
+          <i class="bi bi-save-fill"></i>
         </button>
-        <button class="btn delete-action" title="Eliminar">
+        <button class="btn btn-link text-danger p-0" title="Eliminar">
           <i class="bi bi-trash-fill"></i>
         </button>
       `;

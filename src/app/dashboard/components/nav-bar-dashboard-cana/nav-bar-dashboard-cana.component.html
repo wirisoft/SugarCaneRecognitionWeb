@@ -51,36 +51,42 @@
                     <span *ngIf="!isSidebarCollapsed">Inicio</span>
                 </a>
             </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" routerLink="/dashboard/users-cana" routerLinkActive="active">
-                    <i class="fas fa-users"></i>
-                    <span *ngIf="!isSidebarCollapsed">Usuarios</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" routerLink="/dashboard/diagnosis-cana" routerLinkActive="active">
-                    <i class="fas fa-microscope"></i>
-                    <span *ngIf="!isSidebarCollapsed">Diagnóstico</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" routerLink="/dashboard/plants-cana" routerLinkActive="active">
-                    <i class="fas fa-seedling"></i>
-                    <span *ngIf="!isSidebarCollapsed">Plantas</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" routerLink="/dashboard/pests-cana" routerLinkActive="active">
-                    <i class="fas fa-bug"></i>
-                    <span *ngIf="!isSidebarCollapsed">Plagas</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" routerLink="/dashboard/detections-model-cana" routerLinkActive="active">
-                    <i class="fas fa-microscope"></i>
-                    <span *ngIf="!isSidebarCollapsed">Modelo de Detección</span>
-                </a>
-            </li>
+    <li class="sidebar-item" *appHasRole="'ADMIN'">
+      <a class="sidebar-link" routerLink="/dashboard/users-cana" routerLinkActive="active">
+        <i class="fas fa-users"></i>
+        <span *ngIf="!isSidebarCollapsed">Usuarios</span>
+      </a>
+    </li>
+
+
+    <li class="sidebar-item" *appHasRole="['USER', 'ADMIN']">
+      <a class="sidebar-link" routerLink="/dashboard/diagnosis-cana" routerLinkActive="active">
+        <i class="fas fa-microscope"></i>
+        <span *ngIf="!isSidebarCollapsed">Diagnóstico</span>
+      </a>
+    </li>
+
+    <li class="sidebar-item" *appHasRole="['USER', 'ADMIN']">
+      <a class="sidebar-link" routerLink="/dashboard/plants-cana" routerLinkActive="active">
+        <i class="fas fa-seedling"></i>
+        <span *ngIf="!isSidebarCollapsed">Plantas</span>
+      </a>
+    </li>
+
+    <li class="sidebar-item" *appHasRole="['USER', 'ADMIN']">
+      <a class="sidebar-link" routerLink="/dashboard/pests-cana" routerLinkActive="active">
+        <i class="fas fa-bug"></i>
+        <span *ngIf="!isSidebarCollapsed">Plagas</span>
+      </a>
+    </li>
+
+    <li class="sidebar-item" *appHasRole="['USER', 'ADMIN']">
+      <a class="sidebar-link" routerLink="/dashboard/detections-model-cana" routerLinkActive="active">
+        <i class="fas fa-microscope"></i>
+        <span *ngIf="!isSidebarCollapsed">Modelo de Detección</span>
+      </a>
+    </li>
+
         </ul>
     </div>
 

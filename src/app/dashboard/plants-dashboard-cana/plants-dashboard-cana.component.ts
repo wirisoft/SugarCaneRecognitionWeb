@@ -101,7 +101,7 @@ export class PlantsDashboardCanaComponent implements OnInit {
         const div = document.createElement('div');
         div.innerHTML = `
           <div class="d-flex">
-            <button class="btn btn-link text-primary p-0 me-2" title="Guardar Cambios">
+            <button class="btn btn-sm btn-outline-primary save-btn" title="Guardar Cambios">
               <i class="bi bi-save-fill"></i>
             </button>
             <button class="btn btn-link text-danger p-0" title="Eliminar">

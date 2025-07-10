@@ -1,4 +1,4 @@
-<!-- register-cana.component.html -->
+<!-- register-cana.component.html (MEJORADO ESTÉTICAMENTE) -->
 <app-nav-bar-cana></app-nav-bar-cana>
 
 <div class="page-container">
@@ -8,7 +8,13 @@
       <div class="col-lg-7 order-lg-1 order-2">
         <div class="form-section">
           <div class="form-container">
-            <h1 class="text-center mb-4">Crear Cuenta</h1>
+            <div class="text-center mb-4">
+              <div class="register-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <h1 class="mb-3">Crear Cuenta</h1>
+              <p class="text-muted">Únete a Sugar Cane Recognition</p>
+            </div>
             
             <!-- Mensaje de éxito -->
             <div *ngIf="successMessage" class="alert alert-success mb-3">
@@ -24,21 +30,26 @@
               <!-- Email -->
               <div class="mb-3">
                 <label class="form-label">
+                  <i class="fas fa-envelope"></i>
                   Correo electrónico <span class="text-danger">*</span>
                 </label>
-                <input 
-                  type="email" 
-                  class="form-control"
-                  placeholder="usuario@ejemplo.com"
-                  [(ngModel)]="registerData.email"
-                  name="email"
-                  required
-                  [disabled]="loading">
+                <div class="input-wrapper">
+                  <input 
+                    type="email" 
+                    class="form-control"
+                    placeholder="usuario@ejemplo.com"
+                    [(ngModel)]="registerData.email"
+                    name="email"
+                    required
+                    [disabled]="loading">
+                  <div class="input-focus-border"></div>
+                </div>
               </div>
 
               <!-- Contraseña -->
               <div class="mb-3">
                 <label class="form-label">
+                  <i class="fas fa-lock"></i>
                   Contraseña <span class="text-danger">*</span>
                 </label>
                 <div class="password-input-group">
@@ -70,6 +81,7 @@
                     title="Generar contraseña segura">
                     <i class="fas fa-sync"></i>
                   </button>
+                  <div class="input-focus-border"></div>
                 </div>
 
                 <!-- Indicador de fortaleza -->
@@ -122,6 +134,7 @@
               <!-- Confirmar Contraseña -->
               <div class="mb-3">
                 <label class="form-label">
+                  <i class="fas fa-lock"></i>
                   Confirmar Contraseña <span class="text-danger">*</span>
                 </label>
                 <div class="password-input-group">
@@ -143,6 +156,7 @@
                     [disabled]="loading">
                     <i class="fas" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
                   </button>
+                  <div class="input-focus-border"></div>
                 </div>
                 <div class="invalid-feedback" *ngIf="showConfirmError">
                   Las contraseñas no coinciden
@@ -152,103 +166,125 @@
               <!-- Nombre -->
               <div class="mb-3">
                 <label class="form-label">
+                  <i class="fas fa-user"></i>
                   Nombre <span class="text-danger">*</span>
                 </label>
-                <input 
-                  type="text" 
-                  class="form-control"
-                  [(ngModel)]="registerData.firstName"
-                  name="firstName"
-                  required
-                  minlength="3"
-                  maxlength="15"
-                  [disabled]="loading">
+                <div class="input-wrapper">
+                  <input 
+                    type="text" 
+                    class="form-control"
+                    [(ngModel)]="registerData.firstName"
+                    name="firstName"
+                    required
+                    minlength="3"
+                    maxlength="15"
+                    [disabled]="loading">
+                  <div class="input-focus-border"></div>
+                </div>
               </div>
 
               <!-- Segundo Nombre (Opcional) -->
               <div class="mb-3">
-                <label class="form-label">Segundo nombre</label>
-                <input 
-                  type="text" 
-                  class="form-control"
-                  [(ngModel)]="registerData.middleName"
-                  name="middleName"
-                  maxlength="15"
-                  [disabled]="loading">
+                <label class="form-label">
+                  <i class="fas fa-user"></i>
+                  Segundo nombre
+                </label>
+                <div class="input-wrapper">
+                  <input 
+                    type="text" 
+                    class="form-control"
+                    [(ngModel)]="registerData.middleName"
+                    name="middleName"
+                    maxlength="15"
+                    [disabled]="loading">
+                  <div class="input-focus-border"></div>
+                </div>
               </div>
 
               <!-- Apellido -->
               <div class="mb-3">
                 <label class="form-label">
+                  <i class="fas fa-user"></i>
                   Apellido paterno <span class="text-danger">*</span>
                 </label>
-                <input 
-                  type="text" 
-                  class="form-control"
-                  [(ngModel)]="registerData.lastName"
-                  name="lastName"
-                  required
-                  minlength="3"
-                  maxlength="30"
-                  [disabled]="loading">
+                <div class="input-wrapper">
+                  <input 
+                    type="text" 
+                    class="form-control"
+                    [(ngModel)]="registerData.lastName"
+                    name="lastName"
+                    required
+                    minlength="3"
+                    maxlength="30"
+                    [disabled]="loading">
+                  <div class="input-focus-border"></div>
+                </div>
               </div>
 
               <!-- Teléfono -->
               <div class="mb-3">
-                <label class="form-label">Teléfono</label>
-                <input 
-                  type="tel" 
-                  class="form-control"
-                  [(ngModel)]="registerData.phoneNumber"
-                  name="phoneNumber"
-                  placeholder="(555) 123-4567"
-                  [disabled]="loading">
+                <label class="form-label">
+                  <i class="fas fa-phone"></i>
+                  Teléfono
+                </label>
+                <div class="input-wrapper">
+                  <input 
+                    type="tel" 
+                    class="form-control"
+                    [(ngModel)]="registerData.phoneNumber"
+                    name="phoneNumber"
+                    placeholder="(555) 123-4567"
+                    [disabled]="loading">
+                  <div class="input-focus-border"></div>
+                </div>
               </div>
 
               <!-- 2FA -->
               <div class="mb-3">
-                <div class="form-check">
-                  <input 
-                    type="checkbox" 
-                    class="form-check-input"
-                    [(ngModel)]="registerData.enableTwoFactor"
-                    name="enableTwoFactor"
-                    id="enable2FA"
-                    [disabled]="loading">
-                  <label class="form-check-label" for="enable2FA">
-                    <strong>Habilitar Autenticación de Dos Factores (2FA)</strong>
-                    <small class="d-block text-muted">
-                      Añade una capa extra de seguridad. Podrás configurarlo después de registrarte.
-                    </small>
+                <div class="custom-checkbox-container">
+                  <label class="custom-checkbox">
+                    <input 
+                      type="checkbox" 
+                      [(ngModel)]="registerData.enableTwoFactor"
+                      name="enableTwoFactor"
+                      [disabled]="loading">
+                    <span class="checkmark"></span>
+                    <div class="checkbox-content">
+                      <strong>Habilitar Autenticación de Dos Factores (2FA)</strong>
+                      <small class="d-block text-muted">
+                        Añade una capa extra de seguridad. Podrás configurarlo después de registrarte.
+                      </small>
+                    </div>
                   </label>
                 </div>
               </div>
 
               <!-- Términos y Condiciones -->
               <div class="mb-4">
-                <div class="form-check">
-                  <input 
-                    type="checkbox" 
-                    class="form-check-input"
-                    [(ngModel)]="registerData.acceptTerms"
-                    name="acceptTerms"
-                    id="acceptTerms"
-                    required
-                    [disabled]="loading">
-                  <label class="form-check-label" for="acceptTerms">
-                    Acepto los <a href="/terms" target="_blank">Términos y Condiciones</a> 
-                    y la <a href="/privacy" target="_blank">Política de Privacidad</a> 
-                    <span class="text-danger">*</span>
+                <div class="custom-checkbox-container">
+                  <label class="custom-checkbox">
+                    <input 
+                      type="checkbox" 
+                      [(ngModel)]="registerData.acceptTerms"
+                      name="acceptTerms"
+                      required
+                      [disabled]="loading">
+                    <span class="checkmark"></span>
+                    <div class="checkbox-content">
+                      Acepto los <a href="/terms" target="_blank">Términos y Condiciones</a> 
+                      y la <a href="/privacy" target="_blank">Política de Privacidad</a> 
+                      <span class="text-danger">*</span>
+                    </div>
                   </label>
                 </div>
               </div>
 
               <!-- Botón de Submit -->
               <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="loading">
-                <span *ngIf="!loading">
+                <span *ngIf="!loading" class="btn-content">
                   <i class="fas fa-user-plus"></i> Crear cuenta
                 </span>
-                <span *ngIf="loading">
+                <span *ngIf="loading" class="btn-content">
                   <i class="fas fa-spinner fa-spin"></i> Creando cuenta...
                 </span>
               </button>
@@ -267,10 +303,9 @@
       <div class="col-lg-5 order-lg-2 order-1">
         <div class="svg-section imagen-svg-register">
           <div class="svg-container">
-            <img src="assets/images/undraw_sign-up_qamz.svg" 
+            <img src="assets/images/undraw_email-capture_m6k0.svg" 
                  alt="Register Illustration" 
-                 class="img-fluid"
-                 style="background: white !important; mix-blend-mode: multiply;">
+                 class="svg-image">
           </div>
         </div>
       </div>

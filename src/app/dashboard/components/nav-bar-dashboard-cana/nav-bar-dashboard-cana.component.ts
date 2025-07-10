@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { SearchService } from '../../../services/search.service';
 import { SessionService } from '../../../services/session.service';
-
+import { HasRoleDirective } from '../../../directives/has-role.directive';
 
 
 
@@ -15,7 +15,8 @@ import { SessionService } from '../../../services/session.service';
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    HasRoleDirective
   ],
   templateUrl: './nav-bar-dashboard-cana.component.html',
   styleUrl: './nav-bar-dashboard-cana.component.css'

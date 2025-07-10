@@ -315,8 +315,8 @@ export class PestsDashboardCanaComponent implements OnInit {
         const div = document.createElement('div');
         div.innerHTML = `
           <div class="d-flex">
-            <button class="btn btn-link text-primary p-0 me-2" title="Editar">
-              <i class="bi bi-pencil-fill"></i>
+            <button class="btn btn-sm btn-outline-primary save-btn" title="Guardar Cambios">
+              <i class="bi bi-save-fill"></i>
             </button>
             <button class="btn btn-link text-danger p-0" title="Eliminar">
               <i class="bi bi-trash-fill"></i>
