@@ -9,6 +9,9 @@ import { Subject, takeUntil, forkJoin, catchError, of } from 'rxjs';
 
 // Ajusta esta ruta según la estructura de tu proyecto
 import { DiagnosisService } from '../../services/diagnosis.service';
+import { HasRoleDirective } from '../../directives/has-role.directive';
+import { CanPerformDirective } from '../../directives/can-perform.directive';
+import { AdminOnlyDirective } from '../../directives/admin-only.directive';
 
 // Definir interfaces localmente para evitar problemas de importación
 interface DetectionHistory {
@@ -47,7 +50,10 @@ interface DetectionStatistics {
     CommonModule,
     FormsModule,
     NavBarDashboardCanaComponent, 
-    BaseChartDirective
+    BaseChartDirective,
+    HasRoleDirective,        // ✅ Para *appHasRole
+    AdminOnlyDirective,      // ✅ Para *appAdminOnly
+    CanPerformDirective      // ✅ Para *appCanPerform
   ],
   templateUrl: './dashboard-home.component.html',
   styleUrl: './dashboard-home.component.css'

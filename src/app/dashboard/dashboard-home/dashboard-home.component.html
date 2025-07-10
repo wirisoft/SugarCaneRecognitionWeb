@@ -1,4 +1,4 @@
-<!-- dashboard-home.component.html - Versión Corregida -->
+<!-- dashboard-home.component.html - Versión Completa Corregida -->
 <app-nav-bar-dashboard-cana>
     <div class="dashboard-content">
         <div class="container-fluid">
@@ -11,7 +11,6 @@
                             Panel de Control - Monitoreo de Caña
                         </h2>
                         <p class="text-muted mb-0">
-                            
                             Resumen de condiciones y estado del sistema | 
                             <span>{{ currentDate | date:'medium':'es-ES' }}</span>
                         </p>
@@ -29,8 +28,8 @@
                 </div>
             </div>
 
-            <!-- Stats Cards Row -->
-            <div class="row mb-4" *ngIf="detectionStatistics">
+            <!-- Stats Cards Row - ✅ Visible para USER y ADMIN -->
+            <div class="row mb-4" *ngIf="detectionStatistics" [appHasRole]="['USER', 'ADMIN']">
                 <div class="col-md-3 mb-3">
                     <div class="card text-center h-100">
                         <div class="card-body d-flex flex-column justify-content-center">
@@ -81,8 +80,8 @@
                 </div>
             </div>
 
-            <!-- Charts Section -->
-            <div class="row">
+            <!-- Charts Section - ✅ Visible para USER y ADMIN -->
+            <div class="row" *appHasRole="['USER', 'ADMIN']">
                 <!-- Disease Detection Distribution -->
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
@@ -175,8 +174,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Recent Detections List -->
+            <!-- Recent Detections List - ✅ Visible para USER y ADMIN -->
+            <div class="row" *appHasRole="['USER', 'ADMIN']">
                 <div class="col-lg-12 mb-4">
                     <div class="card">
                         <div class="card-header">
@@ -315,6 +316,18 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ✅ Mensaje para usuarios no autenticados -->
+            <div class="row" *ngIf="!isLoadingDetections && !detectionsError" [hidden]="true" [appHasRole]="['USER', 'ADMIN']">
+                <div class="col-12">
+                    <div class="alert alert-warning text-center">
+                        <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                        <h5>Acceso Restringido</h5>
+                        <p class="mb-0">Necesitas estar autenticado para ver las estadísticas del dashboard.</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </app-nav-bar-dashboard-cana>
